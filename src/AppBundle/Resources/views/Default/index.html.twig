@@ -1,0 +1,38 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block content %}
+
+    <form id="query-form">
+        <input type="text" name="q" placeholder="Votre recherche">
+        <input type="submit" value="Rechercher">
+    </form>
+
+    <hr>
+
+    {% for id, result in results %}
+        <h1>{{ result.baseUrl }}</h1>
+        <h2>{{ result.dataCount }} résultats trouvés</h2>
+
+        {% if result.data is iterable %}
+            <table>
+                <tbody>
+                {% for key, item in result.data %}
+                    <tr>
+                        <th>{{ item.name }}</th>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.desc }}</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        {% endif %}
+
+        <hr>
+
+    {% endfor %}
+
+
+
+{% endblock %}
