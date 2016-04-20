@@ -2,36 +2,59 @@
 
 {% block content %}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
-    <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-lg-offset-1">
+                <h1>Recherchez un article</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-lg-offset-1">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
 
-    {% for id, result in results %}
-        <h1>{{ result.baseUrl }}</h1>
-        <h2>{{ result.dataCount }} résultats trouvés</h2>
+        <br>
 
-        {% if result.data is iterable %}
-            <table>
-                <tbody>
-                {% for key, item in result.data %}
-                    <tr>
-                        <th>{{ item.name }}</th>
-                        <td>{{ item.price }}</td>
-                        <td>{{ item.desc }}</td>
-                    </tr>
+        {% for id, result in results %}
+            <h1>{{ result.baseUrl }}</h1>
+            <h3>{{ result.dataCount }} résultats trouvés</h3>
 
-                {% endfor %}
-                </tbody>
-                <tfoot></tfoot>
-            </table>
-        {% endif %}
+            {% if result.data is iterable %}
+                <table class="table-bordered">
+                    <thead>
+                        <tr class="bg-info">
+                            <th>Article</th>
+                            <th>Prix</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for key, item in result.data %}
+                        <tr>
+                            <th>{{ item.name }}</th>
+                            <td>{{ item.price }}</td>
+                            <td>{{ item.desc }}</td>
+                        </tr>
 
-        <hr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+            {% endif %}
 
-    {% endfor %}
+            <br>
+
+        {% endfor %}
+    </div>
 
 
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
 {% endblock %}

@@ -159,7 +159,7 @@ class DefaultController extends Controller
             //dump($client->getResponse()->getContent());
             //exit;
         }
-        
+
 
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
