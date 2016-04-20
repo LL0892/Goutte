@@ -7,6 +7,7 @@ use AppBundle\Entity\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Goutte\Client;
 
 class DefaultController extends Controller
@@ -17,8 +18,24 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $client = new Client();
-        $searchQuery = 'PANASONIC DMC-LX100';
-        
+        $query = new Query();
+
+
+        $searchForm = $this->createFormBuilder($query)
+            ->add('search', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Votre recherche',
+                ),
+                'label' => false
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Search'))
+            ->getForm();
+
+
+        $postData = $request->request->all();
+        $searchQuery = $postData['form']['search'];
+        //$searchQuery = 'PANASONIC DMC-LX100';
+
 
         /*
          * HEINIGERAG.CH
@@ -92,6 +109,7 @@ class DefaultController extends Controller
         );
         $totalResult[] = $result;
 
+        
         /*
          * HAWK.CH
          */
@@ -136,7 +154,7 @@ class DefaultController extends Controller
 
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
-            'form' => $form
+            'form' => $searchForm->createView()
         ));
     }
 }

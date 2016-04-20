@@ -2,10 +2,9 @@
 
 {% block content %}
 
-    <form id="query-form">
-        <input type="text" name="q" placeholder="Votre recherche">
-        <input type="submit" value="Rechercher">
-    </form>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
     <hr>
 
