@@ -166,4 +166,8 @@ class DefaultController extends Controller
             'form' => $searchForm->createView()
         ));
     }
+
+    private function cleanData() {
+
+    }
 }
