@@ -5,10 +5,20 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+//use Symfony\Component\BrowserKit\Response;
 use Goutte\Client;
+
+// Guzzle lib test
+//use GuzzleHttp\Client as GuzzleClient;
+//use GuzzleHttp\Promise\Promise;
+//use GuzzleHttp\Pool;
+//use GuzzleHttp\Psr7\Request as GuzzleRequest;
+//use Psr\Http\Message\ResponseInterface;
+//use GuzzleHttp\Exception\RequestException;
 
 class DefaultController extends Controller
 {
@@ -153,7 +163,7 @@ class DefaultController extends Controller
             $totalResult[] = $result;
 
             //dump($totalResult);
-            //print $crawler->html();
+            print $crawler->html();
             //dump($form);
             //dump($crawler);
             //dump($client->getResponse()->getContent());
@@ -172,6 +182,65 @@ class DefaultController extends Controller
      */
     public function testAction(Request $request)
     {
+
+        $data = array(
+            'http://shop.heinigerag.ch/',
+            'http://www.melectronics.ch/fr/',
+            'http://www.hawk.ch'
+        );
+
+        // array of curl handles
+        $curly = array();
+        // data to be returned
+        $result = array();
+
+        // multi handle
+        $mh = curl_multi_init();
+
+        // loop through $data and create curl handles
+        // then add them to the multi-handle
+        foreach ($data as $id => $d) {
+
+            $curly[$id] = curl_init();
+
+            $url = (is_array($d) && !empty($d['url'])) ? $d['url'] : $d;
+            curl_setopt($curly[$id], CURLOPT_URL, $url);
+            curl_setopt($curly[$id], CURLOPT_HEADER, 0);
+            curl_setopt($curly[$id], CURLOPT_RETURNTRANSFER, 1);
+
+            // post?
+            if (is_array($d)) {
+                if (!empty($d['post'])) {
+                    curl_setopt($curly[$id], CURLOPT_POST, 1);
+                    curl_setopt($curly[$id], CURLOPT_POSTFIELDS, $d['post']);
+                }
+            }
+
+            curl_multi_add_handle($mh, $curly[$id]);
+        }
+
+        // execute the handles
+        $running = null;
+        do {
+            curl_multi_exec($mh, $running);
+        } while ($running > 0);
+
+
+        // get content and remove handles
+        foreach ($curly as $id => $c) {
+            $result[$id] = curl_multi_getcontent($c);
+            curl_multi_remove_handle($mh, $c);
+        }
+
+        // all done
+        curl_multi_close($mh);
+
+        foreach ($result as $res) {
+            dump($res);
+        }
+
+
+
         return $this->render('AppBundle:Default:test.html.twig', array());
     }
 }
