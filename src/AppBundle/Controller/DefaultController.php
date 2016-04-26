@@ -167,7 +167,11 @@ class DefaultController extends Controller
         ));
     }
 
-    private function cleanData() {
-
+    /**
+     * @Route("/test", name="test")
+     */
+    public function testAction(Request $request)
+    {
+        return $this->render('AppBundle:Default:test.html.twig', array());
     }
 }
