@@ -32,6 +32,7 @@ class DefaultController extends Controller
         $totalResult = null;
 
 
+        // Search form
         $searchForm = $this->createFormBuilder($query)
             ->add('search', TextType::class, array(
                 'attr' => array(
@@ -54,6 +55,29 @@ class DefaultController extends Controller
         //$searchQuery = 'PANASONIC DMC-LX100';
 
         if (count($postData) > 0) {
+
+
+            $config = $this->getParameter('app.config');
+            //dump($config);
+
+            foreach ($config['sites'] as $site) {
+                dump($site);
+
+                $baseUrl = $site['name'];
+                $crawler = $client->request('GET', $baseUrl);
+                $form = $crawler->filter('#quicksearch')->first()->form();
+
+                $crawler = $client->submit($form, array(
+                    'q' => $searchQuery
+                ));
+
+            }
+
+
+
+
+
+
             /*
              * HEINIGERAG.CH
              */
@@ -124,6 +148,10 @@ class DefaultController extends Controller
                 'data' => $data,
                 'dataCount' => count($data)
             );
+
+            //$this->filterResult($searchQuery, $result);
+
+
             $totalResult[] = $result;
 
 
@@ -163,7 +191,7 @@ class DefaultController extends Controller
             $totalResult[] = $result;
 
             //dump($totalResult);
-            print $crawler->html();
+            //print $crawler->html();
             //dump($form);
             //dump($crawler);
             //dump($client->getResponse()->getContent());
@@ -175,6 +203,17 @@ class DefaultController extends Controller
             'results' => $totalResult,
             'form' => $searchForm->createView()
         ));
+    }
+
+    private function filterResult ($search, $result) {
+        $arrayFiltered = array();
+        foreach ($result['data'] as $res) {
+            $trimmed = trim($res['name']);
+            $split = explode(' ', $trimmed);
+            array_push($arrayFiltered, $split);
+        }
+
+        dump($arrayFiltered);
     }
 
     /**

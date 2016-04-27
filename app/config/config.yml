@@ -74,6 +74,7 @@ app:
             name: "heinigerag"
             url: "http://shop.heinigerag.ch/"
             formNode: "#quicksearch"
+            inputKey: "q"
             mainNode: "div.item.media"
             titleNode: "h4.media-heading > a"
             titleStandardNode: true
@@ -83,8 +84,8 @@ app:
             name: "melectronics"
             url: "http://www.melectronics.ch/fr/"
             formNode: "#searchbox"
+            inputKey: "q"
             mainNode: "div.listing > ul > li"
             titleNode: "h3.productname"
             titleStandardNode: true
             priceNode: "span.price > span.current"
-        -

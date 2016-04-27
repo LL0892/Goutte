@@ -20,6 +20,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('name')->end()
                             ->scalarNode('url')->end()
                             ->scalarNode('formNode')->end()
+                            ->scalarNode('inputKey')->end()
                             ->scalarNode('mainNode')->end()
                             ->scalarNode('titleNode')->end()
                             ->booleanNode('titleStandardNode')

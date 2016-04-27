@@ -23,7 +23,7 @@ class AppExtension  extends Extension
         //var_dump($configs);exit;
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('app', $config);
+        $container->setParameter('app.config', $config);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
