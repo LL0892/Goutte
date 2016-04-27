@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('sites')
-
+                    ->prototype('array')
                         ->children()
                             ->scalarNode('name')->end()
                             ->scalarNode('url')->end()
@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->scalarNode('priceNode')->end()
                         ->end()
-
+                    ->end()
                 ->end()
             ->end()
         ;

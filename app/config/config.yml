@@ -70,11 +70,21 @@ swiftmailer:
 # Parsing
 app:
     sites:
-        name: "heinigerag"
-        url: "http://shop.heinigerag.ch/"
-        formNode: "#quicksearch"
-        mainNode: "div.item.media"
-        titleNode: "h4.media-heading > a"
-        titleStandardNode: true
-        priceNode: "span.price"
-#        - { url: "http://shop.heinigerag.ch/", formNode: '#quicksearch', formArray: [], mainNode: 'div.item.media', titleNode: 'h4.media-heading > a', titleStandardNode: true, priceNode: 'span.price' }
+        -
+            name: "heinigerag"
+            url: "http://shop.heinigerag.ch/"
+            formNode: "#quicksearch"
+            mainNode: "div.item.media"
+            titleNode: "h4.media-heading > a"
+            titleStandardNode: true
+            priceNode: "span.price"
+
+        -
+            name: "melectronics"
+            url: "http://www.melectronics.ch/fr/"
+            formNode: "#searchbox"
+            mainNode: "div.listing > ul > li"
+            titleNode: "h3.productname"
+            titleStandardNode: true
+            priceNode: "span.price > span.current"
+        -
