@@ -105,14 +105,12 @@ class DefaultController extends Controller
                 $totalResult[] = $result;
             }
 
-            dump($totalResult);
-            exit;
+            //dump($totalResult);
+            //exit;
 
 
-            /*
-             * HEINIGERAG.CH
-             */
-            $baseUrl = 'http://shop.heinigerag.ch/';
+
+/*            $baseUrl = 'http://shop.heinigerag.ch/';
             $crawler = $client->request('GET', $baseUrl);
             $form = $crawler->filter('#quicksearch')->first()->form();
             $crawler = $client->submit($form, array(
@@ -147,9 +145,7 @@ class DefaultController extends Controller
             $totalResult[] = $result;
 
 
-            /*
-             * MELECTRONICS.CH
-             */
+
             $baseUrl = 'http://www.melectronics.ch/fr/';
             $crawler = $client->request('GET', $baseUrl);
             $form = $crawler->filter('#searchbox')->first()->form();
@@ -181,15 +177,10 @@ class DefaultController extends Controller
                 'dataCount' => count($data)
             );
 
-            //$this->filterResult($searchQuery, $result);
-
-
             $totalResult[] = $result;
 
 
-            /*
-             * HAWK.CH
-             */
+
             $baseUrl = 'http://www.hawk.ch';
             $crawler = $client->request('GET', $baseUrl);
             $form = $crawler->filter('#search_mini_form')->first()->form();
@@ -220,7 +211,7 @@ class DefaultController extends Controller
                 'data' => $data,
                 'dataCount' => count($data)
             );
-            $totalResult[] = $result;
+            $totalResult[] = $result;*/
 
             //dump($totalResult);
             //print $crawler->html();
