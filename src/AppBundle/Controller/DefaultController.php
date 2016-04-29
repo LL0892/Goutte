@@ -61,21 +61,51 @@ class DefaultController extends Controller
             //dump($config);
 
             foreach ($config['sites'] as $site) {
-                dump($site);
+                //dump($site);
 
-                $baseUrl = $site['name'];
+                $baseUrl = $site['url'];
                 $crawler = $client->request('GET', $baseUrl);
-                $form = $crawler->filter('#quicksearch')->first()->form();
+
+                $form = $crawler->filter($site['formNode'])->first()->form();
 
                 $crawler = $client->submit($form, array(
-                    'q' => $searchQuery
+                    $site['inputKey'] => $searchQuery
                 ));
 
+                $data = $crawler->filter($site['mainNode'])->each(function ($node, $i) use ($site) {
+
+                    $titleNode = $site['titleNode'];
+                    $priceNode = $site['priceNode'];
+
+                    $name = $node->filter($titleNode)->text();
+
+                    if ($site['titleStandardNode'] === true) {
+                        $name = $node->filter($titleNode)->text();
+                    } else {
+                        $name = $node->filter($titleNode)->attr('title');
+                    }
+
+                    $price = $node->filter($priceNode)->text();
+
+                    $data = array(
+                        'name' => trim($name),
+                        'price' => trim($price),
+                    );
+
+                    return $data;
+                });
+
+                $result = array(
+                    'siteName' => $site['name'],
+                    'baseUrl' => $baseUrl,
+                    'data' => $data,
+                    'dataCount' => count($data)
+                );
+                $totalResult[] = $result;
             }
 
-
-
-
+            dump($totalResult);
+            exit;
 
 
             /*
@@ -98,16 +128,17 @@ class DefaultController extends Controller
 
                 $data = array(
                     'name' => $name,
-                    'url' => $subUrl,
+                    //'url' => $subUrl,
                     'price' => $price,
-                    'desc' => $desc,
-                    'image' => $image
+                    //'desc' => $desc,
+                    //'image' => $image
                 );
 
                 return $data;
             });
 
             $result = array(
+                "siteName" => "heinigerag",
                 'baseUrl' => $baseUrl,
                 'data' => $data,
                 'dataCount' => count($data)

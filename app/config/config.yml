@@ -89,3 +89,13 @@ app:
             titleNode: "h3.productname"
             titleStandardNode: true
             priceNode: "span.price > span.current"
+
+        -
+            name: "hawk"
+            url: "http://www.hawk.ch"
+            formNode: "#search_mini_form"
+            inputKey: "q"
+            mainNode: "ul.products-grid > li.item"
+            titleNode: "h2.product-name a"
+            titleStandardNode: false
+            priceNode: "span.price"
