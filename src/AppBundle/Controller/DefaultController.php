@@ -32,6 +32,13 @@ class DefaultController extends Controller
         $totalResult = null;
 
 
+        // Fetch config parameters
+        $config = $this->getParameter('app.config');
+        if (!$config['sites']) {
+            return $this->render('AppBundle:Default:nosetup.html.twig');
+        }
+
+
         // Search form
         $searchForm = $this->createFormBuilder($query)
             ->add('search', TextType::class, array(
@@ -52,11 +59,7 @@ class DefaultController extends Controller
             $searchQuery = $postData['form']['search'];
         }
 
-        //$searchQuery = 'PANASONIC DMC-LX100';
-
         if (count($postData) > 0) {
-
-            $config = $this->getParameter('app.config');
 
             foreach ($config['sites'] as $site) {
 
