@@ -71,31 +71,40 @@ swiftmailer:
 app:
     sites:
         -
-            name: "heinigerag"
-            url: "http://shop.heinigerag.ch/"
-            formNode: "#quicksearch"
-            inputKey: "q"
-            mainNode: "div.item.media"
-            titleNode: "h4.media-heading > a"
-            titleStandardNode: true
-            priceNode: "span.price"
+            name:               "heinigerag"
+            url:                "http://shop.heinigerag.ch/"
+            formNode:           "#quicksearch"
+            inputKey:           "q"
+            mainNode:           "div.item.media"
+            titleNode:          "h4.media-heading > a"
+            titleStandardNode:  true
+            priceNode:          "span.price"
+            urlNode:             "h4.media-heading > a"
+            imageNode:           "div.media-left > a > img"
+            descNode:            "span.productName"
 
         -
-            name: "melectronics"
-            url: "http://www.melectronics.ch/fr/"
-            formNode: "#searchbox"
-            inputKey: "q"
-            mainNode: "div.listing > ul > li"
-            titleNode: "h3.productname"
-            titleStandardNode: true
-            priceNode: "span.price > span.current"
+            name:               "melectronics"
+            url:                "http://www.melectronics.ch/fr/"
+            formNode:           "#searchbox"
+            inputKey:           "q"
+            mainNode:           "div.listing > ul > li"
+            titleNode:          "h3.productname"
+            titleStandardNode:  true
+            priceNode:          "span.price > span.current"
+            urlNode:            "div.productcell > div.content > a"
+            imageNode:          "span.product > img"
+            descNode:           "span.topfacts"
 
         -
-            name: "hawk"
-            url: "http://www.hawk.ch"
-            formNode: "#search_mini_form"
-            inputKey: "q"
-            mainNode: "ul.products-grid > li.item"
-            titleNode: "h2.product-name a"
-            titleStandardNode: false
-            priceNode: "span.price"
+            name:               "hawk"
+            url:                "http://www.hawk.ch"
+            formNode:           "#search_mini_form"
+            inputKey:           "q"
+            mainNode:           "ul.products-grid > li.item"
+            titleNode:          "h2.product-name a"
+            titleStandardNode:  false
+            priceNode:          "span.price"
+            urlNode:            "h2.product-name > a"
+            imageNode:          "a.product-image > img"
+            descNode:           ""

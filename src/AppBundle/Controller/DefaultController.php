@@ -56,12 +56,9 @@ class DefaultController extends Controller
 
         if (count($postData) > 0) {
 
-
             $config = $this->getParameter('app.config');
-            //dump($config);
 
             foreach ($config['sites'] as $site) {
-                //dump($site);
 
                 $baseUrl = $site['url'];
                 $crawler = $client->request('GET', $baseUrl);
@@ -76,20 +73,24 @@ class DefaultController extends Controller
 
                     $titleNode = $site['titleNode'];
                     $priceNode = $site['priceNode'];
-
-                    $name = $node->filter($titleNode)->text();
+                    $urlNode = $site['urlNode'];
+                    $imageNode = $site['imageNode'];
+                    $descNode = $site['descNode'];
 
                     if ($site['titleStandardNode'] === true) {
                         $name = $node->filter($titleNode)->text();
                     } else {
                         $name = $node->filter($titleNode)->attr('title');
                     }
-
                     $price = $node->filter($priceNode)->text();
+                    $url = $node->filter($urlNode)->attr('href');
+                    $image = $node->filter($imageNode)->attr('src');
 
                     $data = array(
                         'name' => trim($name),
                         'price' => trim($price),
+                        'url' => trim($url),
+                        'image' => trim($image),
                     );
 
                     return $data;
@@ -128,10 +129,10 @@ class DefaultController extends Controller
 
                 $data = array(
                     'name' => $name,
-                    //'url' => $subUrl,
+                    'url' => $subUrl,
                     'price' => $price,
-                    //'desc' => $desc,
-                    //'image' => $image
+                    'desc' => $desc,
+                    'image' => $image
                 );
 
                 return $data;
