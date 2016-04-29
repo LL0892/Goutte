@@ -75,6 +75,8 @@ app:
             url:                "http://shop.heinigerag.ch/"
             formNode:           "#quicksearch"
             inputKey:           "q"
+            formInputs:
+                    sort: "relevance|desc"
             mainNode:           "div.item.media"
             titleNode:          "h4.media-heading > a"
             titleStandardNode:  true
@@ -83,11 +85,13 @@ app:
             imageNode:           "div.media-left > a > img"
             descNode:            "span.productName"
 
+
         -
             name:               "melectronics"
             url:                "http://www.melectronics.ch/fr/"
             formNode:           "#searchbox"
             inputKey:           "q"
+            formInputs:         null
             mainNode:           "div.listing > ul > li"
             titleNode:          "h3.productname"
             titleStandardNode:  true
@@ -96,11 +100,13 @@ app:
             imageNode:          "span.product > img"
             descNode:           "span.topfacts"
 
+
         -
             name:               "hawk"
             url:                "http://www.hawk.ch"
             formNode:           "#search_mini_form"
             inputKey:           "q"
+            formInputs:         null
             mainNode:           "ul.products-grid > li.item"
             titleNode:          "h2.product-name a"
             titleStandardNode:  false

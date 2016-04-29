@@ -5,10 +5,10 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+//use Symfony\Component\DomCrawler\Crawler;
 //use Symfony\Component\BrowserKit\Response;
 use Goutte\Client;
 
@@ -65,9 +65,15 @@ class DefaultController extends Controller
 
                 $form = $crawler->filter($site['formNode'])->first()->form();
 
-                $crawler = $client->submit($form, array(
+                // Create the form inputs array
+                $formArray = array(
                     $site['inputKey'] => $searchQuery
-                ));
+                );
+                if (count($site['formInputs']) > 0) {
+                    $formArray = array_merge($formArray, $site['formInputs']);
+                }
+
+                $crawler = $client->submit($form, $formArray);
 
                 $data = $crawler->filter($site['mainNode'])->each(function ($node, $i) use ($site) {
 
@@ -104,114 +110,6 @@ class DefaultController extends Controller
                 );
                 $totalResult[] = $result;
             }
-
-            //dump($totalResult);
-            //exit;
-
-
-
-/*            $baseUrl = 'http://shop.heinigerag.ch/';
-            $crawler = $client->request('GET', $baseUrl);
-            $form = $crawler->filter('#quicksearch')->first()->form();
-            $crawler = $client->submit($form, array(
-                'q' => $searchQuery,
-                'sort' => 'relevance|desc'
-            ));
-
-            $data = $crawler->filter('div.item.media')->each(function ($node) {
-                $name = $node->filter('h4.media-heading > a')->text();
-                $subUrl = $node->filter('h4.media-heading > a')->attr('href');
-                $desc = $node->filter('span.productName')->text();
-                $price = $node->filter('span.price')->text();
-                $image = $node->filter('div.media-left > a > img')->attr('src');
-
-                $data = array(
-                    'name' => $name,
-                    'url' => $subUrl,
-                    'price' => $price,
-                    'desc' => $desc,
-                    'image' => $image
-                );
-
-                return $data;
-            });
-
-            $result = array(
-                "siteName" => "heinigerag",
-                'baseUrl' => $baseUrl,
-                'data' => $data,
-                'dataCount' => count($data)
-            );
-            $totalResult[] = $result;
-
-
-
-            $baseUrl = 'http://www.melectronics.ch/fr/';
-            $crawler = $client->request('GET', $baseUrl);
-            $form = $crawler->filter('#searchbox')->first()->form();
-            $crawler = $client->submit($form, array(
-                'q' => $searchQuery
-            ));
-
-            $data = $crawler->filter('div.listing > ul > li')->each(function ($node) {
-                $name = $node->filter('h3.productname')->text();
-                $subUrl = $node->filter('div.productcell > div.content > a')->attr('href');
-                $desc = $node->filter('span.topfacts')->text();
-                $price = $node->filter('span.price > span.current')->text();
-                $image = $node->filter('span.product > img')->attr('src');
-
-                $data = array(
-                    'name' => $name,
-                    'url' => $subUrl,
-                    'price' => $price,
-                    'desc' => $desc,
-                    'image' => $image
-                );
-
-                return $data;
-            });
-
-            $result = array(
-                'baseUrl' => $baseUrl,
-                'data' => $data,
-                'dataCount' => count($data)
-            );
-
-            $totalResult[] = $result;
-
-
-
-            $baseUrl = 'http://www.hawk.ch';
-            $crawler = $client->request('GET', $baseUrl);
-            $form = $crawler->filter('#search_mini_form')->first()->form();
-            $crawler = $client->submit($form, array(
-                'q' => $searchQuery
-            ));
-
-            $data = $crawler->filter('ul.products-grid > li.item')->each(function ($node) {
-                $name = $node->filter('h2.product-name a')->attr('title');
-                $subUrl = $node->filter('h2.product-name > a')->attr('href');
-                $desc = null;
-                $price = $node->filter('span.price')->text();
-                $image = $node->filter('a.product-image > img')->attr('src');
-
-                $data = array(
-                    'name' => $name,
-                    'url' => $subUrl,
-                    'price' => $price,
-                    'desc' => $desc,
-                    'image' => $image
-                );
-
-                return $data;
-            });
-
-            $result = array(
-                'baseUrl' => $baseUrl,
-                'data' => $data,
-                'dataCount' => count($data)
-            );
-            $totalResult[] = $result;*/
 
             //dump($totalResult);
             //print $crawler->html();
