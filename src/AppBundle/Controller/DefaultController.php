@@ -122,7 +122,7 @@ class DefaultController extends Controller
                 exit;
             }
 
-            //dump($totalResult);
+            dump($totalResult);
             //print $crawler->html();
             //dump($form);
             //dump($crawler);
