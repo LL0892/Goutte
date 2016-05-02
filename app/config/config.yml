@@ -104,7 +104,7 @@ app:
 
         -
             name:               "hawk"
-            url:                "http://www.hawk.ch"
+            url:                "http://www.hawk.ch/"
             formNode:           "#search_mini_form"
             inputKey:           "q"
             formInputs:         null
@@ -114,4 +114,19 @@ app:
             priceNode:          "span.price"
             urlNode:            "h2.product-name > a"
             imageNode:          "a.product-image > img"
+            descNode:           ""
+
+
+        -
+            name:               "mediamarkt"
+            url:                "https://shop.mediamarkt.ch/fr/"
+            formNode:           "#Form1"
+            inputKey:           "ctl00$mainSearchTextField"
+            formInputs:         null
+            mainNode:           "div.prod-4"
+            titleNode:          "h2..name-4"
+            titleStandardNode:  true
+            priceNode:          ""
+            urlNode:            "div.prod-4-4 > div.div-40 > a"
+            imageNode:          "div.prod-4-1 > div > span > img"
             descNode:           ""

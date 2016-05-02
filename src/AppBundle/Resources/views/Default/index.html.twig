@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-lg-offset-1 col-lg-11">
                 {% for id, result in results %}
-                    <h1>{{ result.baseUrl }}</h1>
+                    <h1>{{ result.siteName }}</h1>
                     <h3>{{ result.dataCount }} résultats trouvés</h3>
 
                     {% if result.data is iterable %}
@@ -32,13 +32,15 @@
                             <tr class="bg-info">
                                 <th>Article</th>
                                 <th>Prix</th>
+                                <th>Image</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for key, item in result.data %}
                                 <tr>
-                                    <th>{{ item.name }}</th>
+                                    <th><a href="{{ result.baseUrl }}{{ item.url }}">{{ item.name }}</a></th>
                                     <td>{{ item.price }}</td>
+                                    <td><img src="{{ item.image }}"></td>
                                 </tr>
 
                             {% endfor %}

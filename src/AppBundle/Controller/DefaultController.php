@@ -95,10 +95,13 @@ class DefaultController extends Controller
                     $url = $node->filter($urlNode)->attr('href');
                     $image = $node->filter($imageNode)->attr('src');
 
+                    $url = trim($url);
+                    $url = substr($url, 1);
+
                     $data = array(
                         'name' => trim($name),
                         'price' => trim($price),
-                        'url' => trim($url),
+                        'url' => $url,
                         'image' => trim($image),
                     );
 
@@ -118,7 +121,7 @@ class DefaultController extends Controller
                 dump($totalResult);
                 exit;
             }
-            
+
             //dump($totalResult);
             //print $crawler->html();
             //dump($form);
