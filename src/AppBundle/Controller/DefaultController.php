@@ -113,7 +113,12 @@ class DefaultController extends Controller
                 );
                 $totalResult[] = $result;
             }
-
+            
+            if ($config['debug'] === true) {
+                dump($totalResult);
+                exit;
+            }
+            
             //dump($totalResult);
             //print $crawler->html();
             //dump($form);

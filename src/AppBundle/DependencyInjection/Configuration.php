@@ -14,6 +14,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->booleanNode('debug')
+                    ->defaultFalse()
+                ->end()
                 ->arrayNode('sites')
                     ->prototype('array')
                         ->children()
