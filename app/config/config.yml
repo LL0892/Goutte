@@ -73,11 +73,12 @@ app:
     sites:
         -
             name:               "heinigerag"
-            url:                "http://shop.heinigerag.ch"
+            parseUrl:           "http://shop.heinigerag.ch"
+            baseUrl:            "http://shop.heinigerag.ch"
             formNode:           "#quicksearch"
             inputKey:           "q"
             formInputs:
-                    sort: "relevance|desc"
+                    sort:     "relevance|desc"
             mainNode:           "div.item.media"
             titleNode:          "h4.media-heading > a"
             titleStandardNode:  true
@@ -92,7 +93,8 @@ app:
 
         -
             name:               "melectronics"
-            url:                "http://www.melectronics.ch"
+            parseUrl:           "http://www.melectronics.ch/fr/"
+            baseUrl:            "http://www.melectronics.ch"
             formNode:           "#searchbox"
             inputKey:           "q"
             formInputs:         null
@@ -110,7 +112,8 @@ app:
 
         -
             name:               "hawk"
-            url:               "http://www.hawk.ch"
+            parseUrl:           "http://www.hawk.ch"
+            baseUrl:            "http://www.hawk.ch"
             formNode:           "#search_mini_form"
             inputKey:           "q"
             formInputs:         null
@@ -128,7 +131,8 @@ app:
 
         -
             name:               "STEG"
-            url:                "http://www.steg-electronics.ch"
+            parseUrl:           "https://www.steg-electronics.ch/fr/"
+            baseUrl:            "http://www.steg-electronics.ch"
             formNode:           "#searchForm"
             inputKey:           "query"
             formInputs:         null

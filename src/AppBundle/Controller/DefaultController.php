@@ -63,7 +63,7 @@ class DefaultController extends Controller
 
             foreach ($config['sites'] as $site) {
 
-                $baseUrl = $site['url'];
+                $baseUrl = $site['parseUrl'];
                 $crawler = $client->request('GET', $baseUrl);
 
                 $form = $crawler->filter($site['formNode'])->first()->form();
@@ -101,7 +101,7 @@ class DefaultController extends Controller
                     $urlFetched = $node->filter($urlNode)->attr('href');
                     switch ($site['urlNode']['type']) {
                         case 'relative':
-                            $url = $site['url'] . trim($urlFetched);
+                            $url = $site['baseUrl'] . trim($urlFetched);
                             break;
                         case 'absolute':
                             $url = trim($urlFetched);
@@ -114,7 +114,7 @@ class DefaultController extends Controller
                     $imageFetched = $node->filter($imageNode)->attr('src');
                     switch ($site['imageNode']['type']) {
                         case 'relative':
-                            $image = $site['url'] . trim($imageFetched);
+                            $image = $site['baseUrl'] . trim($imageFetched);
                             break;
                         case 'absolute':
                             $image = trim($imageFetched);
