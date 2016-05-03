@@ -84,7 +84,6 @@ app:
             priceNode:          "span.price"
             urlNode:             "h4.media-heading > a"
             imageNode:           "div.media-left > a > img"
-            descNode:            "span.productName"
 
 
         -
@@ -99,12 +98,11 @@ app:
             priceNode:          "span.price > span.current"
             urlNode:            "div.productcell > div.content > a"
             imageNode:          "span.product > img"
-            descNode:           "span.topfacts"
 
 
         -
             name:               "hawk"
-            url:                "http://www.hawk.ch/"
+            url:               "http://www.hawk.ch/"
             formNode:           "#search_mini_form"
             inputKey:           "q"
             formInputs:         null
@@ -114,19 +112,17 @@ app:
             priceNode:          "span.price"
             urlNode:            "h2.product-name > a"
             imageNode:          "a.product-image > img"
-            descNode:           ""
 
 
         -
-            name:               "mediamarkt"
-            url:                "https://shop.mediamarkt.ch/fr/"
-            formNode:           "#Form1"
-            inputKey:           "ctl00$mainSearchTextField"
+            name:               "STEG"
+            url:                "http://www.steg-electronics.ch/"
+            formNode:           "#searchForm"
+            inputKey:           "query"
             formInputs:         null
-            mainNode:           "div.prod-4"
-            titleNode:          "h2..name-4"
+            mainNode:           "article.articleItem"
+            titleNode:          "div.articleData > div.nameAndDescription > h3 > a"
             titleStandardNode:  true
-            priceNode:          ""
-            urlNode:            "div.prod-4-4 > div.div-40 > a"
-            imageNode:          "div.prod-4-1 > div > span > img"
-            descNode:           ""
+            priceNode:          "div.priceAndAddToCart > div.priceWrapper > div > div.actualPrice"
+            urlNode:            "div.articleData > div.nameAndDescription > h3 > a"
+            imageNode:          "div.leftPanel > a > img"

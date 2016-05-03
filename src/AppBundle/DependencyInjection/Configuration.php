@@ -33,7 +33,6 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('priceNode')->end()
                             ->scalarNode('urlNode')->end()
                             ->scalarNode('imageNode')->end()
-                            ->scalarNode('descNode')->end()
                         ->end()
                     ->end()
                 ->end()

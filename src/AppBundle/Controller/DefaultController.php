@@ -78,13 +78,14 @@ class DefaultController extends Controller
 
                 $crawler = $client->submit($form, $formArray);
 
+                //print $crawler->html(); exit;
+
                 $data = $crawler->filter($site['mainNode'])->each(function ($node, $i) use ($site) {
 
                     $titleNode = $site['titleNode'];
                     $priceNode = $site['priceNode'];
                     $urlNode = $site['urlNode'];
                     $imageNode = $site['imageNode'];
-                    $descNode = $site['descNode'];
 
                     if ($site['titleStandardNode'] === true) {
                         $name = $node->filter($titleNode)->text();
@@ -95,13 +96,10 @@ class DefaultController extends Controller
                     $url = $node->filter($urlNode)->attr('href');
                     $image = $node->filter($imageNode)->attr('src');
 
-                    $url = trim($url);
-                    $url = substr($url, 1);
-
                     $data = array(
                         'name' => trim($name),
                         'price' => trim($price),
-                        'url' => $url,
+                        'url' => trim($url),
                         'image' => trim($image),
                     );
 
