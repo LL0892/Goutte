@@ -5,9 +5,9 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\DomCrawler\Crawler;
 //use Symfony\Component\BrowserKit\Response;
 use Goutte\Client;
@@ -84,23 +84,50 @@ class DefaultController extends Controller
 
                     $titleNode = $site['titleNode'];
                     $priceNode = $site['priceNode'];
-                    $urlNode = $site['urlNode'];
-                    $imageNode = $site['imageNode'];
+                    $urlNode = $site['urlNode']['value'];
+                    $imageNode = $site['imageNode']['value'];
 
+                    // title handling
                     if ($site['titleStandardNode'] === true) {
                         $name = $node->filter($titleNode)->text();
                     } else {
                         $name = $node->filter($titleNode)->attr('title');
                     }
+
+                    // price handling
                     $price = $node->filter($priceNode)->text();
-                    $url = $node->filter($urlNode)->attr('href');
-                    $image = $node->filter($imageNode)->attr('src');
+
+                    // url handling
+                    $urlFetched = $node->filter($urlNode)->attr('href');
+                    switch ($site['urlNode']['type']) {
+                        case 'relative':
+                            $url = $site['url'] . trim($urlFetched);
+                            break;
+                        case 'absolute':
+                            $url = trim($urlFetched);
+                            break;
+                        default:
+                            $url = trim($urlFetched);
+                    }
+
+                    // image handling
+                    $imageFetched = $node->filter($imageNode)->attr('src');
+                    switch ($site['imageNode']['type']) {
+                        case 'relative':
+                            $image = $site['url'] . trim($imageFetched);
+                            break;
+                        case 'absolute':
+                            $image = trim($imageFetched);
+                            break;
+                        default:
+                            $image = trim($imageFetched);
+                    }
 
                     $data = array(
                         'name' => trim($name),
                         'price' => trim($price),
-                        'url' => trim($url),
-                        'image' => trim($image),
+                        'url' => $url,
+                        'image' => $image,
                     );
 
                     return $data;

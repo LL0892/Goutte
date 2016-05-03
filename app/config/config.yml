@@ -73,7 +73,7 @@ app:
     sites:
         -
             name:               "heinigerag"
-            url:                "http://shop.heinigerag.ch/"
+            url:                "http://shop.heinigerag.ch"
             formNode:           "#quicksearch"
             inputKey:           "q"
             formInputs:
@@ -82,13 +82,17 @@ app:
             titleNode:          "h4.media-heading > a"
             titleStandardNode:  true
             priceNode:          "span.price"
-            urlNode:             "h4.media-heading > a"
-            imageNode:           "div.media-left > a > img"
+            urlNode:
+                    value:    "h4.media-heading > a"
+                    type:     "relative"
+            imageNode:
+                    value:    "div.media-left > a > img"
+                    type:     "relative"
 
 
         -
             name:               "melectronics"
-            url:                "http://www.melectronics.ch/fr/"
+            url:                "http://www.melectronics.ch"
             formNode:           "#searchbox"
             inputKey:           "q"
             formInputs:         null
@@ -96,13 +100,17 @@ app:
             titleNode:          "h3.productname"
             titleStandardNode:  true
             priceNode:          "span.price > span.current"
-            urlNode:            "div.productcell > div.content > a"
-            imageNode:          "span.product > img"
+            urlNode:
+                    value:    "div.productcell > div.content > a"
+                    type:     "relative"
+            imageNode:
+                    value:    "span.product > img"
+                    type:     "absolute"
 
 
         -
             name:               "hawk"
-            url:               "http://www.hawk.ch/"
+            url:               "http://www.hawk.ch"
             formNode:           "#search_mini_form"
             inputKey:           "q"
             formInputs:         null
@@ -110,13 +118,17 @@ app:
             titleNode:          "h2.product-name a"
             titleStandardNode:  false
             priceNode:          "span.price"
-            urlNode:            "h2.product-name > a"
-            imageNode:          "a.product-image > img"
+            urlNode:
+                    value:    "h2.product-name > a"
+                    type:     "absolute"
+            imageNode:
+                    value:    "a.product-image > img"
+                    type:     "absolute"
 
 
         -
             name:               "STEG"
-            url:                "http://www.steg-electronics.ch/"
+            url:                "http://www.steg-electronics.ch"
             formNode:           "#searchForm"
             inputKey:           "query"
             formInputs:         null
@@ -124,5 +136,9 @@ app:
             titleNode:          "div.articleData > div.nameAndDescription > h3 > a"
             titleStandardNode:  true
             priceNode:          "div.priceAndAddToCart > div.priceWrapper > div > div.actualPrice"
-            urlNode:            "div.articleData > div.nameAndDescription > h3 > a"
-            imageNode:          "div.leftPanel > a > img"
+            urlNode:
+                    value:    "div.articleData > div.nameAndDescription > h3 > a"
+                    type:     "relative"
+            imageNode:
+                    value:    "div.leftPanel > a > img"
+                    type:     "relative"
