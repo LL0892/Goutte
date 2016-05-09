@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+
 //use Symfony\Component\DomCrawler\Crawler;
 //use Symfony\Component\BrowserKit\Response;
 use Goutte\Client;
@@ -34,8 +35,8 @@ class DefaultController extends Controller
 
         // Fetch config parameters
         $config = $this->getParameter('app.config');
-        if (!$config['sites']) {
-            return $this->render('AppBundle:Default:nosetup.html.twig');
+        if (!isset($config['sites'])) {
+            return $this->render('AppBundle:Default:error.html.twig');
         }
 
 
@@ -53,10 +54,10 @@ class DefaultController extends Controller
 
         $postData = $request->request->all();
 
-        if (count($postData) <= 0) {
-            $searchQuery = null;
-        } else {
+        if (isset($postData['form']['search'])) {
             $searchQuery = $postData['form']['search'];
+        } else {
+            $searchQuery = null;
         }
 
         if (count($postData) > 0) {
@@ -80,7 +81,7 @@ class DefaultController extends Controller
 
                 //print $crawler->html(); exit;
 
-                $data = $crawler->filter($site['mainNode'])->each(function ($node, $i) use ($site) {
+                $data = $crawler->filter($site['mainNode'])->each(function ($node, $i) use ($searchQuery, $site) {
 
                     $titleNode = $site['titleNode'];
                     $priceNode = $site['priceNode'];
@@ -130,24 +131,37 @@ class DefaultController extends Controller
                         'image' => $image,
                     );
 
-                    return $data;
+                    $filterCondition = $this->isValidData($searchQuery, $data);
+                    if ($filterCondition === true) {
+                        return $data;
+                    } else {
+                        return null;
+                    }
                 });
 
+                // Remove filtered results
+                foreach ($data as $key => $row) {
+                    if ($row === null) {
+                        unset($data[$key]);
+                    }
+                }
+                $dataFinal = array_values($data);
+                
                 $result = array(
                     'siteName' => $site['name'],
                     'baseUrl' => $baseUrl,
-                    'data' => $data,
+                    'data' => $dataFinal,
                     'dataCount' => count($data)
                 );
                 $totalResult[] = $result;
             }
-            
+
             if ($config['debug'] === true) {
                 dump($totalResult);
                 exit;
             }
 
-            dump($totalResult);
+            ///dump($totalResult);
             //print $crawler->html();
             //dump($form);
             //dump($crawler);
@@ -162,15 +176,27 @@ class DefaultController extends Controller
         ));
     }
 
-    private function filterResult ($search, $result) {
-        $arrayFiltered = array();
-        foreach ($result['data'] as $res) {
-            $trimmed = trim($res['name']);
-            $split = explode(' ', $trimmed);
-            array_push($arrayFiltered, $split);
-        }
+    /**
+     * @param $search, the search query
+     * @param $data, the data to filter
+     * @return bool, true if data is valid
+     */
+    private function isValidData($search, $data)
+    {
+        // Create an array of the search words
+        //$searchKeywords = array();
+        $trimmed = trim($search);
+        $searchKeywords = explode(' ', $trimmed);
 
-        dump($arrayFiltered);
+        // Filter data
+        $string = trim($data['name']);
+        foreach ($searchKeywords as $keyword) {
+            if (stripos($string, $keyword) !== false) {
+                return true;
+            }
+
+        }
+        return false;
     }
 
     /**
@@ -234,7 +260,6 @@ class DefaultController extends Controller
         foreach ($result as $res) {
             dump($res);
         }
-
 
 
         return $this->render('AppBundle:Default:test.html.twig', array());
