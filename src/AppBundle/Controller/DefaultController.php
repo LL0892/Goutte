@@ -146,7 +146,7 @@ class DefaultController extends Controller
                     }
                 }
                 $dataFinal = array_values($data);
-                
+
                 $result = array(
                     'siteName' => $site['name'],
                     'baseUrl' => $baseUrl,
@@ -177,9 +177,12 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param $search, the search query
-     * @param $data, the data to filter
-     * @return bool, true if data is valid
+     * Check if the data returned is valid with the initial search query
+     *
+     * @param $search
+     * @param $data
+     *
+     * @return bool
      */
     private function isValidData($search, $data)
     {
