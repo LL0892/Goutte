@@ -211,7 +211,8 @@ class DefaultController extends Controller
         $data = array(
             'http://shop.heinigerag.ch/',
             'http://www.melectronics.ch/fr/',
-            'http://www.hawk.ch'
+            'http://www.hawk.ch/',
+            'http://www.steg-electronics.ch/fr/'
         );
 
         // array of curl handles

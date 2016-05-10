@@ -10,3 +10,16 @@
 .alert {
     margin-top: 30px;
 }
+
+.th-article {
+    width: 50%
+}
+
+.th-image,
+.th-price {
+    width: 25%;
+}
+
+.img-articles {
+    max-height: 80px;
+}

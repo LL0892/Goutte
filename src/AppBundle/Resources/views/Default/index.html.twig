@@ -6,12 +6,12 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-lg-offset-1">
+            <div class="col-lg-4 col-lg-offset-3">
                 <h1>Recherchez un article</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-lg-offset-1">
+            <div class="col-lg-4 col-lg-offset-3">
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
                 {{ form_end(form) }}
@@ -21,18 +21,18 @@
         <br>
 
         <div class="row">
-            <div class="col-lg-offset-1 col-lg-11">
+            <div class="col-lg-6 col-lg-offset-3">
                 {% for id, result in results %}
                     <h1><a href="{{ result.baseUrl }}">{{ result.siteName }}</a></h1>
                     <h4>{{ result.dataCount }} résultats trouvés</h4>
 
                     {% if result.data is iterable %}
-                        <table class="table-bordered">
+                        <table class="table table-bordered">
                             <thead>
                             <tr class="bg-info">
-                                <th>Article</th>
-                                <th>Prix</th>
-                                <th>Image</th>
+                                <th class="th-article">Article</th>
+                                <th class="th-price">Prix</th>
+                                <th class="th-image">Image</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -40,7 +40,7 @@
                                 <tr>
                                     <th><a href="{{ item.url }}">{{ item.name }}</a></th>
                                     <td>{{ item.price }}</td>
-                                    <td><img src="{{ item.image }}"></td>
+                                    <td><img class="img-articles" src="{{ item.image }}"></td>
                                 </tr>
 
                             {% endfor %}
