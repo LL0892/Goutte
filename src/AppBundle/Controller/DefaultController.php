@@ -2,24 +2,20 @@
 
 namespace AppBundle\Controller;
 
+// Symfony lib
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
-//use Symfony\Component\DomCrawler\Crawler;
-//use Symfony\Component\BrowserKit\Response;
+// Goutte lib
 use Goutte\Client;
 
-// Guzzle lib test
-//use GuzzleHttp\Client as GuzzleClient;
-//use GuzzleHttp\Promise\Promise;
-//use GuzzleHttp\Pool;
-//use GuzzleHttp\Psr7\Request as GuzzleRequest;
-//use Psr\Http\Message\ResponseInterface;
-//use GuzzleHttp\Exception\RequestException;
+// Guzzle lib
+use GuzzleHttp\Client as GuzzleClient;
 
 class DefaultController extends Controller
 {
@@ -29,6 +25,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $client = new Client();
+        $guzzleClient = new GuzzleClient();
         $query = new Query();
         $totalResult = null;
 
@@ -64,8 +61,9 @@ class DefaultController extends Controller
 
             foreach ($config['sites'] as $site) {
 
-                $baseUrl = $site['parseUrl'];
-                $crawler = $client->request('GET', $baseUrl);
+                $parseUrl = $site['parseUrl'];
+                $guzzleResponse = $guzzleClient->get($parseUrl);
+                $crawler = new Crawler($guzzleResponse->getBody()->getContents(), $parseUrl);
 
                 $form = $crawler->filter($site['formNode'])->first()->form();
 
@@ -149,7 +147,7 @@ class DefaultController extends Controller
 
                 $result = array(
                     'siteName' => $site['name'],
-                    'baseUrl' => $baseUrl,
+                    'baseUrl' => $parseUrl,
                     'data' => $dataFinal,
                     'dataCount' => count($data)
                 );
