@@ -28,10 +28,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $client = new Client();
-        $guzzleClient = new GuzzleClient();
         $query = new Query();
+        $guzzleClient = new GuzzleClient();
+        $promises = [];
         $totalResult = null;
+
 
 
         // Fetch config parameters
@@ -39,6 +40,7 @@ class DefaultController extends Controller
         if (!isset($config['sites'])) {
             return $this->render('AppBundle:Default:error.html.twig');
         }
+
 
 
         // Search form
@@ -52,7 +54,6 @@ class DefaultController extends Controller
             ->add('save', SubmitType::class, array('label' => 'Search'))
             ->getForm();
 
-
         $postData = $request->request->all();
 
         if (isset($postData['form']['search'])) {
@@ -61,122 +62,154 @@ class DefaultController extends Controller
             $searchQuery = null;
         }
 
+
+        $processRequest = function ($url) use ($guzzleClient) {
+            return Promise\coroutine(
+                function () use ($guzzleClient, $url) {
+                    try {
+                        $value = (yield $guzzleClient->getAsync($url));
+                    } catch (\Exception $e) {
+                        yield New RejectedPromise($e->getMessage());
+                    }
+                }
+            );
+        };
+
+
+
         if (count($postData) > 0) {
-
             foreach ($config['sites'] as $site) {
-
-                $parseUrl = $site['parseUrl'];
-                $guzzleResponse = $guzzleClient->get($parseUrl);
-                $crawler = new Crawler($guzzleResponse->getBody()->getContents(), $parseUrl);
-
-                $form = $crawler->filter($site['formNode'])->first()->form();
-
-                // Create the form inputs array
-                $formArray = array(
-                    $site['inputKey'] => $searchQuery
-                );
-                if (count($site['formInputs']) > 0) {
-                    $formArray = array_merge($formArray, $site['formInputs']);
-                }
-
-                $crawler = $client->submit($form, $formArray);
-
-                //print $crawler->html(); exit;
-
-                $data = $crawler->filter($site['mainNode'])->each(function ($node, $i) use ($searchQuery, $site) {
-
-                    $titleNode = $site['titleNode'];
-                    $priceNode = $site['priceNode'];
-                    $urlNode = $site['urlNode']['value'];
-                    $imageNode = $site['imageNode']['value'];
-
-                    // title handling
-                    if ($site['titleStandardNode'] === true) {
-                        $name = $node->filter($titleNode)->text();
-                    } else {
-                        $name = $node->filter($titleNode)->attr('title');
-                    }
-
-                    // price handling
-                    $price = $node->filter($priceNode)->text();
-
-                    // url handling
-                    $urlFetched = $node->filter($urlNode)->attr('href');
-                    switch ($site['urlNode']['type']) {
-                        case 'relative':
-                            $url = $site['baseUrl'] . trim($urlFetched);
-                            break;
-                        case 'absolute':
-                            $url = trim($urlFetched);
-                            break;
-                        default:
-                            $url = trim($urlFetched);
-                    }
-
-                    // image handling
-                    $imageFetched = $node->filter($imageNode)->attr('src');
-                    switch ($site['imageNode']['type']) {
-                        case 'relative':
-                            $image = $site['baseUrl'] . trim($imageFetched);
-                            break;
-                        case 'absolute':
-                            $image = trim($imageFetched);
-                            break;
-                        default:
-                            $image = trim($imageFetched);
-                    }
-
-                    $data = array(
-                        'name' => trim($name),
-                        'price' => trim($price),
-                        'url' => $url,
-                        'image' => $image,
-                    );
-
-                    $filterCondition = $this->isValidData($searchQuery, $data);
-                    if ($filterCondition === true) {
-                        return $data;
-                    } else {
-                        return null;
-                    }
-                });
-
-                // Remove filtered results
-                foreach ($data as $key => $row) {
-                    if ($row === null) {
-                        unset($data[$key]);
-                    }
-                }
-                $dataFinal = array_values($data);
-
-                $result = array(
-                    'siteName' => $site['name'],
-                    'baseUrl' => $parseUrl,
-                    'data' => $dataFinal,
-                    'dataCount' => count($data)
-                );
-                $totalResult[] = $result;
+                $promises[] = $processRequest($site['parseUrl']);
             }
-
-            if ($config['debug'] === true) {
-                dump($totalResult);
-                exit;
-            }
-
-            ///dump($totalResult);
-            //print $crawler->html();
-            //dump($form);
-            //dump($crawler);
-            //dump($client->getResponse()->getContent());
-            //exit;
         }
 
+
+
+        $aggregate = Promise\all($promises)->then(
+            // Fullfilled promise
+            function ($values) use ($totalResult, $searchQuery, $config) {
+
+                foreach ($values as $i => $value) {
+                    $resBody = $value->getBody()->getContents();
+                    $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i]);
+
+                    // Remove filtered results
+                    foreach ($data as $key => $row) {
+                        if ($row === null) {
+                            unset($data[$key]);
+                        }
+                    }
+                    $dataFinal = array_values($data);
+
+                    // Add the site data to the result array
+                    $result = array(
+                        'siteName' => $config['sites'][$i]['name'],
+                        'baseUrl' => $config['sites'][$i]['baseUrl'],
+                        'data' => $dataFinal,
+                        'dataCount' => count($data)
+                    );
+                    $totalResult[] = $result;
+                }
+
+                return $totalResult;
+            },
+            // Rejected promise
+            function ($values) {
+
+                echo 'nope';
+                dump($values);
+
+            }
+        );
+
+        $totalResult = $aggregate->wait();
 
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
             'form' => $searchForm->createView()
         ));
     }
+
+    private function parseRequest($resBody, $searchQuery, $siteConfig)
+    {
+        $parseUrl = $siteConfig['parseUrl'];
+        //$guzzleResponse = $guzzleClient->get($parseUrl);
+        $crawler = new Crawler($resBody, $parseUrl);
+        $client = new Client();
+
+        $form = $crawler->filter($siteConfig['formNode'])->first()->form();
+
+        // Create the form inputs array
+        $formArray = array(
+            $siteConfig['inputKey'] => $searchQuery
+        );
+        if (count($siteConfig['formInputs']) > 0) {
+            $formArray = array_merge($formArray, $siteConfig['formInputs']);
+        }
+
+        $crawler = $client->submit($form, $formArray);
+
+        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig) {
+
+            $titleNode = $siteConfig['titleNode'];
+            $priceNode = $siteConfig['priceNode'];
+            $urlNode = $siteConfig['urlNode']['value'];
+            $imageNode = $siteConfig['imageNode']['value'];
+
+            // title handling
+            if ($siteConfig['titleStandardNode'] === true) {
+                $name = $node->filter($titleNode)->text();
+            } else {
+                $name = $node->filter($titleNode)->attr('title');
+            }
+
+            // price handling
+            $price = $node->filter($priceNode)->text();
+
+            // url handling
+            $urlFetched = $node->filter($urlNode)->attr('href');
+            switch ($siteConfig['urlNode']['type']) {
+                case 'relative':
+                    $url = $siteConfig['baseUrl'] . trim($urlFetched);
+                    break;
+                case 'absolute':
+                    $url = trim($urlFetched);
+                    break;
+                default:
+                    $url = trim($urlFetched);
+            }
+
+            // image handling
+            $imageFetched = $node->filter($imageNode)->attr('src');
+            switch ($siteConfig['imageNode']['type']) {
+                case 'relative':
+                    $image = $siteConfig['baseUrl'] . trim($imageFetched);
+                    break;
+                case 'absolute':
+                    $image = trim($imageFetched);
+                    break;
+                default:
+                    $image = trim($imageFetched);
+            }
+
+            $data = array(
+                'name' => trim($name),
+                'price' => trim($price),
+                'url' => $url,
+                'image' => $image,
+            );
+
+            $filterCondition = $this->isValidData($searchQuery, $data);
+            if ($filterCondition === true) {
+                return $data;
+            } else {
+                return null;
+            }
+        });
+
+        return $data;
+    }
+
 
     /**
      * Check if the data returned is valid with the initial search query
@@ -374,7 +407,6 @@ class DefaultController extends Controller
         //});
         //$promise->wait();
 
-
         /* test 6 (coroutine promises) */
         $client = new GuzzleClient();
         $myfunction = function ($url) use ($client) {
@@ -397,18 +429,11 @@ class DefaultController extends Controller
             function ($values) {
                 dump($values);
             }, function ($values) {
-                dump($values);
-            });
+            dump($values);
+        });
         $aggregate->wait();
 
         exit;
     }
 
-    /**
-     * @Route ("/pool", name="pool")
-     */
-    public function poolAction()
-    {
-        exit;
-    }
 }
