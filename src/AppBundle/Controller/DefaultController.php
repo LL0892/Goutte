@@ -16,6 +16,10 @@ use Goutte\Client;
 
 // Guzzle lib
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Psr7\Request as GuzzleRequest;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\RejectedPromise;
+use GuzzleHttp\Pool;
 
 class DefaultController extends Controller
 {
@@ -201,9 +205,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/test", name="test")
+     * @Route("/multicurl", name="multicurl")
      */
-    public function testAction(Request $request)
+    public function multicurlAction()
     {
 
         $data = array(
@@ -265,5 +269,146 @@ class DefaultController extends Controller
 
 
         return $this->render('AppBundle:Default:test.html.twig', array());
+    }
+
+    /**
+     * @Route("/async", name="async")
+     */
+    public function asyncAction()
+    {
+        $client = new GuzzleClient();
+        $res = $client->request('GET', 'https://api.github.com/user', [
+            'auth' => ['LL0892', 'L!3nH3r?']
+        ]);
+        dump($res->getStatusCode());
+        dump($res->getHeaders());
+        dump($res->getBody()->getContents());
+
+        // Send an asynchronous request.
+        $request = new GuzzleRequest('GET', 'http://httpbin.org');
+        $promise = $client->sendAsync($request)->then(function ($response) {
+            dump($response->getBody()->getContents());
+        });
+        $promise->wait();
+
+        exit;
+    }
+
+    /**
+     * @Route ("/promise", name="promise")
+     */
+    public function promiseAction()
+    {
+        /* test 1 (promises) */
+        //$client = new GuzzleClient();
+        //$promise = $client->requestAsync('GET', 'http://httpbin.org/get');
+        //$promise->then(function ($res) {
+        //    return $res->getStatusCode();
+        //})->then(function ($value) {
+        //    echo "j'ai recu un code $value";
+        //});
+        //$promise->wait();
+
+        /* test 2 (batch) */
+        //$client = new GuzzleClient(['base_uri' => 'http://httpbin.org/']);
+        //$batch = [
+        //    'image' => '/image',
+        //    'png' => '/image/png',
+        //    'jpeg' => '/image/jpeg',
+        //    'webp' => '/image/webp'
+        //];
+        //$requests = function ($batch) {
+        //    foreach ($batch as $url) {
+        //        yield new GuzzleRequest('GET', $url);
+        //    }
+        //};
+        //$pool = new Pool($client, $requests($batch), [
+        //    'fulfilled' => function ($response, $index) {
+        //        dump($index);
+        //    },
+        //    'concurrency' => 2,
+        //]);
+        //$promise = $pool->promise();
+        //$promise->wait();
+
+        /* test3 (first promise) */
+        //$client = new GuzzleClient(['base_uri' => 'http://httpbin.org/']);
+        //$promises = [
+        //    'image' => $client->getAsync('/image'),
+        //    'png' => $client->getAsync('/image/png'),
+        //    'jpeg' => $client->getAsync('/image/jpeg'),
+        //    'webp' => $client->getAsync('/image/webp')
+        //];
+        //$result = Promise\any($promises)->then(function ($value) {
+        //    dump($value->getHeader('Content-Type'));
+        //});
+        //$result->wait();
+
+        /* test 4 (first two promises) */
+        //$client = new GuzzleClient(['base_uri' => 'http://httpbin.org/']);
+        //$promises = [
+        //    'image' => $client->getAsync('/image'),
+        //    'png' => $client->getAsync('/image/png'),
+        //    'jpeg' => $client->getAsync('/image/jpeg'),
+        //    'webp' => $client->getAsync('/image/webp')
+        //];
+        //$result = Promise\some(2, $promises)
+        //    ->then(function ($results) {
+        //        foreach ($results as $value) {
+        //            dump($value->getHeader('Content-Type'));
+        //        }
+        //    });
+        //$result->wait();
+
+        /* test 5 (generator promise) */
+        //$client = new GuzzleClient(['base_uri' => 'http://httpbin.org/']);
+        //$promiseGenerator = function () use ($client) {
+        //    yield $client->getAsync('/image');
+        //    yield $client->getAsync('/image/png');
+        //    yield $client->getAsync('/image/jpeg');
+        //    yield $client->getAsync('/image/webp');
+        //};
+        //$result = array();
+        //$promise = Promise\each_limit($promiseGenerator(), 2, function ($value, $idx) use (&$result) {
+        //    $result[$idx] = $value;
+        //});
+        //$promise->wait();
+
+
+        /* test 6 (coroutine promises) */
+        $client = new GuzzleClient();
+        $myfunction = function ($url) use ($client) {
+            return Promise\coroutine(
+                function () use ($client, $url) {
+                    try {
+                        $value = (yield $client->getAsync($url));
+                    } catch (\Exception $e) {
+                        yield New RejectedPromise($e->getMessage());
+                    }
+                }
+            );
+        };
+        $sites = ['http://google.com', 'http://google.ch', 'http://google.de'];
+        $promises = [];
+        foreach ($sites as $site) {
+            $promises[] = $myfunction($site);
+        }
+        $aggregate = Promise\all($promises)->then(
+            function ($values) {
+                dump($values);
+            }, function ($values) {
+                dump($values);
+            });
+        $aggregate->wait();
+
+        exit;
+    }
+
+    /**
+     * @Route ("/pool", name="pool")
+     */
+    public function poolAction()
+    {
+        exit;
     }
 }
