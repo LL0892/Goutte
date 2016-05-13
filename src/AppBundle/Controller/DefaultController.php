@@ -32,13 +32,11 @@ class DefaultController extends Controller
         $totalResult = null;
 
 
-
         // Fetch config parameters
         $config = $this->getParameter('app.config');
         if (!isset($config['sites'])) {
             return $this->render('AppBundle:Default:error.html.twig');
         }
-
 
 
         // Search form
@@ -74,15 +72,21 @@ class DefaultController extends Controller
         };
 
 
-
+        // Create an array of promises to execute later
         if (count($postData) > 0) {
             foreach ($config['sites'] as $site) {
-                $promises[] = $processRequest($site['parseUrl']);
+                if ($site['searchType'] === 'urlQuery') {
+                    $queryEncoded = urlencode($searchQuery);
+                    $url = $site['parseUrl'].$queryEncoded;
+                    $promises[] = $processRequest(htmlentities($url));
+                } else {
+                    $promises[] = $processRequest($site['parseUrl']);
+                }
             }
         }
 
 
-
+        // Promise handling and parsing
         $aggregate = Promise\all($promises)->then(
             // Fullfilled promise
             function ($values) use ($totalResult, $searchQuery, $config) {
@@ -112,15 +116,15 @@ class DefaultController extends Controller
                 return $totalResult;
             },
             // Rejected promise
-            function ($values) {
-
-                echo 'nope';
-                dump($values);
-
+            function ($values) use ($totalResult) {
+                var_dump('An error occured :'. $values);
+                return $totalResult = null;
             }
         );
 
+        // Execute the promises
         $totalResult = $aggregate->wait();
+        dump($totalResult);
 
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
@@ -140,21 +144,26 @@ class DefaultController extends Controller
     private function parseRequest($resBody, $searchQuery, $siteConfig)
     {
         $parseUrl = $siteConfig['parseUrl'];
-        //$guzzleResponse = $guzzleClient->get($parseUrl);
         $crawler = new Crawler($resBody, $parseUrl);
         $client = new Client();
 
-        $form = $crawler->filter($siteConfig['formNode'])->first()->form();
 
-        // Create the form inputs array
-        $formArray = array(
-            $siteConfig['inputKey'] => $searchQuery
-        );
-        if (count($siteConfig['formInputs']) > 0) {
-            $formArray = array_merge($formArray, $siteConfig['formInputs']);
+
+        if ($siteConfig['searchType'] === 'formQuery') {
+            $form = $crawler->filter($siteConfig['formNode'])->first()->form();
+
+            // Create the form inputs array
+            $formArray = array(
+                $siteConfig['inputKey'] => $searchQuery
+            );
+            if (count($siteConfig['formInputs']) > 0) {
+                $formArray = array_merge($formArray, $siteConfig['formInputs']);
+            }
+
+            $crawler = $client->submit($form, $formArray);
         }
 
-        $crawler = $client->submit($form, $formArray);
+
 
         $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig) {
 
@@ -215,6 +224,7 @@ class DefaultController extends Controller
         });
 
         return $data;
+
     }
 
 
@@ -243,5 +253,5 @@ class DefaultController extends Controller
         }
         return false;
     }
-
+    
 }

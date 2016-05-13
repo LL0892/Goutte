@@ -73,6 +73,7 @@ app:
     sites:
         -
             name:               "heinigerag"
+            searchType:         "formQuery"
             parseUrl:           "http://shop.heinigerag.ch"
             baseUrl:            "http://shop.heinigerag.ch"
             formNode:           "#quicksearch"
@@ -93,6 +94,7 @@ app:
 
         -
             name:               "melectronics"
+            searchType:         "formQuery"
             parseUrl:           "http://www.melectronics.ch/fr/"
             baseUrl:            "http://www.melectronics.ch"
             formNode:           "#searchbox"
@@ -112,6 +114,7 @@ app:
 
         -
             name:               "hawk"
+            searchType:         "formQuery"
             parseUrl:           "http://www.hawk.ch"
             baseUrl:            "http://www.hawk.ch"
             formNode:           "#search_mini_form"
@@ -131,6 +134,7 @@ app:
 
         -
             name:               "STEG"
+            searchType:         "formQuery"
             parseUrl:           "https://www.steg-electronics.ch/fr/"
             baseUrl:            "http://www.steg-electronics.ch"
             formNode:           "#searchForm"
@@ -145,4 +149,24 @@ app:
                     type:     "relative"
             imageNode:
                     value:    "div.leftPanel > a > img"
+                    type:     "relative"
+
+
+        -
+            name:               "Mediamarkt"
+            searchType:         "urlQuery"
+            parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
+            baseUrl:            "https://shop.mediamarkt.ch"
+            formNode:           null #"#Form1"
+            inputKey:           null #"ctl00$mainSearchTextField"
+            formInputs:         null
+            mainNode:           "div#div_searchResults > div.prod-4"
+            titleNode:          "div > div > div.prod-4-4 > div.div-40 > a > h2"
+            titleStandardNode:  true
+            priceNode:          "div > div > div.prod-4-3 > div.price-4 > span"
+            urlNode:
+                    value:    "div > div > div.prod-4-4 > div.div-40 > a"
+                    type:     "relative"
+            imageNode:
+                    value:    "div > div > div.prod-4-1 > a > span > img"
                     type:     "relative"
