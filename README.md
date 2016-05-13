@@ -4,7 +4,7 @@ Un bundle Symfony2 pour le parsing de données de divers sites de ventes en lign
 
 ## Configuration
 
-config.yml
+config.yml complet (détails chapitre suivant):
 ```
 // ...
 app:
@@ -24,7 +24,7 @@ app:
                     <key>:           "value"
                     // ...           "..."
             mainNode:           "a > b" // selecteur CSS à la base de l'objet
-            titleNode:          "" // selecteur CSS du titre de l'objet
+            titleNode:          "abc" // selecteur CSS du titre de l'objet
             titleStandardNode:  true || false
             priceNode:          "a > b" // selecteur CSS du prix de l'objet
             urlNode:
@@ -41,12 +41,15 @@ app:
 // ...
 ```
 
-N'oubliez pas de mettre les paramètres entre double crochet !
+N'oubliez pas de mettre les paramètres entre double crochet (exception faite des booléans) !
+
 
 ## Détails de la config
 
 ### searchType:
-> searchType: "formQuery || urlQuery" // type de recherche
+```
+    searchType:         "formQuery || urlQuery" // type de recherche
+```
 
 Deux valeurs acceptées : **formQuery** ou  **urlQuery**.
 
@@ -58,7 +61,9 @@ Dans le cas d'une recherche en utilisant **urlQuery**, on fera une requête sur 
 aura la valeur de la recherche que nous faisons.
 
 ### parseUrl:
-> parseUrl: "www" // lien utilisé par parser les données
+```
+    parseUrl:           "www" // lien utilisé par parser les données
+```
 
 Le lien de base utilisé par le parseur.
 
@@ -69,12 +74,16 @@ Pour **urlQuery**, l'url sans la valeur du paramètre de recherche (qui sera rem
 Par exemple: `https://shop.mediamarkt.ch/fr/search/?s=` dont la valeur de la recherche sera en fin de chaine après le égal.
 
 ### baseUrl:
-> baseUrl: "www" // lien utilisé pour avoir un lien fonctionnel sur images/urls
+```
+    baseUrl:            "www" // lien utilisé pour avoir un lien fonctionnel sur images/urls
+```
 
 Url propre sans variables de locale, pour parser les images et urls facilement. Par exemple: `http://www.melectronics.ch`
 
 ### formNode:
-> formNode: "abc" // l'identifiant du formulaire (lorsque 'formQuery')
+```
+    formNode:           "abc" // l'identifiant du formulaire (lorsque 'formQuery')
+```
 
 L'identifiant CSS du formulaire (dans la balise \<form\>).
 Par exemple: `#quicksearch` ou `#searchbox`
@@ -88,13 +97,12 @@ Lorsque **formQuery**, va utiliser cette valeur. Dans le cas de **urlQuery**, ce
 Il est alors possible de mettre cette valeur à `null`.
 
 ### formInputs:
-```formInputs: <br>
-formInputs:              // si des champs caché supplémentaires à rentrer
-        <key>:           "value"
-        <key>:           "value"
-        <key>:           "value"
-        // ...
-
+```
+    formInputs:              // si des champs caché supplémentaires à rentrer
+            <key>:           "value"
+            <key>:           "value"
+            <key>:           "value"
+            // ...
 ```
 
 Un ensemble de clé et de valeur pour chaque champs à remplir pour la recherche. Il s'agit des champs souvent caché dans le html
@@ -103,33 +111,40 @@ donc non visible dans la page, mais pouvant permettre d'ajouter de nouveaux para
 Il est possible de ne rien mettre si cette attribut ne doit pas être utilisé, ce qui donnera: `formInputs: null`.
 
 ### mainNode
-> todo
-
-todo
+```
+    mainNode:           "div > div" // selecteur CSS à la base de l'objet
+```
+Le sélecteur CSS pointant vers la base des articles à parser. Dans une liste d'objet, pointe donc sur l'objet, pas sur la liste.
 
 ### titleNode
-> todo
+```
+    titleNode:          "abc" // selecteur CSS du titre de l'objet
+```
 
-todo
+Le sélecteur CSS du titre de l'objet.
 
 ### titleStandardNode
->todo
+```
+    todo
+```
 
 todo
 
 ### priceNode
-> todo
+```
+    priceNode:          "a > b" // selecteur CSS du prix de l'objet
+```
 
-todo
+Le sélecteur CSS du prix de l'objet.
 
 ### urlNode et imageNode
 ```
-            urlNode:
-                    value:          "a > b" // selecteur CSS du l'ien de l'objet
-                    type:           "relative || absolute" // url relative ou absolue
-            imageNode:
-                    value:          "a > b" // selecteur CSS de l'image de l'objet
-                    type:           "relative || absolute" // url relative ou absolue
+    urlNode:
+            value:          "div > div" // selecteur CSS du l'ien de l'objet
+            type:           "relative || absolute" // url relative ou absolue
+    imageNode:
+            value:          "div > div" // selecteur CSS de l'image de l'objet
+            type:           "relative || absolute" // url relative ou absolue
 ```
 
 Pour le champ type, deux valeurs acceptées : **relative** ou  **absolute**.
