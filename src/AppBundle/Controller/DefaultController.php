@@ -124,7 +124,6 @@ class DefaultController extends Controller
 
         // Execute the promises
         $totalResult = $aggregate->wait();
-        dump($totalResult);
 
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
