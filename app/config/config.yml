@@ -79,17 +79,17 @@ app:
             formNode:           "#quicksearch"
             inputKey:           "q"
             formInputs:
-                    sort:     "relevance|desc"
+                    sort:           "relevance|desc"
             mainNode:           "div.item.media"
             titleNode:          "h4.media-heading > a"
-            titleStandardNode:  true
+            titleNodeParsing:   "innerHTML"
             priceNode:          "span.price"
             urlNode:
-                    value:    "h4.media-heading > a"
-                    type:     "relative"
+                    value:          "h4.media-heading > a"
+                    type:           "relative"
             imageNode:
-                    value:    "div.media-left > a > img"
-                    type:     "relative"
+                    value:          "div.media-left > a > img"
+                    type:           "relative"
 
 
         -
@@ -102,14 +102,14 @@ app:
             formInputs:         null
             mainNode:           "div.listing > ul > li"
             titleNode:          "h3.productname"
-            titleStandardNode:  true
+            titleNodeParsing:   "innerHTML"
             priceNode:          "span.price > span.current"
             urlNode:
-                    value:    "div.productcell > div.content > a"
-                    type:     "relative"
+                    value:          "div.productcell > div.content > a"
+                    type:           "relative"
             imageNode:
-                    value:    "span.product > img"
-                    type:     "absolute"
+                    value:          "span.product > img"
+                    type:           "absolute"
 
 
         -
@@ -122,14 +122,14 @@ app:
             formInputs:         null
             mainNode:           "ul.products-grid > li.item"
             titleNode:          "h2.product-name a"
-            titleStandardNode:  false
+            titleNodeParsing:   "title"
             priceNode:          "span.price"
             urlNode:
-                    value:    "h2.product-name > a"
-                    type:     "absolute"
+                    value:          "h2.product-name > a"
+                    type:           "absolute"
             imageNode:
-                    value:    "a.product-image > img"
-                    type:     "absolute"
+                    value:          "a.product-image > img"
+                    type:           "absolute"
 
 
         -
@@ -142,14 +142,14 @@ app:
             formInputs:         null
             mainNode:           "article.articleItem"
             titleNode:          "div.articleData > div.nameAndDescription > h3 > a"
-            titleStandardNode:  true
+            titleNodeParsing:   "innerHTML"
             priceNode:          "div.priceAndAddToCart > div.priceWrapper > div > div.actualPrice"
             urlNode:
-                    value:    "div.articleData > div.nameAndDescription > h3 > a"
-                    type:     "relative"
+                    value:          "div.articleData > div.nameAndDescription > h3 > a"
+                    type:           "relative"
             imageNode:
-                    value:    "div.leftPanel > a > img"
-                    type:     "relative"
+                    value:          "div.leftPanel > a > img"
+                    type:           "relative"
 
 
         -
@@ -162,11 +162,11 @@ app:
             formInputs:         null
             mainNode:           "div#div_searchResults > div.prod-4"
             titleNode:          "div > div > div.prod-4-4 > div.div-40 > a > h2"
-            titleStandardNode:  true
+            titleNodeParsing:   "innerHTML"
             priceNode:          "div > div > div.prod-4-3 > div.price-4 > span"
             urlNode:
-                    value:    "div > div > div.prod-4-4 > div.div-40 > a"
-                    type:     "relative"
+                    value:          "div > div > div.prod-4-4 > div.div-40 > a"
+                    type:           "relative"
             imageNode:
-                    value:    "div > div > div.prod-4-1 > a > span > img"
-                    type:     "absolute"
+                    value:          "div > div > div.prod-4-1 > a > span > img"
+                    type:           "absolute"

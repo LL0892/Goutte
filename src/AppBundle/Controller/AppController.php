@@ -172,10 +172,10 @@ class AppController extends Controller
             $imageNode = $siteConfig['imageNode']['value'];
 
             // title handling
-            if ($siteConfig['titleStandardNode'] === true) {
+            if ($siteConfig['titleNodeParsing'] === "innerHTML") {
                 $name = $node->filter($titleNode)->text();
             } else {
-                $name = $node->filter($titleNode)->attr('title');
+                $name = $node->filter($titleNode)->attr($siteConfig['titleNodeParsing']);
             }
 
             // price handling
