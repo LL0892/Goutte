@@ -19,7 +19,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
 
-class DefaultController extends Controller
+class AppController extends Controller
 {
     /**
      * @Route("/", name="homepage")
