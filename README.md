@@ -123,7 +123,7 @@ Le sélecteur CSS pointant vers la base des articles à parser. Dans une liste d
 
 Le sélecteur CSS du titre de l'objet.
 
-### titleStandardNode
+### titleNodeParsing
 ```
     titleNodeParsing:   "innerHTML" // Défini ou aller chercher les données du titre de l'objet
 ```
