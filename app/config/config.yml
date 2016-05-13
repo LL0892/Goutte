@@ -169,4 +169,4 @@ app:
                     type:     "relative"
             imageNode:
                     value:    "div > div > div.prod-4-1 > a > span > img"
-                    type:     "relative"
+                    type:     "absolute"
