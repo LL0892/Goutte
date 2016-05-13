@@ -48,6 +48,8 @@ N'oubliez pas de mettre les paramètres entre double crochet !
 ### searchType:
 > searchType: "formQuery || urlQuery" // type de recherche
 
+Deux valeurs acceptées : **formQuery** ou  **urlQuery**.
+
 Dans le cas d'une recherche en utilisant **formQuery**, on fera une première requête sur la page d'accueil du site,
 puis via des sélecteur CSS sélectionnerons un formulaire de recherche présent sur cette page d'accueil.
 Ensuite nous utiliserons ce formulaire pour injecter la recherche et obtenir les objets à parser sur la page résultante.
@@ -78,7 +80,7 @@ L'identifiant CSS du formulaire (dans la balise \<form\>).
 Par exemple: `#quicksearch` ou `#searchbox`
 
 ### inputKey:
->inputKey: "abc" // nom du champ de recherche (input) (lorsque 'formQuery')
+>inputKey: "abc" // nom du champ de recherche (lorsque 'formQuery')
 
 Le nom du champ de recherche (dans l'attribut "name" de la balise \<input\>).
 
@@ -130,5 +132,7 @@ todo
                     type:           "relative || absolute" // url relative ou absolue
 ```
 
-Les valeurs absolues et relatives des liens permettent de définir comment nous généront le lien des images et des urls
-selon comment le site parsé affichait l'information dans son code source.
+Pour le champ type, deux valeurs acceptées : **relative** ou  **absolute**.
+
+Les valeurs absolues et relatives des liens permettent de définir comment nous générons le lien des images et des urls
+selon comment le site-cible affiche les données à parser dans son code source.
