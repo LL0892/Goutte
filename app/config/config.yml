@@ -84,7 +84,9 @@ app:
             titleNode:
                     value:          "h4.media-heading > a"
                     type:           "innerHTML"
-            priceNode:          "span.price"
+            priceNode:
+                    value:          "span.price"
+                    type:           "innerHTML"
             urlNode:
                     value:          "h4.media-heading > a"
                     type:           "relative"
@@ -105,7 +107,9 @@ app:
             titleNode:
                     value:            "h3.productname"
                     type:             "innerHTML"
-            priceNode:          "span.price > span.current"
+            priceNode:
+                    value:          "span.price > span.current"
+                    type:           "innerHTML"
             urlNode:
                     value:          "div.productcell > div.content > a"
                     type:           "relative"
@@ -126,7 +130,9 @@ app:
             titleNode:
                     value:          "h2.product-name a"
                     type:           "title"
-            priceNode:          "span.price"
+            priceNode:
+                    value:          "span.price"
+                    type:           "innerHTML"
             urlNode:
                     value:          "h2.product-name > a"
                     type:           "absolute"
@@ -147,7 +153,9 @@ app:
             titleNode:
                     value:          "div.articleData > div.nameAndDescription > h3 > a"
                     type:           "innerHTML"
-            priceNode:          "div.priceAndAddToCart > div.priceWrapper > div > div.actualPrice"
+            priceNode:
+                    value:          "div.priceAndAddToCart > div.priceWrapper > div > div.actualPrice"
+                    type:           "innerHTML"
             urlNode:
                     value:          "div.articleData > div.nameAndDescription > h3 > a"
                     type:           "relative"
@@ -168,7 +176,9 @@ app:
             titleNode:
                     value:          "div > div > div.prod-4-4 > div.div-40 > a > h2"
                     type:           "innerHTML"
-            priceNode:          "div > div > div.prod-4-3 > div.price-4 > span"
+            priceNode:
+                    value:          "div > div > div.prod-4-3 > div.price-4 > span"
+                    type:           "innerHTML"
             urlNode:
                     value:          "div > div > div.prod-4-4 > div.div-40 > a"
                     type:           "relative"

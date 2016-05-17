@@ -27,7 +27,9 @@ app:
             titleNode:
                     value:          "a > b" // selecteur CSS du titre de l'objet
                     type:           "innerHTML" // Défini ou aller chercher les données du titre de l'objet
-            priceNode:          "a > b" // selecteur CSS du prix de l'objet
+            priceNode:
+                    value:          "a > b" // selecteur CSS du prix de l'objet
+                    type:           "innerHTML" // Défini ou aller chercher les données du prix de l'objet
             urlNode:
                     value:          "a > b" // selecteur CSS du l'ien de l'objet
                     type:           "relative || absolute" // url relative ou absolue
@@ -117,28 +119,24 @@ Il est possible de ne rien mettre si cette attribut ne doit pas être utilisé, 
 ```
 Le sélecteur CSS pointant vers la base des articles à parser. Dans une liste d'objet, pointe donc sur l'objet, pas sur la liste.
 
-### titleNode
+### titleNode et priceNode
 ```
     titleNode:
             value:          "a > b" // selecteur CSS du titre de l'objet
             type:           "innerHTML" // Défini ou aller chercher les données du titre de l'objet
+    priceNode:
+            value:          "a > b" // selecteur CSS du prix de l'objet
+            type:           "innerHTML" // Défini ou aller chercher les données du prix de l'objet
 ```
 
-Pour le champ value, il s'agit du sélecteur CSS du titre de l'objet.
+Pour le champ value, il s'agit du sélecteur CSS de l'objet.
 
-Pour le champ type, la valeur par défaut: `innerHTML`.
+Pour le champ type, la valeur par défaut: **innerHTML**.
 
-Le champ type permet de définir ou aller chercher les données du titre. **innerHTML** va chercher la donnée à l'intérieur de la balise
-ou se trouve le titre. Tout autre valeur sera le nom de l'attribut ou se trouve le titre de l'objet.
+Le champ type permet de définir ou aller chercher les données. **innerHTML** va chercher la donnée à l'intérieur de la balise.
+Tout autre valeur sera le nom de l'attribut ou se trouve la donnée à récupérer de l'objet.
 Par exemple: `title` ira chercher le contenu d'une balise comme suit
 > \<span title="LE TITRE DE L'OBJET"\>\</span\>
-
-### priceNode
-```
-    priceNode:          "a > b" // selecteur CSS du prix de l'objet
-```
-
-Le sélecteur CSS du prix de l'objet.
 
 ### urlNode et imageNode
 ```

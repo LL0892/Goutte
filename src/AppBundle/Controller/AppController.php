@@ -167,7 +167,7 @@ class AppController extends Controller
         $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig) {
 
             $titleNode = $siteConfig['titleNode']['value'];
-            $priceNode = $siteConfig['priceNode'];
+            $priceNode = $siteConfig['priceNode']['value'];
             $urlNode = $siteConfig['urlNode']['value'];
             $imageNode = $siteConfig['imageNode']['value'];
 
@@ -179,7 +179,11 @@ class AppController extends Controller
             }
 
             // price handling
-            $price = $node->filter($priceNode)->text();
+            if ($siteConfig['priceNode']['type'] === 'innerHTML') {
+                $price = $node->filter($priceNode)->text();
+            } else {
+                $price = $node->filter($titleNode)->attr($siteConfig['priceNode']['type']);
+            }
 
             // url handling
             $urlFetched = $node->filter($urlNode)->attr('href');
