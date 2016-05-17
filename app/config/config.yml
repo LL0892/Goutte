@@ -81,8 +81,9 @@ app:
             formInputs:
                     sort:           "relevance|desc"
             mainNode:           "div.item.media"
-            titleNode:          "h4.media-heading > a"
-            titleNodeParsing:   "innerHTML"
+            titleNode:
+                    value:          "h4.media-heading > a"
+                    type:           "innerHTML"
             priceNode:          "span.price"
             urlNode:
                     value:          "h4.media-heading > a"
@@ -101,8 +102,9 @@ app:
             inputKey:           "q"
             formInputs:         null
             mainNode:           "div.listing > ul > li"
-            titleNode:          "h3.productname"
-            titleNodeParsing:   "innerHTML"
+            titleNode:
+                    value:            "h3.productname"
+                    type:             "innerHTML"
             priceNode:          "span.price > span.current"
             urlNode:
                     value:          "div.productcell > div.content > a"
@@ -121,8 +123,9 @@ app:
             inputKey:           "q"
             formInputs:         null
             mainNode:           "ul.products-grid > li.item"
-            titleNode:          "h2.product-name a"
-            titleNodeParsing:   "title"
+            titleNode:
+                    value:          "h2.product-name a"
+                    type:           "title"
             priceNode:          "span.price"
             urlNode:
                     value:          "h2.product-name > a"
@@ -141,8 +144,9 @@ app:
             inputKey:           "query"
             formInputs:         null
             mainNode:           "article.articleItem"
-            titleNode:          "div.articleData > div.nameAndDescription > h3 > a"
-            titleNodeParsing:   "innerHTML"
+            titleNode:
+                    value:          "div.articleData > div.nameAndDescription > h3 > a"
+                    type:           "innerHTML"
             priceNode:          "div.priceAndAddToCart > div.priceWrapper > div > div.actualPrice"
             urlNode:
                     value:          "div.articleData > div.nameAndDescription > h3 > a"
@@ -157,12 +161,13 @@ app:
             searchType:         "urlQuery"
             parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
             baseUrl:            "https://shop.mediamarkt.ch"
-            formNode:           null #"#Form1"
-            inputKey:           null #"ctl00$mainSearchTextField"
+            formNode:           null
+            inputKey:           null
             formInputs:         null
             mainNode:           "div#div_searchResults > div.prod-4"
-            titleNode:          "div > div > div.prod-4-4 > div.div-40 > a > h2"
-            titleNodeParsing:   "innerHTML"
+            titleNode:
+                    value:          "div > div > div.prod-4-4 > div.div-40 > a > h2"
+                    type:           "innerHTML"
             priceNode:          "div > div > div.prod-4-3 > div.price-4 > span"
             urlNode:
                     value:          "div > div > div.prod-4-4 > div.div-40 > a"

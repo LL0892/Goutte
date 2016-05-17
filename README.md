@@ -24,8 +24,9 @@ app:
                     <key>:           "value"
                     // ...           "..."
             mainNode:           "a > b" // selecteur CSS à la base de l'objet
-            titleNode:          "abc" // selecteur CSS du titre de l'objet
-            titleNodeParsing:   "innerHTML" // Défini ou aller chercher les données du titre de l'objet
+            titleNode:
+                    value:          "a > b" // selecteur CSS du titre de l'objet
+                    type:           "innerHTML" // Défini ou aller chercher les données du titre de l'objet
             priceNode:          "a > b" // selecteur CSS du prix de l'objet
             urlNode:
                     value:          "a > b" // selecteur CSS du l'ien de l'objet
@@ -118,19 +119,16 @@ Le sélecteur CSS pointant vers la base des articles à parser. Dans une liste d
 
 ### titleNode
 ```
-    titleNode:          "abc" // selecteur CSS du titre de l'objet
+    titleNode:
+            value:          "a > b" // selecteur CSS du titre de l'objet
+            type:           "innerHTML" // Défini ou aller chercher les données du titre de l'objet
 ```
 
-Le sélecteur CSS du titre de l'objet.
+Pour le champ value, il s'agit du sélecteur CSS du titre de l'objet.
 
-### titleNodeParsing
-```
-    titleNodeParsing:   "innerHTML" // Défini ou aller chercher les données du titre de l'objet
-```
+Pour le champ type, la valeur par défaut: `innerHTML`.
 
-Valeur par défaut: `innerHTML`.
-
-Permet de définir ou aller chercher les données du titre. **innerHTML** va chercher la donnée à l'intérieur de la balise
+Le champ type permet de définir ou aller chercher les données du titre. **innerHTML** va chercher la donnée à l'intérieur de la balise
 ou se trouve le titre. Tout autre valeur sera le nom de l'attribut ou se trouve le titre de l'objet.
 Par exemple: `title` ira chercher le contenu d'une balise comme suit
 > \<span title="LE TITRE DE L'OBJET"\>\</span\>

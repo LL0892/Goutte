@@ -166,16 +166,16 @@ class AppController extends Controller
 
         $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig) {
 
-            $titleNode = $siteConfig['titleNode'];
+            $titleNode = $siteConfig['titleNode']['value'];
             $priceNode = $siteConfig['priceNode'];
             $urlNode = $siteConfig['urlNode']['value'];
             $imageNode = $siteConfig['imageNode']['value'];
 
             // title handling
-            if ($siteConfig['titleNodeParsing'] === "innerHTML") {
+            if ($siteConfig['titleNode']['type'] === "innerHTML") {
                 $name = $node->filter($titleNode)->text();
             } else {
-                $name = $node->filter($titleNode)->attr($siteConfig['titleNodeParsing']);
+                $name = $node->filter($titleNode)->attr($siteConfig['titleNode']['type']);
             }
 
             // price handling
