@@ -149,7 +149,7 @@ class AppController extends Controller
 
 
         if ($siteConfig['searchType'] === 'formQuery') {
-            $form = $crawler->filter($siteConfig['formNode'])->first()->form();
+            $form = $crawler->filter($siteConfig['formID'])->first()->form();
 
             // Create the form inputs array
             $formArray = array(

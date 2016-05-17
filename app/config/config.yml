@@ -76,7 +76,7 @@ app:
             searchType:         "formQuery"
             parseUrl:           "http://shop.heinigerag.ch"
             baseUrl:            "http://shop.heinigerag.ch"
-            formNode:           "#quicksearch"
+            formID:             "#quicksearch"
             inputKey:           "q"
             formInputs:
                     sort:           "relevance|desc"
@@ -100,13 +100,13 @@ app:
             searchType:         "formQuery"
             parseUrl:           "http://www.melectronics.ch/fr/"
             baseUrl:            "http://www.melectronics.ch"
-            formNode:           "#searchbox"
+            formID:             "#searchbox"
             inputKey:           "q"
             formInputs:         null
             mainNode:           "div.listing > ul > li"
             titleNode:
-                    value:            "h3.productname"
-                    type:             "innerHTML"
+                    value:          "h3.productname"
+                    type:           "innerHTML"
             priceNode:
                     value:          "span.price > span.current"
                     type:           "innerHTML"
@@ -123,7 +123,7 @@ app:
             searchType:         "formQuery"
             parseUrl:           "http://www.hawk.ch"
             baseUrl:            "http://www.hawk.ch"
-            formNode:           "#search_mini_form"
+            formID:             "#search_mini_form"
             inputKey:           "q"
             formInputs:         null
             mainNode:           "ul.products-grid > li.item"
@@ -146,7 +146,7 @@ app:
             searchType:         "formQuery"
             parseUrl:           "https://www.steg-electronics.ch/fr/"
             baseUrl:            "http://www.steg-electronics.ch"
-            formNode:           "#searchForm"
+            formID:             "#searchForm"
             inputKey:           "query"
             formInputs:         null
             mainNode:           "article.articleItem"
@@ -169,7 +169,7 @@ app:
             searchType:         "urlQuery"
             parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
             baseUrl:            "https://shop.mediamarkt.ch"
-            formNode:           null
+            formID:             null
             inputKey:           null
             formInputs:         null
             mainNode:           "div#div_searchResults > div.prod-4"

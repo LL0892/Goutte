@@ -16,7 +16,7 @@ app:
             parseUrl:           "www" // lien utilisé par parser les données
             baseUrl:            "www" // lien utilisé pour avoir un lien fonctionnel sur images/urls
 
-            formNode:           "abc" // l'identifiant du formulaire (lorsque 'formQuery')
+            formID:             "abc" // l'identifiant du formulaire (lorsque 'formQuery')
             inputKey:           "abc" // nom du champ de recherche (input) (lorsque 'formQuery')
             formInputs:               // si des champs caché supplémentaires à rentrer
                     <key>:           "value"
@@ -83,17 +83,18 @@ Par exemple: `https://shop.mediamarkt.ch/fr/search/?s=` dont la valeur de la rec
 
 Url propre sans variables de locale, pour parser les images et urls facilement. Par exemple: `http://www.melectronics.ch`
 
-### formNode:
+### formID:
 ```
-    formNode:           "abc" // l'identifiant du formulaire (lorsque 'formQuery')
+    formID:             "abc" // l'identifiant du formulaire (lorsque 'formQuery')
 ```
 
 L'identifiant CSS du formulaire (dans la balise \<form\>).
 Par exemple: `#quicksearch` ou `#searchbox`
 
 ### inputKey:
->inputKey: "abc" // nom du champ de recherche (lorsque 'formQuery')
-
+```
+    inputKey:           "abc" // nom du champ de recherche (lorsque 'formQuery')
+```
 Le nom du champ de recherche (dans l'attribut "name" de la balise \<input\>).
 
 Lorsque **formQuery**, va utiliser cette valeur. Dans le cas de **urlQuery**, cette valeur sera ignorée.
