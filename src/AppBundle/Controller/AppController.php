@@ -260,10 +260,12 @@ class AppController extends Controller
         $isValid = preg_match_all($regEx, $data['name'], $matches);
 
         // Handle return response
-        if ($isValid < $checkCount) {
-            return false;
-        } else {
+        if ($isValid === $checkCount) {
             return true;
+        } elseif ($checkCount > 2 && $isValid >= ($checkCount-1)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
