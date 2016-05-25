@@ -94,7 +94,6 @@ class AppController extends Controller
 
                 foreach ($values as $i => $value) {
                     $resBody = $value->getBody()->getContents();
-                    dump($resBody);
                     $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i]);
 
                     // Remove filtered results
@@ -244,16 +243,37 @@ class AppController extends Controller
         //$searchKeywords = array();
         $trimmed = trim($search);
         $searchKeywords = explode(' ', $trimmed);
+        $checkCount = count($searchKeywords);
+
+        // Create regular expression
+        $regEx = '/';
+        $i = 0;
+        foreach ($searchKeywords as $word) {
+            $i++;
+            $regEx.= '\b'.$word;
+            if ($i != $checkCount) {
+                $regEx.= '|';
+            }
+        }
+        $regEx.= '/ i';
+
+        // Apply regEx check on results
+        preg_match($regEx, $data['name'], $matches, PREG_OFFSET_CAPTURE);
+        if (isset($matches[0]) && $checkCount == count($matches[0])) {
+            return true;
+        } else {
+            return false;
+        }
 
         // Filter data
-        $string = trim($data['name']);
+/*        $string = trim($data['name']);
         foreach ($searchKeywords as $keyword) {
             if (stripos($string, $keyword) !== false) {
                 return true;
             }
 
         }
-        return false;
+        return false;*/
     }
 
 }
