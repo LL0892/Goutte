@@ -218,7 +218,7 @@ class AppController extends Controller
             );
 
             $filterCondition = $this->isValidData($searchQuery, $data);
-            if ($filterCondition === 1) {
+            if ($filterCondition === true) {
                 return $data;
             } else {
                 return null;
@@ -240,7 +240,6 @@ class AppController extends Controller
     protected function isValidData($search, $data)
     {
         // Create an array of the search words
-        //$searchKeywords = array();
         $trimmed = trim($search);
         $searchKeywords = explode(' ', $trimmed);
         $checkCount = count($searchKeywords);
@@ -257,19 +256,15 @@ class AppController extends Controller
         }
         $regEx.= '/ i';
 
-        // Apply regEx check on results
-        $isValid = preg_match($regEx, $data['name'], $matches, PREG_OFFSET_CAPTURE);
-        return $isValid;
-
         // Filter data
-/*        $string = trim($data['name']);
-        foreach ($searchKeywords as $keyword) {
-            if (stripos($string, $keyword) !== false) {
-                return true;
-            }
+        $isValid = preg_match_all($regEx, $data['name'], $matches);
 
+        // Handle return response
+        if ($isValid < $checkCount) {
+            return false;
+        } else {
+            return true;
         }
-        return false;*/
     }
 
 }
