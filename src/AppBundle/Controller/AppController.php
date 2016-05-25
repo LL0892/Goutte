@@ -218,7 +218,7 @@ class AppController extends Controller
             );
 
             $filterCondition = $this->isValidData($searchQuery, $data);
-            if ($filterCondition === true) {
+            if ($filterCondition === 1) {
                 return $data;
             } else {
                 return null;
@@ -252,18 +252,14 @@ class AppController extends Controller
             $i++;
             $regEx.= '\b'.$word;
             if ($i != $checkCount) {
-                $regEx.= '|';
+                $regEx.= '| ';
             }
         }
         $regEx.= '/ i';
 
         // Apply regEx check on results
-        preg_match($regEx, $data['name'], $matches, PREG_OFFSET_CAPTURE);
-        if (isset($matches[0]) && $checkCount == count($matches[0])) {
-            return true;
-        } else {
-            return false;
-        }
+        $isValid = preg_match($regEx, $data['name'], $matches, PREG_OFFSET_CAPTURE);
+        return $isValid;
 
         // Filter data
 /*        $string = trim($data['name']);
