@@ -74,7 +74,7 @@ app:
         -
             name:               "heinigerag"
             searchType:         "formQuery"
-            parseUrl:           "http://shop.heinigerag.ch"
+            parseUrl:           "http://shop.heinigerag.ch/de/search?sort=relevance&q="
             baseUrl:            "http://shop.heinigerag.ch"
             formID:             "#quicksearch"
             inputKey:           "q"
@@ -97,12 +97,15 @@ app:
 
         -
             name:               "melectronics"
-            searchType:         "formQuery"
-            parseUrl:           "http://www.melectronics.ch/fr/"
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.melectronics.ch/c/fr/?q="
             baseUrl:            "http://www.melectronics.ch"
-            formID:             "#searchbox"
-            inputKey:           "q"
+            formID:             null
+            inputKey:           null
             formInputs:         null
+            #formID:             "#searchbox"
+            #inputKey:           "q"
+            #formInputs:         null
             mainNode:           "div.listing > ul > li"
             titleNode:
                     value:          "h3.productname"
@@ -120,12 +123,15 @@ app:
 
         -
             name:               "hawk"
-            searchType:         "formQuery"
-            parseUrl:           "http://www.hawk.ch"
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
             baseUrl:            "http://www.hawk.ch"
-            formID:             "#search_mini_form"
-            inputKey:           "q"
+            formID:             null
+            inputKey:           null
             formInputs:         null
+            #formID:             "#search_mini_form"
+            #inputKey:           "q"
+            #formInputs:         null
             mainNode:           "ul.products-grid > li.item"
             titleNode:
                     value:          "h2.product-name a"
@@ -143,12 +149,15 @@ app:
 
         -
             name:               "STEG"
-            searchType:         "formQuery"
-            parseUrl:           "https://www.steg-electronics.ch/fr/"
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.steg-electronics.ch/fr/article/articleSearch.aspx?TXTSEARCH="
             baseUrl:            "http://www.steg-electronics.ch"
-            formID:             "#searchForm"
-            inputKey:           "query"
+            formID:             null
+            inputKey:           null
             formInputs:         null
+            #formID:             "#searchForm"
+            #inputKey:           "query"
+            #formInputs:         null
             mainNode:           "article.articleItem"
             titleNode:
                     value:          "div.articleData > div.nameAndDescription > h3 > a"

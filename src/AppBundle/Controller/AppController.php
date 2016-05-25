@@ -78,6 +78,7 @@ class AppController extends Controller
                 if ($site['searchType'] === 'urlQuery') {
                     $queryEncoded = urlencode($searchQuery);
                     $url = $site['parseUrl'].$queryEncoded;
+
                     $promises[] = $processRequest(htmlentities($url));
                 } else {
                     $promises[] = $processRequest($site['parseUrl']);
@@ -93,6 +94,7 @@ class AppController extends Controller
 
                 foreach ($values as $i => $value) {
                     $resBody = $value->getBody()->getContents();
+                    dump($resBody);
                     $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i]);
 
                     // Remove filtered results
@@ -140,13 +142,11 @@ class AppController extends Controller
      *
      * @return array
      */
-    private function parseRequest($resBody, $searchQuery, $siteConfig)
+    protected function parseRequest($resBody, $searchQuery, $siteConfig)
     {
         $parseUrl = $siteConfig['parseUrl'];
         $crawler = new Crawler($resBody, $parseUrl);
         $client = new Client();
-
-
 
         if ($siteConfig['searchType'] === 'formQuery') {
             $form = $crawler->filter($siteConfig['formID'])->first()->form();
@@ -227,7 +227,6 @@ class AppController extends Controller
         });
 
         return $data;
-
     }
 
 
@@ -239,7 +238,7 @@ class AppController extends Controller
      *
      * @return bool
      */
-    private function isValidData($search, $data)
+    protected function isValidData($search, $data)
     {
         // Create an array of the search words
         //$searchKeywords = array();
