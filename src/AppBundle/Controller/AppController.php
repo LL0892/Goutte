@@ -252,7 +252,7 @@ class AppController extends Controller
             $i++;
             $regEx.= '\b'.$word;
             if ($i != $checkCount) {
-                $regEx.= '| ';
+                $regEx.= '|';
             }
         }
         $regEx.= '/ i';
