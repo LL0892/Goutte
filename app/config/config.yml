@@ -74,6 +74,7 @@ app:
         -
             name:               "heinigerag"
             logo:               "heinigerag.png"
+            language:           ["de"]
             searchType:         "formQuery"
             parseUrl:           "http://shop.heinigerag.ch/de/"
             baseUrl:            "http://shop.heinigerag.ch"
@@ -99,6 +100,7 @@ app:
         -
             name:               "melectronics"
             logo:               "melectronics.png"
+            language:           ["fr", "de"]
             searchType:         "urlQuery"
             parseUrl:           "http://www.melectronics.ch/c/fr/?q="
             baseUrl:            "http://www.melectronics.ch"
@@ -126,6 +128,7 @@ app:
         -
             name:               "hawk"
             logo:               "hawk.png"
+            language:           ["de"]
             searchType:         "urlQuery"
             parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
             baseUrl:            "http://www.hawk.ch"
@@ -153,6 +156,7 @@ app:
         -
             name:               "STEG"
             logo:               "steg.png"
+            language:           ["fr", "de"]
             searchType:         "urlQuery"
             parseUrl:           "http://www.steg-electronics.ch/fr/article/articleSearch.aspx?TXTSEARCH="
             baseUrl:            "http://www.steg-electronics.ch"
@@ -180,6 +184,7 @@ app:
         -
             name:               "Mediamarkt"
             logo:               "mediamarkt.png"
+            language:           ["fr", "de"]
             searchType:         "urlQuery"
             parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
             baseUrl:            "https://shop.mediamarkt.ch"
