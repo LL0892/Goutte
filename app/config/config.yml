@@ -67,6 +67,8 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+
+
 # Parsing
 app:
     debug:     false
@@ -75,7 +77,9 @@ app:
             name:               "heinigerag"
             logo:               "heinigerag.png"
             language:           ["de"]
+            EAN:                true
             searchType:         "formQuery"
+
             parseUrl:           "http://shop.heinigerag.ch/de/"
             baseUrl:            "http://shop.heinigerag.ch"
             formID:             "#quicksearch"
@@ -97,12 +101,15 @@ app:
                     type:           "relative"
 
 
+
         -
             name:               "melectronics"
             logo:               "melectronics.png"
             language:           ["fr", "de"]
+            EAN:                true
             searchType:         "urlQuery"
             parseUrl:           "http://www.melectronics.ch/c/fr/?q="
+
             baseUrl:            "http://www.melectronics.ch"
             formID:             null
             inputKey:           null
@@ -125,12 +132,15 @@ app:
                     type:           "absolute"
 
 
+
         -
             name:               "hawk"
             logo:               "hawk.png"
             language:           ["de"]
+            EAN:                false
             searchType:         "urlQuery"
             parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
+
             baseUrl:            "http://www.hawk.ch"
             formID:             null
             inputKey:           null
@@ -153,12 +163,15 @@ app:
                     type:           "absolute"
 
 
+
         -
             name:               "STEG"
             logo:               "steg.png"
             language:           ["fr", "de"]
+            EAN:                true
             searchType:         "urlQuery"
             parseUrl:           "http://www.steg-electronics.ch/fr/article/articleSearch.aspx?TXTSEARCH="
+
             baseUrl:            "http://www.steg-electronics.ch"
             formID:             null
             inputKey:           null
@@ -181,12 +194,15 @@ app:
                     type:           "relative"
 
 
+
         -
             name:               "Mediamarkt"
             logo:               "mediamarkt.png"
             language:           ["fr", "de"]
+            EAN:                true
             searchType:         "urlQuery"
             parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
+
             baseUrl:            "https://shop.mediamarkt.ch"
             formID:             null
             inputKey:           null
