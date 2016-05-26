@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-lg-offset-3">
+            <div class="col-lg-6 col-lg-offset-3">
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
                 {{ form_end(form) }}
@@ -27,6 +27,7 @@
                     <tr>
                         <th class="th-site  ">Site</th>
                         <th>Language</th>
+                        <th>EAN support</th>
                         <th>Results</th>
                     </tr>
                     </thead>
@@ -43,7 +44,8 @@
                                     <img src="{{ asset('bundles/app/images/flags/') ~ language }}.png">
                                 {% endfor %}
                             </td>
-                            <td>{{ site.dataCount }} results</td>
+                            <td>{{ site.ean }}</td>
+                            <td>{{ site.dataCount }} found</td>
                         </tr>
                     {% endfor %}
                     </tbody>

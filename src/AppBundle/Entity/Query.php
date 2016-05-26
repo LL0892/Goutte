@@ -28,6 +28,13 @@ class Query
      */
     private $search;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="ean", type="integer", length=13)
+     */
+    private $ean;
+
 
     /**
      * Get id
@@ -60,5 +67,28 @@ class Query
     public function getSearch()
     {
         return $this->search;
+    }
+
+    /**
+     * Set ean
+     *
+     * @param int $ean
+     * @return Query
+     */
+    public function setEan($ean)
+    {
+        $this->ean = $ean;
+
+        return $this;
+    }
+    
+    /**
+     * Get ean
+     * 
+     * @return int
+     */
+    public function getEan()
+    {
+        return $this->ean;
     }
 }

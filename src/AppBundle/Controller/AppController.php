@@ -41,10 +41,20 @@ class AppController extends Controller
 
         // Search form
         $searchForm = $this->createFormBuilder($query)
+            ->add('ean', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'EAN (si supporté)',
+                ),
+                'required' => false,
+                'empty_data' => null,
+                'label' => false
+            ))
             ->add('search', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Votre recherche',
+                    'placeholder' => 'Article',
                 ),
+                'required' => false,
+                'empty_data' => null,
                 'label' => false
             ))
             ->add('save', SubmitType::class, array('label' => 'Search'))
@@ -54,6 +64,7 @@ class AppController extends Controller
 
         if (isset($postData['form']['search'])) {
             $searchQuery = $postData['form']['search'];
+            dump($searchQuery);
         } else {
             $searchQuery = null;
         }
@@ -104,11 +115,18 @@ class AppController extends Controller
                     }
                     $dataFinal = array_values($data);
 
+                    if ($config['sites'][$i]['EAN'] === true) {
+                        $eanCompatible = 'true';
+                    } else {
+                        $eanCompatible = 'false';
+                    }
+
                     // Add the site data to the result array
                     $result = array(
                         'siteName' => $config['sites'][$i]['name'],
                         'logo' => $config['sites'][$i]['logo'],
                         'language' => $config['sites'][$i]['language'],
+                        'ean' => $eanCompatible,
                         'baseUrl' => $config['sites'][$i]['baseUrl'],
                         'data' => $dataFinal,
                         'dataCount' => count($data)
@@ -220,7 +238,7 @@ class AppController extends Controller
                 'image' => $image,
             );
 
-            $filterCondition = $this->isValidData($searchQuery, $data);
+            $filterCondition = $this->isValidData($searchQuery, $data, $siteConfig['EAN']);
             if ($filterCondition === true) {
                 return $data;
             } else {
@@ -240,7 +258,7 @@ class AppController extends Controller
      *
      * @return bool
      */
-    protected function isValidData($search, $data)
+    protected function isValidData($search, $data, $EANcompatible)
     {
         // Create an array of the search words
         $trimmed = trim($search);
@@ -248,16 +266,22 @@ class AppController extends Controller
         $checkCount = count($searchKeywords);
 
         // Create regular expression
-        $regEx = '/';
-        $i = 0;
-        foreach ($searchKeywords as $word) {
-            $i++;
-            $regEx.= '\b'.$word;
-            if ($i != $checkCount) {
-                $regEx.= '|';
+        if ($EANcompatible && isset($search['ean'])) {
+            $regEx = '/';
+            $regEx.= '\b(?:\d{13})\b';
+            $regEx.= '/';
+        } else {
+            $regEx = '/';
+            $i = 0;
+            foreach ($searchKeywords as $word) {
+                $i++;
+                $regEx.= '\b'.$word;
+                if ($i != $checkCount) {
+                    $regEx.= '|';
+                }
             }
+            $regEx.= '/ i';
         }
-        $regEx.= '/ i';
 
         // Filter data
         $isValid = preg_match_all($regEx, $data['name'], $matches);
