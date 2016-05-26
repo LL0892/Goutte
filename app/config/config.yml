@@ -78,9 +78,9 @@ app:
             logo:               "heinigerag.png"
             language:           ["de"]
             EAN:                true
-            searchType:         "formQuery"
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.shop.heinigerag.ch/de/search?q="
 
-            parseUrl:           "http://shop.heinigerag.ch/de/"
             baseUrl:            "http://shop.heinigerag.ch"
             formID:             "#quicksearch"
             inputKey:           "q"
@@ -220,3 +220,29 @@ app:
             imageNode:
                     value:          "div > div > div.prod-4-1 > a > span > img"
                     type:           "absolute"
+
+#        -
+#            name:               "Fust"
+#            logo:               "fust.png"
+#            language:           ["fr", "de", "it"]
+#            EAN:                true
+#            searchType:         "urlQuery"
+#            parseUrl:           "https://www.fust.ch/fr/home.html?searchtext="
+#
+#            baseUrl:            "https://www.fust.ch"
+#            formID:             null
+#            inputKey:           null
+#            formInputs:         null
+#            mainNode:           "ul.results > li"
+#            titleNode:
+#                    value:          "section.product > div.content-wrapper > div.title-wrapper > h3 > a"
+#                    type:           "innerHTML"
+#            priceNode:
+#                    value:          "section.product > div.order-wrapper > div.endprice"
+#                    type:           "innerHTML"
+#            urlNode:
+#                    value:          "section.product > div.content-wrapper > div.title-wrapper > h3 > a"
+#                    type:           "relative"
+#            imageNode:
+#                    value:          "section.product > figure > a > img.lazy"
+#                    type:           "relative"
