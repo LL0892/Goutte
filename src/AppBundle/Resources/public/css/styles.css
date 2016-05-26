@@ -11,13 +11,24 @@
     margin-top: 30px;
 }
 
-.th-article {
-    width: 50%
+.th-site{
+    max-width: 10%;
+}
+.th-site img {
+    max-width: 100px;
 }
 
-.th-image,
+.th-article-fr,
+.th-article-de {
+    width: 35%
+}
+
 .th-price {
-    width: 25%;
+    width: 10%;
+}
+
+.th-image{
+    width: 10%;
 }
 
 .img-articles {

@@ -108,6 +108,7 @@ class AppController extends Controller
                     $result = array(
                         'siteName' => $config['sites'][$i]['name'],
                         'logo' => $config['sites'][$i]['logo'],
+                        'language' => $config['sites'][$i]['language'],
                         'baseUrl' => $config['sites'][$i]['baseUrl'],
                         'data' => $dataFinal,
                         'dataCount' => count($data)
