@@ -107,6 +107,7 @@ class AppController extends Controller
                     // Add the site data to the result array
                     $result = array(
                         'siteName' => $config['sites'][$i]['name'],
+                        'logo' => $config['sites'][$i]['logo'],
                         'baseUrl' => $config['sites'][$i]['baseUrl'],
                         'data' => $dataFinal,
                         'dataCount' => count($data)
@@ -261,8 +262,6 @@ class AppController extends Controller
 
         // Handle return response
         if ($isValid === $checkCount) {
-            return true;
-        } elseif ($checkCount > 2 && $isValid >= ($checkCount-1)) {
             return true;
         } else {
             return false;

@@ -25,7 +25,7 @@
                 {% for id, result in results %}
                     <h1><a href="{{ result.baseUrl }}">{{ result.siteName }}</a></h1>
                     <h4>{{ result.dataCount }} résultats trouvés</h4>
-
+                    <img src="{{ asset("bundles/app/images/") ~ result.logo }}">
                     {% if result.data is iterable %}
                         <table class="table table-bordered">
                             <thead>
@@ -53,7 +53,6 @@
             </div>
         </div>
     </div>
-
 
 {% endblock %}
 
