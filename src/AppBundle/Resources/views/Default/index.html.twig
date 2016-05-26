@@ -20,12 +20,37 @@
 
         <br>
 
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Site</th>
+                    <th>Language</th>
+                    <th>Results</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for id, site in results %}
+                <tr>
+                    <td>
+                        <a href="{{ site.baseUrl }}">
+                            <img src="{{ asset("bundles/app/images/sites/") ~ site.logo }}">
+                        </a>
+                    </td>
+                    <td>
+                        langues
+                        langues
+                    </td>
+                    <td>{{ site.dataCount }} results</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
                 {% for id, result in results %}
                     <h1><a href="{{ result.baseUrl }}">{{ result.siteName }}</a></h1>
                     <h4>{{ result.dataCount }} résultats trouvés</h4>
-                    <img src="{{ asset("bundles/app/images/") ~ result.logo }}">
                     {% if result.data is iterable %}
                         <table class="table table-bordered">
                             <thead>
@@ -42,7 +67,6 @@
                                     <td>{{ item.price }}</td>
                                     <td><img class="img-articles" src="{{ item.image }}"></td>
                                 </tr>
-
                             {% endfor %}
                             </tbody>
                             <tfoot></tfoot>

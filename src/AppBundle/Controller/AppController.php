@@ -127,6 +127,7 @@ class AppController extends Controller
         // Execute the promises
         $totalResult = $aggregate->wait();
 
+        // Render the results
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
             'form' => $searchForm->createView()
