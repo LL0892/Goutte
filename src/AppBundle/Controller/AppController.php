@@ -64,12 +64,13 @@ class AppController extends Controller
         $postData = $request->request->all();
 
         // Save the query in a variable we can use later
-        if (isset($postData['form']['search'])) {
-            $searchQuery = $postData['form']['search'];
-        }
-        if (isset($postData['form']['ean'])) {
+        if (isset($postData['form']['ean']) && $postData['form']['ean'] !== '') {
             $searchQuery = $postData['form']['ean'];
         }
+        if (isset($postData['form']['search']) && $postData['form']['search'] !== '') {
+            $searchQuery = $postData['form']['search'];
+        }
+
 
         /**
          * Process an url to do a http request using Guzzle library
@@ -116,7 +117,6 @@ class AppController extends Controller
                 foreach ($values as $i => $value) {
                     $resBody = $value->getBody()->getContents();
                     $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i]);
-
                     // Remove filtered results
                     foreach ($data as $key => $row) {
                         if ($row === null) {
