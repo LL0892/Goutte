@@ -30,6 +30,7 @@ class AppController extends Controller
         $guzzleClient = new GuzzleClient();
         $promises = [];
         $totalResult = null;
+        $allSitesInfo = null;
 
 
         // Fetch config parameters
@@ -64,7 +65,7 @@ class AppController extends Controller
 
         if (isset($postData['form']['search'])) {
             $searchQuery = $postData['form']['search'];
-            dump($searchQuery);
+            //dump($searchQuery);
         } else {
             $searchQuery = null;
         }
@@ -121,13 +122,13 @@ class AppController extends Controller
                         $eanCompatible = 'false';
                     }
 
-                    // Add the site data to the result array
+                    // Result array
                     $result = array(
-                        'siteName' => $config['sites'][$i]['name'],
+                        //  'siteName' => $config['sites'][$i]['name'],
                         'logo' => $config['sites'][$i]['logo'],
-                        'language' => $config['sites'][$i]['language'],
-                        'ean' => $eanCompatible,
-                        'baseUrl' => $config['sites'][$i]['baseUrl'],
+                        //'language' => $config['sites'][$i]['language'],
+                        //'ean' => $eanCompatible,
+                        //'baseUrl' => $config['sites'][$i]['baseUrl'],
                         'data' => $dataFinal,
                         'dataCount' => count($data)
                     );
@@ -138,6 +139,7 @@ class AppController extends Controller
             },
             // Rejected promise
             function ($values) use ($totalResult) {
+                // TODO : clean error message
                 var_dump('An error occured :'. $values);
                 return $totalResult = null;
             }
@@ -146,9 +148,25 @@ class AppController extends Controller
         // Execute the promises
         $totalResult = $aggregate->wait();
 
+        // Create an array with all information from the available sites
+        foreach ($config['sites'] as $oneSite) {
+            $eanCompatible = ($oneSite['EAN'] === true) ? 'true' : 'false';
+
+            // Site info array
+            $oneSiteInfo = array(
+                'siteName' => $oneSite['name'],
+                'logo' => $oneSite['logo'],
+                'language' => $oneSite['language'],
+                'ean' => $eanCompatible,
+                'baseUrl' => $oneSite['baseUrl']
+            );
+            $allSitesInfo[] = $oneSiteInfo;
+        }
+
         // Render the results
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
+            'sites' => $allSitesInfo,
             'form' => $searchForm->createView()
         ));
     }

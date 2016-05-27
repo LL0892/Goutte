@@ -28,11 +28,10 @@
                         <th class="th-site">Site</th>
                         <th>Language</th>
                         <th>EAN support</th>
-                        <th>Results</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for id, site in results %}
+                    {% for id, site in sites %}
                         <tr>
                             <td class="th-site">
                                 <a href="{{ site.baseUrl }}">
@@ -45,7 +44,6 @@
                                 {% endfor %}
                             </td>
                             <td>{{ site.ean }}</td>
-                            <td>{{ site.dataCount }} found</td>
                         </tr>
                     {% endfor %}
                     </tbody>
