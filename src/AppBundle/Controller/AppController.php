@@ -25,6 +25,7 @@ class AppController extends Controller
         $guzzleClient = new GuzzleClient();
         $promises = [];
         $searchQuery = null;
+        $useEAN = null;
         $totalResult = null;
         $allSitesInfo = null;
         $error = null;
@@ -66,9 +67,11 @@ class AppController extends Controller
         // Save the query in a variable we can use later
         if (isset($postData['form']['ean']) && $postData['form']['ean'] !== '') {
             $searchQuery = $postData['form']['ean'];
+            $useEAN = true;
         }
         if (isset($postData['form']['search']) && $postData['form']['search'] !== '') {
             $searchQuery = $postData['form']['search'];
+            $useEAN = false;
         }
 
 
@@ -112,11 +115,11 @@ class AppController extends Controller
         // Promise handling and parsing
         $aggregate = Promise\all($promises)->then(
             // Fullfilled promise
-            function ($values) use ($totalResult, $searchQuery, $config) {
+            function ($values) use ($totalResult, $searchQuery, $config, $useEAN) {
 
                 foreach ($values as $i => $value) {
                     $resBody = $value->getBody()->getContents();
-                    $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i]);
+                    $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i], $useEAN);
                     // Remove filtered results
                     foreach ($data as $key => $row) {
                         if ($row === null) {
@@ -202,7 +205,7 @@ class AppController extends Controller
      *
      * @return array
      */
-    protected function parseRequest($resBody, $searchQuery, $siteConfig)
+    protected function parseRequest($resBody, $searchQuery, $siteConfig, $useEAN)
     {
         $parseUrl = $siteConfig['parseUrl'];
         $crawler = new Crawler($resBody, $parseUrl);
@@ -224,7 +227,7 @@ class AppController extends Controller
 
 
 
-        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig) {
+        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig, $useEAN) {
 
             $titleNode = $siteConfig['titleNode']['value'];
             $priceNode = $siteConfig['priceNode']['value'];
@@ -278,7 +281,7 @@ class AppController extends Controller
                 'image' => $image,
             );
 
-            $filterCondition = $this->isValidData($searchQuery, $data, $siteConfig['EAN']);
+            $filterCondition = $this->isValidData($searchQuery, $data, $useEAN);
             if ($filterCondition === true) {
                 return $data;
             } else {
@@ -289,16 +292,17 @@ class AppController extends Controller
         return $data;
     }
 
-
     /**
      * Check if the data returned is valid with the initial search query
+     * EAN queries look for valid search query (13 digits format)
      *
-     * @param $search
-     * @param $data
+     * @param string $search
+     * @param array $data
+     * @param bool $useEAN
      *
      * @return bool
      */
-    protected function isValidData($search, $data, $EANcompatible)
+    protected function isValidData($search, $data, $useEAN)
     {
         // Create an array of the search words
         $trimmed = trim($search);
@@ -306,10 +310,12 @@ class AppController extends Controller
         $checkCount = count($searchKeywords);
 
         // Create regular expression
-        if ($EANcompatible && isset($search['ean'])) {
+        if ($useEAN) {
             $regEx = '/';
             $regEx.= '\b(?:\d{13})\b';
             $regEx.= '/';
+
+            $isValid = preg_match($regEx, $search, $matches);
         } else {
             $regEx = '/';
             $i = 0;
@@ -321,10 +327,11 @@ class AppController extends Controller
                 }
             }
             $regEx.= '/ i';
+
+            // Filter data
+            $isValid = preg_match_all($regEx, $data['name'], $matches);
         }
 
-        // Filter data
-        $isValid = preg_match_all($regEx, $data['name'], $matches);
 
         // Handle return response
         if ($isValid === $checkCount) {
