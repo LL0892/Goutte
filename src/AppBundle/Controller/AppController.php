@@ -24,6 +24,7 @@ class AppController extends Controller
         $query = new Query();
         $guzzleClient = new GuzzleClient();
         $promises = [];
+        $searchQuery = null;
         $totalResult = null;
         $allSitesInfo = null;
         $error = null;
@@ -41,6 +42,7 @@ class AppController extends Controller
             ->add('ean', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'EAN (si supporté)',
+                    'minlength' => 13,
                     'maxlength' => 13
                 ),
                 'required' => false,
@@ -64,12 +66,10 @@ class AppController extends Controller
         // Save the query in a variable we can use later
         if (isset($postData['form']['search'])) {
             $searchQuery = $postData['form']['search'];
-        } elseif (isset($postData['form']['ean'])) {
-            $searchQuery = $postData['form']['ean'];
-        } else {
-            $searchQuery = null;
         }
-
+        if (isset($postData['form']['ean'])) {
+            $searchQuery = $postData['form']['ean'];
+        }
 
         /**
          * Process an url to do a http request using Guzzle library
@@ -81,6 +81,7 @@ class AppController extends Controller
             return Promise\coroutine(
                 function () use ($guzzleClient, $url) {
                     try {
+                        dump($url);
                         $value = (yield $guzzleClient->getAsync($url));
                     } catch (\Exception $e) {
                         yield New RejectedPromise($e->getMessage());
