@@ -2,22 +2,17 @@
 
 namespace AppBundle\Controller;
 
-// Symfony lib
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Query;
+use Goutte\Client;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\RejectedPromise;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
-
-// Goutte lib
-use Goutte\Client;
-
-// Guzzle lib
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Promise;
-use GuzzleHttp\Promise\RejectedPromise;
 
 class AppController extends Controller
 {
