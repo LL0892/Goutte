@@ -20,6 +20,16 @@
 
         <br>
 
+        {% if searchQuery != null %}
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <h4>Votre recherche : {{ searchQuery }}</h4>
+            </div>
+        </div>
+        {% endif %}
+
+        <br>
+
         <div class="row">
             <div class="col-lg-2 col-lg-offset-4">
                 <table class="table table-bordered">
@@ -54,7 +64,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
 
-                {% if error != null  %}
+                {% if error != null %}
                     <div class="alert alert-info col-lg-4 col-lg-offset-2" role="alert">{{ error }}</div>
                 {% endif %}
 
@@ -73,7 +83,8 @@
                             <tbody>
                             {% for key, item in result.data %}
                                 <tr>
-                                    <td class="th-site"><img src="{{ asset('bundles/app/images/sites/') ~ result.logo }}"></td>
+                                    <td class="th-site"><img
+                                                src="{{ asset('bundles/app/images/sites/') ~ result.logo }}"></td>
                                     <th><a href="{{ item.url }}">{{ item.name }}</a></th>
                                     <th>TODO</th>
                                     <td>{{ item.price }}</td>

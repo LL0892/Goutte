@@ -76,7 +76,7 @@ class AppController extends Controller
 
 
         /**
-         * Process an url to do a http request using Guzzle library
+         * do an http request using Guzzle library
          *
          * @param $url
          * @return Promise\Promise
@@ -85,7 +85,6 @@ class AppController extends Controller
             return Promise\coroutine(
                 function () use ($guzzleClient, $url) {
                     try {
-                        dump($url);
                         $value = (yield $guzzleClient->getAsync($url));
                     } catch (\Exception $e) {
                         yield New RejectedPromise($e->getMessage());
@@ -99,18 +98,28 @@ class AppController extends Controller
         if (count($postData) > 0) {
             foreach ($config['sites'] as $site) {
 
-                if ($site['searchType'] === 'urlQuery') {
-                    $queryEncoded = urlencode($searchQuery);
-                    $url = $site['parseUrl'].$queryEncoded;
-                    $promises[] = $processRequest(htmlentities($url));
-                } else {
-                    $promises[] = $processRequest($site['parseUrl']);
+/*                if ($useEAN === true && $site['EAN'] === true) {
+                        if ($site['searchType'] === 'urlQuery') {
+                            $queryEncoded = urlencode($searchQuery);
+                            $url = $site['parseUrl'].$queryEncoded;
+                            $promises[] = $processRequest(htmlentities($url));
+                        } else {
+                            $promises[] = $processRequest($site['parseUrl']);
+                        }
                 }
+
+                if ($useEAN === false) {*/
+                    if ($site['searchType'] === 'urlQuery') {
+                        $queryEncoded = urlencode($searchQuery);
+                        $url = $site['parseUrl'].$queryEncoded;
+                        $promises[] = $processRequest(htmlentities($url));
+                    } else {
+                        $promises[] = $processRequest($site['parseUrl']);
+                    }
+                //}
 
             }
         }
-
-
 
         // Promise handling and parsing
         $aggregate = Promise\all($promises)->then(
@@ -128,11 +137,6 @@ class AppController extends Controller
                     }
                     $dataFinal = array_values($data);
 
-                    if ($config['sites'][$i]['EAN'] === true) {
-                        $eanCompatible = 'true';
-                    } else {
-                        $eanCompatible = 'false';
-                    }
 
                     // Result array
                     $result = array(
@@ -145,8 +149,15 @@ class AppController extends Controller
                         'dataCount' => count($data)
                     );
 
-                    if (count($data) > 0) {
-                        $totalResult[] = $result;
+                    if ($config['sites'][$i]['EAN'] === true && $useEAN === true) {
+                        if (count($data) > 0) {
+                            $totalResult[] = $result;
+                        }
+                    }
+                    if($useEAN === false) {
+                        if (count($data) > 0) {
+                            $totalResult[] = $result;
+                        }
                     }
                 }
 
@@ -189,6 +200,7 @@ class AppController extends Controller
 
         // Render the results
         return $this->render('AppBundle:Default:index.html.twig', array(
+            'searchQuery' => $searchQuery,
             'results' => $totalResult,
             'sites' => $allSitesInfo,
             'form' => $searchForm->createView(),

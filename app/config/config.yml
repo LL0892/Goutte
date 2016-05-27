@@ -77,7 +77,7 @@ app:
             name:               "heinigerag"
             logo:               "heinigerag.png"
             language:           ["de"]
-            EAN:                true
+            EAN:                false
             searchType:         "urlQuery"
             parseUrl:           "http://www.shop.heinigerag.ch/de/search?q="
 
@@ -137,7 +137,7 @@ app:
             name:               "hawk"
             logo:               "hawk.png"
             language:           ["de"]
-            EAN:                false
+            EAN:                true
             searchType:         "urlQuery"
             parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
 
@@ -168,7 +168,7 @@ app:
             name:               "STEG"
             logo:               "steg.png"
             language:           ["fr", "de", "it"]
-            EAN:                true
+            EAN:                false
             searchType:         "urlQuery"
             parseUrl:           "http://www.steg-electronics.ch/fr/article/articleSearch.aspx?TXTSEARCH="
 
