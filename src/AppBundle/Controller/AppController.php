@@ -63,8 +63,10 @@ class AppController extends Controller
             ->add('save', SubmitType::class, array('label' => 'Search'))
             ->getForm();
 
+        // Fetch the data from the search form
         $postData = $request->request->all();
 
+        // Save the query in a variable we can use later
         if (isset($postData['form']['search'])) {
             $searchQuery = $postData['form']['search'];
         } elseif (isset($postData['form']['ean'])) {
@@ -74,7 +76,12 @@ class AppController extends Controller
         }
 
 
-        // Do the http requests using guzzle library
+        /**
+         * Process an url to do a http request using Guzzle library
+         *
+         * @param $url
+         * @return Promise\Promise
+         */
         $processRequest = function ($url) use ($guzzleClient) {
             return Promise\coroutine(
                 function () use ($guzzleClient, $url) {
@@ -102,6 +109,7 @@ class AppController extends Controller
 
             }
         }
+
 
 
         // Promise handling and parsing
@@ -156,6 +164,8 @@ class AppController extends Controller
         // Execute the promises
         $totalResult = $aggregate->wait();
 
+
+
         // Create an array with all information from the available sites
         foreach ($config['sites'] as $oneSite) {
             $eanCompatible = ($oneSite['EAN'] === true) ? 'true' : 'false';
@@ -170,6 +180,8 @@ class AppController extends Controller
             );
             $allSitesInfo[] = $oneSiteInfo;
         }
+
+
 
         // Feedback if no result found
         if (isset($searchQuery) && $totalResult === null) {
