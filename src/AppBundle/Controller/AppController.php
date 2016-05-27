@@ -31,6 +31,7 @@ class AppController extends Controller
         $promises = [];
         $totalResult = null;
         $allSitesInfo = null;
+        $error = null;
 
 
         // Fetch config parameters
@@ -45,6 +46,7 @@ class AppController extends Controller
             ->add('ean', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'EAN (si supporté)',
+                    'maxlength' => 13
                 ),
                 'required' => false,
                 'empty_data' => null,
@@ -65,12 +67,14 @@ class AppController extends Controller
 
         if (isset($postData['form']['search'])) {
             $searchQuery = $postData['form']['search'];
-            //dump($searchQuery);
+        } elseif (isset($postData['form']['ean'])) {
+            $searchQuery = $postData['form']['ean'];
         } else {
             $searchQuery = null;
         }
 
 
+        // Do the http requests using guzzle library
         $processRequest = function ($url) use ($guzzleClient) {
             return Promise\coroutine(
                 function () use ($guzzleClient, $url) {
@@ -87,14 +91,15 @@ class AppController extends Controller
         // Create an array of promises to execute later
         if (count($postData) > 0) {
             foreach ($config['sites'] as $site) {
+
                 if ($site['searchType'] === 'urlQuery') {
                     $queryEncoded = urlencode($searchQuery);
                     $url = $site['parseUrl'].$queryEncoded;
-
                     $promises[] = $processRequest(htmlentities($url));
                 } else {
                     $promises[] = $processRequest($site['parseUrl']);
                 }
+
             }
         }
 
@@ -132,7 +137,10 @@ class AppController extends Controller
                         'data' => $dataFinal,
                         'dataCount' => count($data)
                     );
-                    $totalResult[] = $result;
+
+                    if (count($data) > 0) {
+                        $totalResult[] = $result;
+                    }
                 }
 
                 return $totalResult;
@@ -163,11 +171,17 @@ class AppController extends Controller
             $allSitesInfo[] = $oneSiteInfo;
         }
 
+        // Feedback if no result found
+        if (isset($searchQuery) && $totalResult === null) {
+            $error = 'Pas de résultats trouvés.';
+        }
+
         // Render the results
         return $this->render('AppBundle:Default:index.html.twig', array(
             'results' => $totalResult,
             'sites' => $allSitesInfo,
-            'form' => $searchForm->createView()
+            'form' => $searchForm->createView(),
+            'error' => $error
         ));
     }
 
