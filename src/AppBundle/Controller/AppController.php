@@ -129,7 +129,6 @@ class AppController extends Controller
                 foreach ($values as $i => $value) {
                     // Get body response
                     $resBody = $value->getBody()->getContents();
-                    echo $resBody; exit;
 
                     // Parse the content of the page
                     $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i], $useEAN);
