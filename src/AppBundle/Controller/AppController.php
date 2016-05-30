@@ -98,8 +98,10 @@ class AppController extends Controller
 
 
         // Create an array of promises to execute later
-        if (count($postData) > 0) {
-            foreach ($config['sites'] as $site) {
+        if (count($postData) > 0)
+        {
+            foreach ($config['sites'] as $site)
+            {
 
                 if ($useEAN === false)
                 {
@@ -137,18 +139,20 @@ class AppController extends Controller
         // Promise handling and parsing
         $aggregate = Promise\all($promises)->then(
             // Fullfilled promise
-            function ($values) use ($totalResult, $searchQuery, $config, $useEAN) {
+            function ($values) use ($totalResult, $searchQuery, $config, $useEAN)
+            {
 
-                foreach ($values as $i => $value) {
+                foreach ($values as $i => $value)
+                {
                     // Get body response
                     $resBody = $value->getBody()->getContents();
 
                     // Parse the content of the page
                     $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i], $useEAN);
 
-
                     // Remove filtered results
-                    foreach ($data as $key => $row) {
+                    foreach ($data as $key => $row)
+                    {
                         if ($row === null)
                         {
                             unset($data[$key]);
@@ -187,7 +191,8 @@ class AppController extends Controller
                 return $totalResult;
             },
             // Rejected promise
-            function ($values) use ($totalResult) {
+            function ($values) use ($totalResult)
+            {
                 // TODO : clean error message
                 var_dump('An error occured :'. $values);
                 return $totalResult = null;
@@ -200,7 +205,8 @@ class AppController extends Controller
 
 
         // Create an array with all information from the available sites
-        foreach ($config['sites'] as $oneSite) {
+        foreach ($config['sites'] as $oneSite)
+        {
             $eanCompatible = ($oneSite['EAN'] === true) ? 'true' : 'false';
 
             // Site info array
@@ -266,8 +272,8 @@ class AppController extends Controller
 
 
 
-        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig, $useEAN) {
-
+        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig, $useEAN)
+        {
             $titleNode = $siteConfig['titleNode']['value'];
             $priceNode = $siteConfig['priceNode']['value'];
             $urlNode = $siteConfig['urlNode']['value'];
@@ -295,7 +301,8 @@ class AppController extends Controller
 
             // url handling
             $urlFetched = $node->filter($urlNode)->attr('href');
-            switch ($siteConfig['urlNode']['type']) {
+            switch ($siteConfig['urlNode']['type'])
+            {
                 case 'relative':
                     $url = $siteConfig['baseUrl'] . trim($urlFetched);
                     break;
@@ -308,7 +315,8 @@ class AppController extends Controller
 
             // image handling
             $imageFetched = $node->filter($imageNode)->attr('src');
-            switch ($siteConfig['imageNode']['type']) {
+            switch ($siteConfig['imageNode']['type'])
+            {
                 case 'relative':
                     $image = $siteConfig['baseUrl'] . trim($imageFetched);
                     break;
@@ -376,7 +384,8 @@ class AppController extends Controller
             $hist = array();
 
             // count how many each words are present in the article name (for debug)
-            foreach (preg_split('/\s+/', $str) as $word) {
+            foreach (preg_split('/\s+/', $str) as $word)
+            {
                 $word = strtolower(utf8_decode($word));
 
                 if (isset($hist[$word]))
@@ -394,7 +403,8 @@ class AppController extends Controller
 
             // Create a string with a single one of each present words
             $strEachWord = '';
-            foreach ($keys as $word) {
+            foreach ($keys as $word)
+            {
                 $strEachWord.= $word;
                 $strEachWord.= ' ';
             }
@@ -402,7 +412,8 @@ class AppController extends Controller
             // Regular expression
             $regEx = '/';
             $i = 0;
-            foreach ($searchKeywords as $word) {
+            foreach ($searchKeywords as $word)
+            {
                 $i++;
                 $regEx.= '\b'.$word;
                 if ($i != $checkCount) {
