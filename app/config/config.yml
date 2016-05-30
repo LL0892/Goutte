@@ -221,31 +221,31 @@ app:
                     value:          "div > div > div.prod-4-1 > a > span > img"
                     type:           "absolute"
 
-        -
-            name:               "Galaxus"
-            logo:               "galaxus.svg"
-            language:           ["fr", "de", "it"]
-            EAN:                false
-            searchType:         "urlQuery"
-            parseUrl:           "https://www.galaxus.ch/fr/Search?searchSectors=0&q="
-
-            baseUrl:            "https://www.galaxus.ch"
-            formID:             null
-            inputKey:           null
-            formInputs:         null
-            mainNode:           "article.product"
-            titleNode:
-                    value:          "div.product-name"
-                    type:           "innerHTML"
-            priceNode:
-                    value:          "div.product-price"
-                    type:           "innerHTML"
-            urlNode:
-                    value:          "div.product-buttons > a.product-overlay"
-                    type:           "relative"
-            imageNode:
-                    value:          "div.product-image > div > img"
-                    type:           "absolute"
+#        -
+#            name:               "Galaxus"
+#            logo:               "galaxus.svg"
+#            language:           ["fr", "de", "it"]
+#            EAN:                false
+#            searchType:         "urlQuery"
+#            parseUrl:           "https://www.galaxus.ch/fr/Search?searchSectors=0&q="
+#
+#            baseUrl:            "https://www.galaxus.ch"
+#            formID:             null
+#            inputKey:           null
+#            formInputs:         null
+#            mainNode:           "article.product"
+#            titleNode:
+#                    value:          "div.product-name"
+#                    type:           "innerHTML"
+#            priceNode:
+#                    value:          "div.product-price"
+#                    type:           "innerHTML"
+#            urlNode:
+#                    value:          "div.product-buttons > a.product-overlay"
+#                    type:           "relative"
+#            imageNode:
+#                    value:          "div.product-image > div > img"
+#                    type:           "absolute"
 
 #        -
 #            name:               "Fust"

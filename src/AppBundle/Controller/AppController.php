@@ -85,7 +85,7 @@ class AppController extends Controller
             return Promise\coroutine(
                 function () use ($guzzleClient, $url) {
                     try {
-                        $value = (yield $guzzleClient->getAsync($url));
+                        yield $guzzleClient->getAsync($url);
                     } catch (\Exception $e) {
                         yield New RejectedPromise($e->getMessage());
                     }
@@ -102,7 +102,7 @@ class AppController extends Controller
                         if ($site['searchType'] === 'urlQuery') {
                             $queryEncoded = urlencode($searchQuery);
                             $url = $site['parseUrl'].$queryEncoded;
-                            $promises[] = $processRequest(htmlentities($url));
+                            $promises[] = $processRequest($url);
                         } else {
                             $promises[] = $processRequest($site['parseUrl']);
                         }
