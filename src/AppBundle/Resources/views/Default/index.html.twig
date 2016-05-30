@@ -45,7 +45,7 @@
                         <tr>
                             <td class="th-site">
                                 <a href="{{ site.baseUrl }}">
-                                    <img src="{{ asset('bundles/app/images/sites/') ~ site.logo }}">
+                                    <img src="{{ asset('bundles/app/images/sites/') ~ site.logo }}" class="center-block">
                                 </a>
                             </td>
                             <td>
@@ -83,8 +83,9 @@
                             <tbody>
                             {% for key, item in result.data %}
                                 <tr>
-                                    <td class="th-site"><img
-                                                src="{{ asset('bundles/app/images/sites/') ~ result.logo }}"></td>
+                                    <td class="th-site">
+                                        <img src="{{ asset('bundles/app/images/sites/') ~ result.logo }}" class="center-block">
+                                    </td>
                                     <th><a href="{{ item.url }}">{{ item.name }}</a></th>
                                     <th>TODO</th>
                                     <td>{{ item.price }}</td>
@@ -95,7 +96,6 @@
                             <tfoot></tfoot>
                         </table>
                     {% endif %}
-                    <br>
                 {% endfor %}
             </div>
         </div>
