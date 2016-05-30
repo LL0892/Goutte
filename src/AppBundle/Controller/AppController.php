@@ -321,14 +321,17 @@ class AppController extends Controller
         $searchKeywords = explode(' ', $trimmed);
         $checkCount = count($searchKeywords);
 
-        // Create regular expression
+        
         if ($useEAN) {
+
             // Regular expression
             $regEx = '/';
             $regEx.= '\b(?:\d{13})\b';
             $regEx.= '/';
 
+            // Filter data
             $isValid = preg_match($regEx, $search, $matches);
+
         } else {
 
             $str = $data['name'];
@@ -369,6 +372,7 @@ class AppController extends Controller
 
             // Filter data
             $isValid = preg_match_all($regEx, $strEachWord, $matches);
+
         }
 
 
@@ -378,6 +382,7 @@ class AppController extends Controller
         } else {
             return false;
         }
+
     }
 
 }
