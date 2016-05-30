@@ -112,7 +112,7 @@ class AppController extends Controller
                     if ($site['searchType'] === 'urlQuery') {
                         $queryEncoded = urlencode($searchQuery);
                         $url = $site['parseUrl'].$queryEncoded;
-                        $promises[] = $processRequest(htmlentities($url));
+                        $promises[] = $processRequest($url);
                     } else {
                         $promises[] = $processRequest($site['parseUrl']);
                     }
