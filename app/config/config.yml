@@ -224,30 +224,58 @@ app:
 
 
         -
-            name:               "Microspot"
-            logo:               "microspot.png"
-            language:           ["fr", "de"]
+            name:               "TopD"
+            logo:               "topd.png"
+            language:           ["fr", "de", "it"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           "http://www.microspot.ch/msp/pages/searchResult.jsf?searchTerm="
+            parseUrl:           "https://www.topd.ch/fr/search/?query="
 
-            baseUrl:            "http://www.microspot.ch"
+            baseUrl:            "https://www.topd.ch"
             formID:             null
             inputKey:           null
             formInputs:         null
-            mainNode:           "table.biglist > tbody > tr"
+            mainNode:           "article"
             titleNode:
-                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a > span"
+                    value:          "div.row > div.column:nth-child(2) > a"
                     type:           "innerHTML"
             priceNode:
-                    value:          "td.productList_priceInfoColumn > div.priceContent > span.productList_price"
+                    value:          "div.row > div.:nth-child(5) > span.price"
                     type:           "innerHTML"
             urlNode:
-                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a"
-                    type:           "relative"
+                    value:          "div.row > div.column:nth-child(2) > a"
+                    type:           "absolute"
             imageNode:
-                    value:          "td.productList_pictureColumn > a > img"
+                    value:          "div.row > div.column:first-child > a > img"
                     type:           "relative"
+
+
+
+#        -
+#            name:               "Microspot"
+#            logo:               "microspot.png"
+#            language:           ["fr", "de"]
+#            EAN:                false
+#            searchType:         "urlQuery"
+#            parseUrl:           "http://www.microspot.ch/msp/pages/searchResult.jsf?searchTerm="
+#
+#            baseUrl:            "http://www.microspot.ch"
+#            formID:             null
+#            inputKey:           null
+#            formInputs:         null
+#            mainNode:           "table.biglist > tbody > tr"
+#            titleNode:
+#                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a > span"
+#                    type:           "innerHTML"
+#            priceNode:
+#                    value:          "td.productList_priceInfoColumn > div.priceContent > span.productList_price"
+#                    type:           "innerHTML"
+#            urlNode:
+#                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a"
+#                    type:           "relative"
+#            imageNode:
+#                    value:          "td.productList_pictureColumn > a > img"
+#                    type:           "relative"
 
 
 
