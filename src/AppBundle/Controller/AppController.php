@@ -33,7 +33,8 @@ class AppController extends Controller
 
         // Fetch config parameters
         $config = $this->getParameter('app.config');
-        if (!isset($config['sites'])) {
+        if (!isset($config['sites']))
+        {
             return $this->render('AppBundle:Default:error.html.twig');
         }
 
@@ -65,11 +66,13 @@ class AppController extends Controller
         $postData = $request->request->all();
 
         // Save the query in a variable we can use later
-        if (isset($postData['form']['ean']) && $postData['form']['ean'] !== '') {
+        if (isset($postData['form']['ean']) && $postData['form']['ean'] !== '')
+        {
             $searchQuery = $postData['form']['ean'];
             $useEAN = true;
         }
-        if (isset($postData['form']['search']) && $postData['form']['search'] !== '') {
+        if (isset($postData['form']['search']) && $postData['form']['search'] !== '')
+        {
             $searchQuery = $postData['form']['search'];
             $useEAN = false;
         }
@@ -252,6 +255,7 @@ class AppController extends Controller
             $formArray = array(
                 $siteConfig['inputKey'] => $searchQuery
             );
+
             if (count($siteConfig['formInputs']) > 0)
             {
                 $formArray = array_merge($formArray, $siteConfig['formInputs']);
@@ -375,9 +379,12 @@ class AppController extends Controller
             foreach (preg_split('/\s+/', $str) as $word) {
                 $word = strtolower(utf8_decode($word));
 
-                if (isset($hist[$word])) {
+                if (isset($hist[$word]))
+                {
                     $hist[$word]++;
-                } else {
+                }
+                else
+                {
                     $hist[$word] = 1;
                 }
             }
