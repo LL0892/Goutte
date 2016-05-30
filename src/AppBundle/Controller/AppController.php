@@ -98,25 +98,35 @@ class AppController extends Controller
         if (count($postData) > 0) {
             foreach ($config['sites'] as $site) {
 
-/*                if ($useEAN === true && $site['EAN'] === true) {
-                        if ($site['searchType'] === 'urlQuery') {
-                            $queryEncoded = urlencode($searchQuery);
-                            $url = $site['parseUrl'].$queryEncoded;
-                            $promises[] = $processRequest($url);
-                        } else {
-                            $promises[] = $processRequest($site['parseUrl']);
-                        }
-                }
-
-                if ($useEAN === false) {*/
-                    if ($site['searchType'] === 'urlQuery') {
+                if ($useEAN === false)
+                {
+                    if ($site['searchType'] === 'urlQuery')
+                    {
                         $queryEncoded = urlencode($searchQuery);
                         $url = $site['parseUrl'].$queryEncoded;
                         $promises[] = $processRequest($url);
-                    } else {
+                    }
+                    else
+                    {
                         $promises[] = $processRequest($site['parseUrl']);
                     }
-                //}
+                }
+                else
+                {
+                    if ($site['EAN'] === true)
+                    {
+                        if ($site['searchType'] === 'urlQuery')
+                        {
+                            $queryEncoded = urlencode($searchQuery);
+                            $url = $site['parseUrl'].$queryEncoded;
+                            $promises[] = $processRequest($url);
+                        }
+                        else
+                        {
+                            $promises[] = $processRequest($site['parseUrl']);
+                        }
+                    }
+                }
 
             }
         }
@@ -133,9 +143,11 @@ class AppController extends Controller
                     // Parse the content of the page
                     $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i], $useEAN);
 
+
                     // Remove filtered results
                     foreach ($data as $key => $row) {
-                        if ($row === null) {
+                        if ($row === null)
+                        {
                             unset($data[$key]);
                         }
                     }
@@ -153,13 +165,17 @@ class AppController extends Controller
                         'dataCount' => count($data)
                     );
 
-                    if ($config['sites'][$i]['EAN'] === true && $useEAN === true) {
-                        if (count($data) > 0) {
+                    if ($config['sites'][$i]['EAN'] === true && $useEAN === true)
+                    {
+                        if (count($data) > 0)
+                        {
                             $totalResult[] = $result;
                         }
                     }
-                    if($useEAN === false) {
-                        if (count($data) > 0) {
+                    if($useEAN === false)
+                    {
+                        if (count($data) > 0)
+                        {
                             $totalResult[] = $result;
                         }
                     }
@@ -198,7 +214,8 @@ class AppController extends Controller
 
 
         // Feedback if no result found
-        if (isset($searchQuery) && $totalResult === null) {
+        if (isset($searchQuery) && $totalResult === null)
+        {
             $error = 'Pas de résultats trouvés.';
         }
 
@@ -227,14 +244,16 @@ class AppController extends Controller
         $crawler = new Crawler($resBody, $parseUrl);
         $client = new Client();
 
-        if ($siteConfig['searchType'] === 'formQuery') {
+        if ($siteConfig['searchType'] === 'formQuery')
+        {
             $form = $crawler->filter($siteConfig['formID'])->first()->form();
 
             // Create the form inputs array
             $formArray = array(
                 $siteConfig['inputKey'] => $searchQuery
             );
-            if (count($siteConfig['formInputs']) > 0) {
+            if (count($siteConfig['formInputs']) > 0)
+            {
                 $formArray = array_merge($formArray, $siteConfig['formInputs']);
             }
 
@@ -251,16 +270,22 @@ class AppController extends Controller
             $imageNode = $siteConfig['imageNode']['value'];
 
             // title handling
-            if ($siteConfig['titleNode']['type'] === "innerHTML") {
+            if ($siteConfig['titleNode']['type'] === "innerHTML")
+            {
                 $name = $node->filter($titleNode)->text();
-            } else {
+            }
+            else
+            {
                 $name = $node->filter($titleNode)->attr($siteConfig['titleNode']['type']);
             }
 
             // price handling
-            if ($siteConfig['priceNode']['type'] === 'innerHTML') {
+            if ($siteConfig['priceNode']['type'] === 'innerHTML')
+            {
                 $price = $node->filter($priceNode)->text();
-            } else {
+            }
+            else
+            {
                 $price = $node->filter($titleNode)->attr($siteConfig['priceNode']['type']);
             }
 
@@ -298,11 +323,16 @@ class AppController extends Controller
             );
 
             $filterCondition = $this->isValidData($searchQuery, $data, $useEAN);
-            if ($filterCondition === true) {
+
+            if ($filterCondition === true)
+            {
                 return $data;
-            } else {
+            }
+            else
+            {
                 return null;
             }
+
         });
 
         return $data;
@@ -326,8 +356,8 @@ class AppController extends Controller
         $checkCount = count($searchKeywords);
 
 
-        if ($useEAN) {
-
+        if ($useEAN)
+        {
             // Regular expression
             $regEx = '/';
             $regEx.= '\b(?:\d{13})\b';
@@ -335,9 +365,9 @@ class AppController extends Controller
 
             // Filter data
             $isValid = preg_match($regEx, $search, $matches);
-
-        } else {
-
+        }
+        else
+        {
             $str = $data['name'];
             $hist = array();
 
@@ -376,17 +406,17 @@ class AppController extends Controller
 
             // Filter data
             $isValid = preg_match_all($regEx, $strEachWord, $matches);
-
         }
-
 
         // Handle return response
-        if ($isValid >= $checkCount) {
+        if ($isValid >= $checkCount)
+        {
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
-
     }
 
 }
