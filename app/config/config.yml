@@ -221,6 +221,36 @@ app:
                     value:          "div > div > div.prod-4-1 > a > span > img"
                     type:           "absolute"
 
+
+
+        -
+            name:               "Microspot"
+            logo:               "microspot.png"
+            language:           ["fr", "de"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.microspot.ch/msp/pages/searchResult.jsf?searchTerm="
+
+            baseUrl:            "http://www.microspot.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "table.biglist > tbody > tr"
+            titleNode:
+                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a > span"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "td.productList_priceInfoColumn > div.priceContent > span.productList_price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a"
+                    type:           "relative"
+            imageNode:
+                    value:          "td.productList_pictureColumn > a > img"
+                    type:           "relative"
+
+
+
 #        -
 #            name:               "Galaxus"
 #            logo:               "galaxus.svg"
@@ -246,6 +276,8 @@ app:
 #            imageNode:
 #                    value:          "div.product-image > div > img"
 #                    type:           "absolute"
+
+
 
 #        -
 #            name:               "Fust"
