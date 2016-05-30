@@ -246,7 +246,7 @@ app:
                     value:          "div.row > div.column:nth-child(2) > a"
                     type:           "absolute"
             imageNode:
-                    value:          "div.row > div.column:first-child > a > img"
+                    value:          "div.row > div.column > a"
                     type:           "relative"
 
 
