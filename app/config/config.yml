@@ -240,7 +240,7 @@ app:
                     value:          "div.row > div.column:nth-child(2) > a"
                     type:           "innerHTML"
             priceNode:
-                    value:          "div.row > div.:nth-child(5) > span.price"
+                    value:          "div.row > div.column:nth-child(5) > span.price"
                     type:           "innerHTML"
             urlNode:
                     value:          "div.row > div.column:nth-child(2) > a"
