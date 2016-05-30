@@ -254,6 +254,34 @@ app:
 
 
 
+        -
+            name:               "Techmania"
+            logo:               "techmania.png"
+            language:           ["de"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "https://techmania.ch/jProductList.aspx?suche="
+
+            baseUrl:            "https://techmania.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "ul.product-list > li.item"
+            titleNode:
+                    value:          "a.product-name"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "div.prod-price-block > div.price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "a.product-name"
+                    type:           "absolute"
+            imageNode:
+                    value:          "noindex > div.image > a > img.prod-preview"
+                    type:           "absolute"
+
+
+
 #        -
 #            name:               "Fust"
 #            logo:               "fust.png"
