@@ -82,10 +82,13 @@ app:
             parseUrl:           "http://www.shop.heinigerag.ch/de/search?q="
 
             baseUrl:            "http://shop.heinigerag.ch"
-            formID:             "#quicksearch"
-            inputKey:           "q"
-            formInputs:
-                    sort:           "relevance|desc"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+#            formID:             "#quicksearch"
+#            inputKey:           "q"
+#            formInputs:
+#                    sort:           "relevance|desc"
             mainNode:           "div.item.media"
             titleNode:
                     value:          "h4.media-heading > a"

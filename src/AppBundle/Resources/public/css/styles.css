@@ -19,6 +19,7 @@
 }
 .th-site img {
     max-width: 100px;
+    max-height: 40px;
 }
 
 .th-article-fr,

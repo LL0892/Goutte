@@ -323,12 +323,39 @@ class AppController extends Controller
 
         // Create regular expression
         if ($useEAN) {
+            // Regular expression
             $regEx = '/';
             $regEx.= '\b(?:\d{13})\b';
             $regEx.= '/';
 
             $isValid = preg_match($regEx, $search, $matches);
         } else {
+
+            $str = $data['name'];
+            $hist = array();
+
+            // count how many each words are present in the article name (for debug)
+            foreach (preg_split('/\s+/', $str) as $word) {
+                $word = strtolower(utf8_decode($word));
+
+                if (isset($hist[$word])) {
+                    $hist[$word]++;
+                } else {
+                    $hist[$word] = 1;
+                }
+            }
+
+            // Create a list of the present words
+            $keys = array_keys($hist);
+
+            // Create a string with a single one of each present words
+            $strEachWord = '';
+            foreach ($keys as $word) {
+                $strEachWord.= $word;
+                $strEachWord.= ' ';
+            }
+
+            // Regular expression
             $regEx = '/';
             $i = 0;
             foreach ($searchKeywords as $word) {
@@ -341,12 +368,12 @@ class AppController extends Controller
             $regEx.= '/ i';
 
             // Filter data
-            $isValid = preg_match_all($regEx, $data['name'], $matches);
+            $isValid = preg_match_all($regEx, $strEachWord, $matches);
         }
 
 
         // Handle return response
-        if ($isValid === $checkCount) {
+        if ($isValid >= $checkCount) {
             return true;
         } else {
             return false;
