@@ -127,8 +127,13 @@ class AppController extends Controller
             function ($values) use ($totalResult, $searchQuery, $config, $useEAN) {
 
                 foreach ($values as $i => $value) {
+                    // Get body response
                     $resBody = $value->getBody()->getContents();
+                    echo $resBody; exit;
+
+                    // Parse the content of the page
                     $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i], $useEAN);
+
                     // Remove filtered results
                     foreach ($data as $key => $row) {
                         if ($row === null) {
@@ -321,7 +326,7 @@ class AppController extends Controller
         $searchKeywords = explode(' ', $trimmed);
         $checkCount = count($searchKeywords);
 
-        
+
         if ($useEAN) {
 
             // Regular expression
