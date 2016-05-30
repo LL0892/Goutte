@@ -74,34 +74,30 @@ app:
     debug:     false
     sites:
         -
-            name:               "heinigerag"
-            logo:               "heinigerag.png"
-            language:           ["de"]
-            EAN:                false
+            name:               "Mediamarkt"
+            logo:               "mediamarkt.png"
+            language:           ["fr", "de", "it"]
+            EAN:                true
             searchType:         "urlQuery"
-            parseUrl:           "http://www.shop.heinigerag.ch/de/search?q="
+            parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
 
-            baseUrl:            "http://shop.heinigerag.ch"
+            baseUrl:            "https://shop.mediamarkt.ch"
             formID:             null
             inputKey:           null
             formInputs:         null
-#            formID:             "#quicksearch"
-#            inputKey:           "q"
-#            formInputs:
-#                    sort:           "relevance|desc"
-            mainNode:           "div.item.media"
+            mainNode:           "div#div_searchResults > div.prod-4"
             titleNode:
-                    value:          "h4.media-heading > a"
+                    value:          "div > div > div.prod-4-4 > div.div-40 > a > h2"
                     type:           "innerHTML"
             priceNode:
-                    value:          "span.price"
+                    value:          "div > div > div.prod-4-3 > div.price-4 > span"
                     type:           "innerHTML"
             urlNode:
-                    value:          "h4.media-heading > a"
+                    value:          "div > div > div.prod-4-4 > div.div-40 > a"
                     type:           "relative"
             imageNode:
-                    value:          "div.media-left > a > img"
-                    type:           "relative"
+                    value:          "div > div > div.prod-4-1 > a > span > img"
+                    type:           "absolute"
 
 
 
@@ -132,37 +128,6 @@ app:
                     type:           "relative"
             imageNode:
                     value:          "span.product > img"
-                    type:           "absolute"
-
-
-
-        -
-            name:               "hawk"
-            logo:               "hawk.png"
-            language:           ["de"]
-            EAN:                true
-            searchType:         "urlQuery"
-            parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
-
-            baseUrl:            "http://www.hawk.ch"
-            formID:             null
-            inputKey:           null
-            formInputs:         null
-            #formID:             "#search_mini_form"
-            #inputKey:           "q"
-            #formInputs:         null
-            mainNode:           "ul.products-grid > li.item"
-            titleNode:
-                    value:          "h2.product-name a"
-                    type:           "title"
-            priceNode:
-                    value:          "span.price"
-                    type:           "innerHTML"
-            urlNode:
-                    value:          "h2.product-name > a"
-                    type:           "absolute"
-            imageNode:
-                    value:          "a.product-image > img"
                     type:           "absolute"
 
 
@@ -199,34 +164,6 @@ app:
 
 
         -
-            name:               "Mediamarkt"
-            logo:               "mediamarkt.png"
-            language:           ["fr", "de", "it"]
-            EAN:                true
-            searchType:         "urlQuery"
-            parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
-
-            baseUrl:            "https://shop.mediamarkt.ch"
-            formID:             null
-            inputKey:           null
-            formInputs:         null
-            mainNode:           "div#div_searchResults > div.prod-4"
-            titleNode:
-                    value:          "div > div > div.prod-4-4 > div.div-40 > a > h2"
-                    type:           "innerHTML"
-            priceNode:
-                    value:          "div > div > div.prod-4-3 > div.price-4 > span"
-                    type:           "innerHTML"
-            urlNode:
-                    value:          "div > div > div.prod-4-4 > div.div-40 > a"
-                    type:           "relative"
-            imageNode:
-                    value:          "div > div > div.prod-4-1 > a > span > img"
-                    type:           "absolute"
-
-
-
-        -
             name:               "TopD"
             logo:               "topd.png"
             language:           ["fr", "de", "it"]
@@ -255,6 +192,69 @@ app:
 
 
         -
+            name:               "heinigerag"
+            logo:               "heinigerag.png"
+            language:           ["de"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.shop.heinigerag.ch/de/search?q="
+
+            baseUrl:            "http://shop.heinigerag.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+#            formID:             "#quicksearch"
+#            inputKey:           "q"
+#            formInputs:
+#                    sort:           "relevance|desc"
+            mainNode:           "div.item.media"
+            titleNode:
+                    value:          "h4.media-heading > a"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "span.price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "h4.media-heading > a"
+                    type:           "relative"
+            imageNode:
+                    value:          "div.media-left > a > img"
+                    type:           "relative"
+
+
+
+        -
+            name:               "hawk"
+            logo:               "hawk.png"
+            language:           ["de"]
+            EAN:                true
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
+
+            baseUrl:            "http://www.hawk.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            #formID:             "#search_mini_form"
+            #inputKey:           "q"
+            #formInputs:         null
+            mainNode:           "ul.products-grid > li.item"
+            titleNode:
+                    value:          "h2.product-name a"
+                    type:           "title"
+            priceNode:
+                    value:          "span.price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "h2.product-name > a"
+                    type:           "absolute"
+            imageNode:
+                    value:          "a.product-image > img"
+                    type:           "absolute"
+
+
+
+        -
             name:               "Techmania"
             logo:               "techmania.png"
             language:           ["de"]
@@ -278,7 +278,7 @@ app:
                     type:           "absolute"
             imageNode:
                     value:          "noindex > div.image > a > img.prod-preview"
-                    type:           "absolute"
+                    type:           "relative"
 
 
 
