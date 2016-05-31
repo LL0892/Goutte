@@ -145,10 +145,10 @@ class AppController extends Controller
                 foreach ($values as $i => $value)
                 {
                     // Get body response
-                    $resBody = $value->getBody()->getContents();
+                    $htmlResult = $value->getBody()->getContents();
 
                     // Parse the content of the page
-                    $data = $this->parseRequest($resBody, $searchQuery, $config['sites'][$i], $useEAN);
+                    $data = $this->parseHtml($htmlResult, $searchQuery, $config['sites'][$i], $useEAN);
 
                     // Remove filtered results
                     foreach ($data as $key => $row)
@@ -247,10 +247,10 @@ class AppController extends Controller
      *
      * @return array
      */
-    protected function parseRequest($resBody, $searchQuery, $siteConfig, $useEAN)
+    protected function parseHtml($htmlResult, $searchQuery, $siteConfig, $useEAN)
     {
         $parseUrl = $siteConfig['parseUrl'];
-        $crawler = new Crawler($resBody, $parseUrl);
+        $crawler = new Crawler($htmlResult, $parseUrl);
         $client = new Client();
 
         if ($siteConfig['searchType'] === 'formQuery')
