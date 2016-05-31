@@ -187,11 +187,12 @@ class AppController extends Controller
                 return $totalResult;
             },
             // Rejected promise
-            function ($values) use ($totalResult)
+            function ($reason) use ($totalResult)
             {
                 // TODO : clean error message
-                var_dump('An error occured :'. $values);
-                return $totalResult = null;
+                //var_dump('An error occured :'. $reason);
+                //return $totalResult = null;
+                echo $reason;
             }
         );
 
@@ -331,7 +332,7 @@ class AppController extends Controller
                 'image' => $image,
             );
 
-            $filterCondition = $this->isValidData($searchQuery, $data, $useEAN);
+            $filterCondition = $this->isValidData($data, $searchQuery, $useEAN);
 
             if ($filterCondition === true)
             {
@@ -357,7 +358,7 @@ class AppController extends Controller
      *
      * @return bool
      */
-    protected function isValidData($search, $data, $useEAN)
+    protected function isValidData($data, $search, $useEAN)
     {
         // Create an array of the search words
         $trimmed = trim($search);

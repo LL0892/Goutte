@@ -102,6 +102,37 @@ app:
 
 
         -
+            name:               "hawk"
+            logo:               "hawk.png"
+            language:           ["de"]
+            EAN:                true
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
+
+            baseUrl:            "http://www.hawk.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            #formID:             "#search_mini_form"
+            #inputKey:           "q"
+            #formInputs:         null
+            mainNode:           "ul.products-grid > li.item"
+            titleNode:
+                    value:          "h2.product-name a"
+                    type:           "title"
+            priceNode:
+                    value:          "span.price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "h2.product-name > a"
+                    type:           "absolute"
+            imageNode:
+                    value:          "a.product-image > img"
+                    type:           "absolute"
+
+
+
+        -
             name:               "melectronics"
             logo:               "melectronics.png"
             language:           ["fr", "de", "it"]
@@ -220,37 +251,6 @@ app:
             imageNode:
                     value:          "div.media-left > a > img"
                     type:           "relative"
-
-
-
-        -
-            name:               "hawk"
-            logo:               "hawk.png"
-            language:           ["de"]
-            EAN:                true
-            searchType:         "urlQuery"
-            parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
-
-            baseUrl:            "http://www.hawk.ch"
-            formID:             null
-            inputKey:           null
-            formInputs:         null
-            #formID:             "#search_mini_form"
-            #inputKey:           "q"
-            #formInputs:         null
-            mainNode:           "ul.products-grid > li.item"
-            titleNode:
-                    value:          "h2.product-name a"
-                    type:           "title"
-            priceNode:
-                    value:          "span.price"
-                    type:           "innerHTML"
-            urlNode:
-                    value:          "h2.product-name > a"
-                    type:           "absolute"
-            imageNode:
-                    value:          "a.product-image > img"
-                    type:           "absolute"
 
 
 
