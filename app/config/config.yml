@@ -71,7 +71,6 @@ swiftmailer:
 
 # Parsing
 app:
-    debug:     false
     sites:
         -
             name:               "Mediamarkt"
@@ -98,6 +97,9 @@ app:
             imageNode:
                     value:          "div > div > div.prod-4-1 > a > span > img"
                     type:           "absolute"
+            bigImageNode:
+                    value:          "img.rsImg"
+                    type:           ""
 
 
 
@@ -129,6 +131,9 @@ app:
             imageNode:
                     value:          "a.product-image > img"
                     type:           "absolute"
+            bigImageNode:
+                    value:          "a.cloud-zoom img"
+                    type:           ""
 
 
 
@@ -160,6 +165,9 @@ app:
             imageNode:
                     value:          "span.product > img"
                     type:           "absolute"
+            bigImageNode:
+                    value:          ""
+                    type:           ""
 
 
 
@@ -191,6 +199,9 @@ app:
             imageNode:
                     value:          "div.leftPanel > a > img"
                     type:           "relative"
+            bigImageNode:
+                    value:          ""
+                    type:           ""
 
 
 
@@ -219,6 +230,9 @@ app:
             imageNode:
                     value:          "div.row > div.column > a"
                     type:           "relative"
+            bigImageNode:
+                    value:          ""
+                    type:           ""
 
 
 
@@ -251,6 +265,9 @@ app:
             imageNode:
                     value:          "div.media-left > a > img"
                     type:           "relative"
+            bigImageNode:
+                    value:          ""
+                    type:           ""
 
 
 
@@ -275,10 +292,13 @@ app:
                     type:           "innerHTML"
             urlNode:
                     value:          "a.product-name"
-                    type:           "absolute"
+                    type:           "relative"
             imageNode:
                     value:          "noindex > div.image > a > img.prod-preview"
                     type:           "relative"
+            bigImageNode:
+                    value:          ""
+                    type:           ""
 
 
 

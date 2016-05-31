@@ -136,57 +136,89 @@ class AppController extends Controller
             }
         }
 
-        // Promise handling and parsing
+        // Promise 1 : parse and get all items
         $aggregate = Promise\all($promises)->then(
-            // Fullfilled promise
-            function ($values) use ($totalResult, $searchQuery, $config, $useEAN)
+            // if Fullfilled promise (1)
+            function ($values) use ($totalResult, $searchQuery, $config, $useEAN, $processRequest)
             {
 
-                foreach ($values as $i => $value)
+                foreach ($values as $keySite => $value)
                 {
-                    // Get body response
+                    // Get response body
                     $htmlResult = $value->getBody()->getContents();
 
-                    // Parse the content of the page
-                    $data = $this->parseHtml($htmlResult, $searchQuery, $config['sites'][$i], $useEAN);
+                    // Parse the page content
+                    $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN);
 
                     // Remove filtered results
-                    foreach ($data as $key => $row)
+                    foreach ($data as $keyResult => $valueResult)
                     {
-                        if ($row === null)
+                        if ($valueResult === null)
                         {
-                            unset($data[$key]);
+                            unset($data[$keyResult]);
                         }
                     }
+
+                    // Reindex the data array)
                     $dataFinal = array_values($data);
+
+
+                    // Promise 2 : get article details
+                    $detailsPromises = [];
+                    $resultDetails = [];
+                    foreach ($dataFinal as $item)
+                    {
+                        // only executed if the config is correctly filled
+                        if ($config['sites'][$keySite]['bigImageNode']['value'] !== '')
+                        {
+                            $detailsPromises[] = $processRequest($item['url']);
+                        }
+                    }
+                    $aggregateDetails = Promise\all($detailsPromises)->then(
+                        // if Fullfilled promise (2)
+                        function ($values) use ($resultDetails, $config, $keySite)
+                        {
+                            $data = null;
+                            foreach ($values as $value)
+                            {
+                                // Get response body
+                                $htmlResult = $value->getBody()->getContents();
+
+                                // Parse the page content
+                                $data  = $this->parseDetails($htmlResult, $config['sites'][$keySite]);
+                            }
+
+                            return $data;
+                        },
+                        // if Rejected promise (2)
+                        function($reason)
+                        {
+                            return $reason;
+                        }
+                    );
+                    $details = $aggregateDetails->wait();
+                    //dump($details);
 
 
                     // Result array
                     $result = array(
-                        'logo' => $config['sites'][$i]['logo'],
+                        'logo' => $config['sites'][$keySite]['logo'],
                         'data' => $dataFinal,
-                        'dataCount' => count($data)
+                        'bigImage' => $details,
+                        'dataCount' => count($data),
                     );
 
-                    if ($config['sites'][$i]['EAN'] === true && $useEAN === true)
+
+                    // Send site results into the global results array
+                    if (count($data) > 0)
                     {
-                        if (count($data) > 0)
-                        {
-                            $totalResult[] = $result;
-                        }
-                    }
-                    if($useEAN === false)
-                    {
-                        if (count($data) > 0)
-                        {
-                            $totalResult[] = $result;
-                        }
+                        $totalResult[] = $result;
                     }
                 }
 
                 return $totalResult;
             },
-            // Rejected promise
+            // if Rejected promise (1)
             function ($reason) use ($totalResult)
             {
                 // TODO : clean error message
@@ -204,9 +236,6 @@ class AppController extends Controller
         // Create an array with all information from the available sites
         foreach ($config['sites'] as $oneSite)
         {
-            //$eanCompatible = ($oneSite['EAN'] === true) ? 'true' : 'false';
-
-            // Site info array
             $oneSiteInfo = array(
                 'siteName' => $oneSite['name'],
                 'logo' => $oneSite['logo'],
@@ -225,6 +254,8 @@ class AppController extends Controller
             $error = 'Pas de résultats trouvés.';
         }
 
+
+
         // Render the results
         return $this->render('AppBundle:Default:index.html.twig', array(
             'searchQuery' => $searchQuery,
@@ -236,7 +267,7 @@ class AppController extends Controller
     }
 
     /**
-     * Parse the request
+     * Parse the article result page from the initial query
      *
      * @param $htmlResult
      * @param $searchQuery
@@ -245,7 +276,7 @@ class AppController extends Controller
      *
      * @return array
      */
-    protected function parseHtml($htmlResult, $searchQuery, $siteConfig, $useEAN)
+    protected function parseArticles($htmlResult, $searchQuery, $siteConfig, $useEAN)
     {
         $parseUrl = $siteConfig['parseUrl'];
         $crawler = new Crawler($htmlResult, $parseUrl);
@@ -330,6 +361,7 @@ class AppController extends Controller
                 'price' => trim($price),
                 'url' => $url,
                 'image' => $image,
+                'bigImage' => null,
             );
 
             $filterCondition = $this->isValidData($data, $searchQuery, $useEAN);
@@ -349,8 +381,27 @@ class AppController extends Controller
     }
 
     /**
+     * Parse the details of a article page
+     *
+     * @param $htmlResult
+     * @param $config
+     *
+     * @return null|string
+     */
+    protected  function parseDetails($htmlResult, $config)
+    {
+        $crawler = new Crawler($htmlResult, $config['parseUrl']);
+        $client = new Client();
+
+        $data = $crawler->filter($config['bigImageNode']['value'])->attr('src');
+
+        return $data;
+    }
+
+    /**
      * Check if the data returned is valid with the initial search query
      * EAN queries look for valid search query (13 digits format)
+     * Regular queries look for valid article name in comparaison to the searched query
      *
      * @param string $search
      * @param array $data

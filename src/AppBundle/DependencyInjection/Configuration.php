@@ -14,10 +14,6 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('debug')
-                    ->defaultFalse()
-                    ->info('This define if we use a debug method to get the result of what is parsed.')
-                ->end()
                 ->arrayNode('sites')
                     ->prototype('array')
                         ->children()
@@ -101,6 +97,9 @@ class Configuration implements ConfigurationInterface
                                         ->info('absolute: use this url only to compose the final url, relative: use baseUrl + this one to compose the final url.')
                                     ->end()
                                 ->end()
+                            ->end()
+                            ->variableNode('bigImageNode')
+                                ->info('This is the CSS selector for object bigger image sources.')
                             ->end()
                         ->end()
                     ->end()
