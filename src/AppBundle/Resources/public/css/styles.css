@@ -38,3 +38,10 @@
 .img-articles {
     max-height: 80px;
 }
+
+.icon-green{
+    color: limegreen;
+}
+.icon-red {
+    color: red;
+}
