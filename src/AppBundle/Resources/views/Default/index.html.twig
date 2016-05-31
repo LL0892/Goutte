@@ -53,7 +53,13 @@
                                     <img src="{{ asset('bundles/app/images/flags/') ~ language }}.png">
                                 {% endfor %}
                             </td>
-                            <td>{{ site.ean }}</td>
+                            <td>
+                                {% if site.ean %}
+                                    <span class="glyphicon glyphicon-ok has-success" aria-hidden="true"></span>
+                                {% else %}
+                                    <span class="glyphicon glyphicon-remove has-danger" aria-hidden="true"></span>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

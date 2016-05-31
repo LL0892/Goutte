@@ -203,14 +203,14 @@ class AppController extends Controller
         // Create an array with all information from the available sites
         foreach ($config['sites'] as $oneSite)
         {
-            $eanCompatible = ($oneSite['EAN'] === true) ? 'true' : 'false';
+            //$eanCompatible = ($oneSite['EAN'] === true) ? 'true' : 'false';
 
             // Site info array
             $oneSiteInfo = array(
                 'siteName' => $oneSite['name'],
                 'logo' => $oneSite['logo'],
                 'language' => $oneSite['language'],
-                'ean' => $eanCompatible,
+                'ean' => $oneSite['EAN'],
                 'baseUrl' => $oneSite['baseUrl']
             );
             $allSitesInfo[] = $oneSiteInfo;
