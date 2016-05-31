@@ -237,9 +237,10 @@ class AppController extends Controller
     /**
      * Parse the request
      *
-     * @param $resBody
+     * @param $htmlResult
      * @param $searchQuery
      * @param $siteConfig
+     * @param $useEAN
      *
      * @return array
      */

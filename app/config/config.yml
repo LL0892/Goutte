@@ -105,7 +105,7 @@ app:
             name:               "melectronics"
             logo:               "melectronics.png"
             language:           ["fr", "de", "it"]
-            EAN:                true
+            EAN:                false
             searchType:         "urlQuery"
             parseUrl:           "http://www.melectronics.ch/c/fr/?q="
 
