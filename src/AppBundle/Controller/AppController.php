@@ -435,4 +435,10 @@ class AppController extends Controller
         }
     }
 
+    /**
+     * @Route("/test", name="test")
+     */
+    public function testAction(Request $request) {
+        return $this->render('@App/Default/test.html.twig');
+    }
 }
