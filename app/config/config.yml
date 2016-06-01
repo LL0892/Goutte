@@ -115,9 +115,6 @@ app:
             formID:             null
             inputKey:           null
             formInputs:         null
-            #formID:             "#search_mini_form"
-            #inputKey:           "q"
-            #formInputs:         null
             mainNode:           "ul.products-grid > li.item"
             titleNode:
                     value:          "h2.product-name a"
@@ -149,9 +146,6 @@ app:
             formID:             null
             inputKey:           null
             formInputs:         null
-            #formID:             "#searchbox"
-            #inputKey:           "q"
-            #formInputs:         null
             mainNode:           "div.listing > ul > li"
             titleNode:
                     value:          "h3.productname"
@@ -183,9 +177,6 @@ app:
             formID:             null
             inputKey:           null
             formInputs:         null
-            #formID:             "#searchForm"
-            #inputKey:           "query"
-            #formInputs:         null
             mainNode:           "article.articleItem"
             titleNode:
                     value:          "div.articleData > div.nameAndDescription > h3 > a"
@@ -205,34 +196,34 @@ app:
 
 
 
-        -
-            name:               "TopD"
-            logo:               "topd.png"
-            language:           ["fr", "de", "it"]
-            EAN:                false
-            searchType:         "urlQuery"
-            parseUrl:           "https://www.topd.ch/fr/search/?query="
-
-            baseUrl:            "https://www.topd.ch"
-            formID:             null
-            inputKey:           null
-            formInputs:         null
-            mainNode:           "article"
-            titleNode:
-                    value:          "div.row > div.column:nth-child(2) > a"
-                    type:           "innerHTML"
-            priceNode:
-                    value:          "div.row > div.column:nth-child(5) > span.price"
-                    type:           "innerHTML"
-            urlNode:
-                    value:          "div.row > div.column:nth-child(2) > a"
-                    type:           "absolute"
-            imageNode:
-                    value:          "div.row > div.column > a"
-                    type:           "relative"
-            bigImageNode:
-                    value:          ""
-                    type:           ""
+#        -
+#            name:               "TopD"
+#            logo:               "topd.png"
+#            language:           ["fr", "de", "it"]
+#            EAN:                false
+#            searchType:         "urlQuery"
+#            parseUrl:           "https://www.topd.ch/fr/search/?query="
+#
+#            baseUrl:            "https://www.topd.ch"
+#            formID:             null
+#            inputKey:           null
+#            formInputs:         null
+#            mainNode:           "article"
+#            titleNode:
+#                    value:          "div.row > div.column:nth-child(2) > a"
+#                    type:           "innerHTML"
+#            priceNode:
+#                    value:          "div.row > div.column:nth-child(5) > span.price"
+#                    type:           "innerHTML"
+#            urlNode:
+#                    value:          "div.row > div.column:nth-child(2) > a"
+#                    type:           "absolute"
+#            imageNode:
+#                    value:          "div.row > div.column > a"
+#                    type:           "relative"
+#            bigImageNode:
+#                    value:          ""
+#                    type:           ""
 
 
 
@@ -248,10 +239,6 @@ app:
             formID:             null
             inputKey:           null
             formInputs:         null
-#            formID:             "#quicksearch"
-#            inputKey:           "q"
-#            formInputs:
-#                    sort:           "relevance|desc"
             mainNode:           "div.item.media"
             titleNode:
                     value:          "h4.media-heading > a"

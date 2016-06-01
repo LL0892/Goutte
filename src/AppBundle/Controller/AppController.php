@@ -193,11 +193,11 @@ class AppController extends Controller
                         // if Rejected promise (2)
                         function($reason)
                         {
-                            return $reason;
+                            echo "An error occured (article details page) : ". $reason;
                         }
                     );
                     $details = $aggregateDetails->wait();
-                    //dump($details);
+                    dump($details);
 
 
                     // Result array
@@ -221,10 +221,7 @@ class AppController extends Controller
             // if Rejected promise (1)
             function ($reason) use ($totalResult)
             {
-                // TODO : clean error message
-                //var_dump('An error occured :'. $reason);
-                //return $totalResult = null;
-                echo $reason;
+                echo "An error occured (article query page) : ". $reason;
             }
         );
 
