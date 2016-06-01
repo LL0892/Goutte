@@ -197,7 +197,7 @@ class AppController extends Controller
                         }
                     );
                     $details = $aggregateDetails->wait();
-                    dump($details);
+                    //dump($details);
 
 
                     // Result array
