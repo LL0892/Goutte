@@ -7,6 +7,7 @@ use Goutte\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
+use GuzzleHttp\Exception\BadResponseException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DomCrawler\Crawler;
@@ -85,7 +86,11 @@ class AppController extends Controller
             return Promise\coroutine(
                 function () use ($guzzleClient, $url) {
                     try {
-                        yield $guzzleClient->getAsync($url);
+                        yield $guzzleClient->requestAsync('GET', $url, [
+                            'curl' => [
+                                [CURLOPT_FOLLOWLOCATION => true]
+                            ]
+                        ]);
                     } catch (\Exception $e) {
                         yield New RejectedPromise($e->getMessage());
                     }
@@ -129,6 +134,7 @@ class AppController extends Controller
                 foreach ($values as $keySite => $value) {
                     // Get response body
                     $htmlResult = $value->getBody()->getContents();
+                    //echo $htmlResult; exit;
 
                     // Parse the page content
                     $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN);
@@ -454,6 +460,27 @@ class AppController extends Controller
      * @Route("/test/{id}", name="test")
      */
     public function testAction(Request $request, $id) {
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => 'https://www.digitec.ch/fr/s1/product/panasonic-lumix-dmc-lx100-noir-1280mpx-appareils-photo-2758631'
+        ));
+
+        $result = curl_exec($curl);
+
+        curl_close($curl);
+
+        echo $result; exit;
+
+        $client = new GuzzleClient();
+
+        /*        try {
+                    $response = $client->get('https://www.digitec.ch/', ['config' => ['curl' => [CURLOPT_FOLLOWLOCATION => true], ['http_errors' => false]]]);
+                } catch (BadResponseException $e) {
+                    echo 'Uh oh! ' . $e->getMessage();
+                }*/
+
         return $this->render('@App/Default/test.html.twig', array(
             'id' => $id,
             'request' => $request
