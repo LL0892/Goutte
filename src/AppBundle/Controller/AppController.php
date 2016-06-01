@@ -177,7 +177,7 @@ class AppController extends Controller
                     // Send the details data into the article data
                     if ($config['sites'][$keySite]['bigImageNode']['value'] !== '') {
                         for ($i = 0; $i < count($dataFinal); $i++) {
-                            $dataFinal[$i]['bigImage'] = $details[$i];
+                            $dataFinal[$i]['big_image'] = $details[$i];
                         }
                     }
 
@@ -185,7 +185,7 @@ class AppController extends Controller
                     $result = array(
                         'logo' => $config['sites'][$keySite]['logo'],
                         'data' => $dataFinal,
-                        'bigImage' => $details,
+                        'big_image' => $details,
                         'dataCount' => count($data),
                     );
 
@@ -320,7 +320,7 @@ class AppController extends Controller
                 'price' => trim($price),
                 'url' => $url,
                 'image' => $image,
-                'bigImage' => null,
+                'big_image' => null,
             );
 
             $filterCondition = $this->isValidData($data, $searchQuery, $useEAN);

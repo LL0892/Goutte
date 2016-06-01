@@ -95,7 +95,13 @@
                                     <th><a href="{{ item.url }}">{{ item.name }}</a></th>
                                     <th>TODO</th>
                                     <td>{{ item.price }}</td>
-                                    <td><img class="img-articles" src="{{ item.image }}"></td>
+                                    <td>
+                                        {% if item.big_image != null %}
+                                            <img class="img-articles" src="{{ item.big_image }}">
+                                        {% else  %}
+                                            <img class="img-articles" src="{{ item.image }}">
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
