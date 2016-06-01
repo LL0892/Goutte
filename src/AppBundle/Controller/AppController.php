@@ -33,8 +33,7 @@ class AppController extends Controller
 
         // Fetch config parameters
         $config = $this->getParameter('app.config');
-        if (!isset($config['sites']))
-        {
+        if (!isset($config['sites'])) {
             return $this->render('AppBundle:Default:error.html.twig');
         }
 
@@ -66,13 +65,11 @@ class AppController extends Controller
         $postData = $request->request->all();
 
         // Save the query in a variable we can use later
-        if (isset($postData['form']['ean']) && $postData['form']['ean'] !== '')
-        {
+        if (isset($postData['form']['ean']) && $postData['form']['ean'] !== '') {
             $searchQuery = $postData['form']['ean'];
             $useEAN = true;
         }
-        if (isset($postData['form']['search']) && $postData['form']['search'] !== '')
-        {
+        if (isset($postData['form']['search']) && $postData['form']['search'] !== '') {
             $searchQuery = $postData['form']['search'];
             $useEAN = false;
         }
@@ -98,36 +95,24 @@ class AppController extends Controller
 
 
         // Create an array of promises to execute later
-        if (count($postData) > 0)
-        {
-            foreach ($config['sites'] as $site)
-            {
+        if (count($postData) > 0) {
+            foreach ($config['sites'] as $site) {
 
-                if ($useEAN === false)
-                {
-                    if ($site['searchType'] === 'urlQuery')
-                    {
+                if ($useEAN === false) {
+                    if ($site['searchType'] === 'urlQuery') {
                         $queryEncoded = urlencode($searchQuery);
-                        $url = $site['parseUrl'].$queryEncoded;
+                        $url = $site['parseUrl'] . $queryEncoded;
                         $promises[] = $processRequest($url);
-                    }
-                    else
-                    {
+                    } else {
                         $promises[] = $processRequest($site['parseUrl']);
                     }
-                }
-                else
-                {
-                    if ($site['EAN'] === true)
-                    {
-                        if ($site['searchType'] === 'urlQuery')
-                        {
+                } else {
+                    if ($site['EAN'] === true) {
+                        if ($site['searchType'] === 'urlQuery') {
                             $queryEncoded = urlencode($searchQuery);
-                            $url = $site['parseUrl'].$queryEncoded;
+                            $url = $site['parseUrl'] . $queryEncoded;
                             $promises[] = $processRequest($url);
-                        }
-                        else
-                        {
+                        } else {
                             $promises[] = $processRequest($site['parseUrl']);
                         }
                     }
@@ -138,12 +123,10 @@ class AppController extends Controller
 
         // Promise 1 : parse and get all items
         $aggregate = Promise\all($promises)->then(
-            // if Fullfilled promise (1)
-            function ($values) use ($totalResult, $searchQuery, $config, $useEAN, $processRequest)
-            {
+        // if Fullfilled promise (1)
+            function ($values) use ($totalResult, $searchQuery, $config, $useEAN, $processRequest) {
 
-                foreach ($values as $keySite => $value)
-                {
+                foreach ($values as $keySite => $value) {
                     // Get response body
                     $htmlResult = $value->getBody()->getContents();
 
@@ -151,10 +134,8 @@ class AppController extends Controller
                     $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN);
 
                     // Remove filtered results
-                    foreach ($data as $keyResult => $valueResult)
-                    {
-                        if ($valueResult === null)
-                        {
+                    foreach ($data as $keyResult => $valueResult) {
+                        if ($valueResult === null) {
                             unset($data[$keyResult]);
                         }
                     }
@@ -166,38 +147,35 @@ class AppController extends Controller
                     // Promise 2 : get article details
                     $detailsPromises = [];
                     $resultDetails = [];
-                    foreach ($dataFinal as $item)
-                    {
+                    foreach ($dataFinal as $item) {
                         // only executed if the config is correctly filled
-                        if ($config['sites'][$keySite]['bigImageNode']['value'] !== '')
-                        {
+                        if ($config['sites'][$keySite]['bigImageNode']['value'] !== '') {
                             $detailsPromises[] = $processRequest($item['url']);
                         }
                     }
                     $aggregateDetails = Promise\all($detailsPromises)->then(
-                        // if Fullfilled promise (2)
-                        function ($values) use ($resultDetails, $config, $keySite)
-                        {
-                            $data = null;
-                            foreach ($values as $value)
-                            {
+                    // if Fullfilled promise (2)
+                        function ($values) use ($resultDetails, $config, $keySite) {
+
+                            foreach ($values as $value) {
                                 // Get response body
                                 $htmlResult = $value->getBody()->getContents();
 
                                 // Parse the page content
-                                $data  = $this->parseDetails($htmlResult, $config['sites'][$keySite]);
+                                $resultDetails[] = $this->parseDetails($htmlResult, $config['sites'][$keySite]);
                             }
 
-                            return $data;
+                            return $resultDetails;
                         },
                         // if Rejected promise (2)
-                        function($reason)
-                        {
-                            echo "An error occured (article details page) : ". $reason;
+                        function ($reason) {
+                            echo "An error occured (article details page) : " . $reason;
                         }
                     );
                     $details = $aggregateDetails->wait();
-                    //dump($details);
+                    dump($details);
+
+                    // Send the details data into the article data
 
 
                     // Result array
@@ -210,8 +188,7 @@ class AppController extends Controller
 
 
                     // Send site results into the global results array
-                    if (count($data) > 0)
-                    {
+                    if (count($data) > 0) {
                         $totalResult[] = $result;
                     }
                 }
@@ -219,9 +196,8 @@ class AppController extends Controller
                 return $totalResult;
             },
             // if Rejected promise (1)
-            function ($reason) use ($totalResult)
-            {
-                echo "An error occured (article query page) : ". $reason;
+            function ($reason) use ($totalResult) {
+                echo "An error occured (article query page) : " . $reason;
             }
         );
 
@@ -229,10 +205,8 @@ class AppController extends Controller
         $totalResult = $aggregate->wait();
 
 
-
         // Create an array with all information from the available sites
-        foreach ($config['sites'] as $oneSite)
-        {
+        foreach ($config['sites'] as $oneSite) {
             $oneSiteInfo = array(
                 'siteName' => $oneSite['name'],
                 'logo' => $oneSite['logo'],
@@ -244,13 +218,10 @@ class AppController extends Controller
         }
 
 
-
         // Feedback if no result found
-        if (isset($searchQuery) && $totalResult === null)
-        {
+        if (isset($searchQuery) && $totalResult === null) {
             $error = 'Pas de résultats trouvés.';
         }
-
 
 
         // Render the results
@@ -279,8 +250,7 @@ class AppController extends Controller
         $crawler = new Crawler($htmlResult, $parseUrl);
         $client = new Client();
 
-        if ($siteConfig['searchType'] === 'formQuery')
-        {
+        if ($siteConfig['searchType'] === 'formQuery') {
             $form = $crawler->filter($siteConfig['formID'])->first()->form();
 
             // Create the form inputs array
@@ -288,8 +258,7 @@ class AppController extends Controller
                 $siteConfig['inputKey'] => $searchQuery
             );
 
-            if (count($siteConfig['formInputs']) > 0)
-            {
+            if (count($siteConfig['formInputs']) > 0) {
                 $formArray = array_merge($formArray, $siteConfig['formInputs']);
             }
 
@@ -297,38 +266,29 @@ class AppController extends Controller
         }
 
 
-
-        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig, $useEAN)
-        {
+        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig, $useEAN) {
             $titleNode = $siteConfig['titleNode']['value'];
             $priceNode = $siteConfig['priceNode']['value'];
             $urlNode = $siteConfig['urlNode']['value'];
             $imageNode = $siteConfig['imageNode']['value'];
 
             // title handling
-            if ($siteConfig['titleNode']['type'] === "innerHTML")
-            {
+            if ($siteConfig['titleNode']['type'] === "innerHTML") {
                 $name = $node->filter($titleNode)->text();
-            }
-            else
-            {
+            } else {
                 $name = $node->filter($titleNode)->attr($siteConfig['titleNode']['type']);
             }
 
             // price handling
-            if ($siteConfig['priceNode']['type'] === 'innerHTML')
-            {
+            if ($siteConfig['priceNode']['type'] === 'innerHTML') {
                 $price = $node->filter($priceNode)->text();
-            }
-            else
-            {
+            } else {
                 $price = $node->filter($titleNode)->attr($siteConfig['priceNode']['type']);
             }
 
             // url handling
             $urlFetched = $node->filter($urlNode)->attr('href');
-            switch ($siteConfig['urlNode']['type'])
-            {
+            switch ($siteConfig['urlNode']['type']) {
                 case 'relative':
                     $url = $siteConfig['baseUrl'] . trim($urlFetched);
                     break;
@@ -341,8 +301,7 @@ class AppController extends Controller
 
             // image handling
             $imageFetched = $node->filter($imageNode)->attr('src');
-            switch ($siteConfig['imageNode']['type'])
-            {
+            switch ($siteConfig['imageNode']['type']) {
                 case 'relative':
                     $image = $siteConfig['baseUrl'] . trim($imageFetched);
                     break;
@@ -363,12 +322,9 @@ class AppController extends Controller
 
             $filterCondition = $this->isValidData($data, $searchQuery, $useEAN);
 
-            if ($filterCondition === true)
-            {
+            if ($filterCondition === true) {
                 return $data;
-            }
-            else
-            {
+            } else {
                 return null;
             }
 
@@ -385,7 +341,7 @@ class AppController extends Controller
      *
      * @return null|string
      */
-    protected  function parseDetails($htmlResult, $config)
+    protected function parseDetails($htmlResult, $config)
     {
         $crawler = new Crawler($htmlResult, $config['parseUrl']);
         $client = new Client();
@@ -414,32 +370,25 @@ class AppController extends Controller
         $checkCount = count($searchKeywords);
 
 
-        if ($useEAN)
-        {
+        if ($useEAN) {
             // Regular expression
             $regEx = '/';
-            $regEx.= '\b(?:\d{13})\b';
-            $regEx.= '/';
+            $regEx .= '\b(?:\d{13})\b';
+            $regEx .= '/';
 
             // Filter data
             $isValid = preg_match($regEx, $search, $matches);
-        }
-        else
-        {
+        } else {
             $str = $data['name'];
             $hist = array();
 
             // count how many each words are present in the article name (for debug)
-            foreach (preg_split('/\s+/', $str) as $word)
-            {
+            foreach (preg_split('/\s+/', $str) as $word) {
                 $word = strtolower(utf8_decode($word));
 
-                if (isset($hist[$word]))
-                {
+                if (isset($hist[$word])) {
                     $hist[$word]++;
-                }
-                else
-                {
+                } else {
                     $hist[$word] = 1;
                 }
             }
@@ -449,36 +398,31 @@ class AppController extends Controller
 
             // Create a string with a single one of each present words
             $strEachWord = '';
-            foreach ($keys as $word)
-            {
-                $strEachWord.= $word;
-                $strEachWord.= ' ';
+            foreach ($keys as $word) {
+                $strEachWord .= $word;
+                $strEachWord .= ' ';
             }
 
             // Regular expression
             $regEx = '/';
             $i = 0;
-            foreach ($searchKeywords as $word)
-            {
+            foreach ($searchKeywords as $word) {
                 $i++;
-                $regEx.= '\b'.$word;
+                $regEx .= '\b' . $word;
                 if ($i != $checkCount) {
-                    $regEx.= '|';
+                    $regEx .= '|';
                 }
             }
-            $regEx.= '/ i';
+            $regEx .= '/ i';
 
             // Filter data
             $isValid = preg_match_all($regEx, $strEachWord, $matches);
         }
 
         // Handle return response
-        if ($isValid >= $checkCount)
-        {
+        if ($isValid >= $checkCount) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
