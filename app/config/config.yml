@@ -100,6 +100,7 @@ app:
             detailPage:
                     bigImageNode:   "img.rsImg"
                     idNode:         ""
+                    eanNode:        "data-flix-ean"
 
 
 

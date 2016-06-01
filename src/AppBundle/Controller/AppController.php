@@ -177,14 +177,18 @@ class AppController extends Controller
                     // Send the details data into the article data
                     if ($config['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
                         for ($i = 0; $i < count($dataFinal); $i++) {
+                            if (isset($config['sites'][$keySite]['detailPage']['eanNode'])) {
+                                $dataFinal[$i]['ean'] = $details[$i]['ean'];
+                            }
+
                             if ($config['sites'][$keySite]['imageNode']['type'] === 'absolute') {
-                                $dataFinal[$i]['big_image'] = $details[$i];
+                                $dataFinal[$i]['big_image'] = $details[$i]['big_image'];
                             } else {
-                                $dataFinal[$i]['big_image'] = $config['sites'][$keySite]['baseUrl'].$details[$i];
+                                $dataFinal[$i]['big_image'] = $config['sites'][$keySite]['baseUrl'].$details[$i]['big_image'];
                             }
                         }
                     }
-                    dump($dataFinal);
+                    //dump($dataFinal);
 
                     // Result array
                     $result = array(
@@ -353,8 +357,19 @@ class AppController extends Controller
     {
         $crawler = new Crawler($htmlResult, $config['parseUrl']);
         $client = new Client();
+        $ean = null;
 
-        $data = $crawler->filter($config['detailPage']['bigImageNode'])->attr('src');
+        $bigImage = $crawler->filter($config['detailPage']['bigImageNode'])->attr('src');
+
+        if (isset($config['detailPage']['eanNode'])) {
+            //$ean = $crawler->filterXPath('(//meta');
+            //dump($ean);
+        }
+
+        $data = array(
+            'big_image' => $bigImage,
+            'ean' => $ean
+        );
 
         return $data;
     }
@@ -436,9 +451,12 @@ class AppController extends Controller
     }
 
     /**
-     * @Route("/test", name="test")
+     * @Route("/test/{id}", name="test")
      */
-    public function testAction(Request $request) {
-        return $this->render('@App/Default/test.html.twig');
+    public function testAction(Request $request, $id) {
+        return $this->render('@App/Default/test.html.twig', array(
+            'id' => $id,
+            'request' => $request
+        ));
     }
 }
