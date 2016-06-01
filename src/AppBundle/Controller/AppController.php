@@ -173,10 +173,13 @@ class AppController extends Controller
                         }
                     );
                     $details = $aggregateDetails->wait();
-                    dump($details);
 
                     // Send the details data into the article data
-
+                    if ($config['sites'][$keySite]['bigImageNode']['value'] !== '') {
+                        for ($i = 0; $i < count($dataFinal); $i++) {
+                            $dataFinal[$i]['bigImage'] = $details[$i];
+                        }
+                    }
 
                     // Result array
                     $result = array(
