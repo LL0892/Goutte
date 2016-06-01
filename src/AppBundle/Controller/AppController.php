@@ -181,7 +181,6 @@ class AppController extends Controller
                                 $dataFinal[$i]['big_image'] = $details[$i];
                             } else {
                                 $dataFinal[$i]['big_image'] = $config['sites'][$keySite]['baseUrl'].$details[$i];
-
                             }
                         }
                     }

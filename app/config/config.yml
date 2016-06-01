@@ -253,7 +253,7 @@ app:
                     value:          "div.media-left > a > img"
                     type:           "relative"
             detailPage:
-                    bigImageNode:   ""
+                    bigImageNode:   "div#image-single > img"
                     idNode:         ""
 
 
@@ -284,7 +284,7 @@ app:
                     value:          "noindex > div.image > a > img.prod-preview"
                     type:           "relative"
             detailPage:
-                    bigImageNode:   ""
+                    bigImageNode:   "a.main-group > img"
                     idNode:         ""
 
 
