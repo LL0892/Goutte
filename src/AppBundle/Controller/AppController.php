@@ -149,7 +149,7 @@ class AppController extends Controller
                     $resultDetails = [];
                     foreach ($dataFinal as $item) {
                         // only executed if the config is correctly filled
-                        if ($config['sites'][$keySite]['bigImageNode']['value'] !== '') {
+                        if ($config['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
                             $detailsPromises[] = $processRequest($item['url']);
                         }
                     }
@@ -175,7 +175,7 @@ class AppController extends Controller
                     $details = $aggregateDetails->wait();
 
                     // Send the details data into the article data
-                    if ($config['sites'][$keySite]['bigImageNode']['value'] !== '') {
+                    if ($config['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
                         for ($i = 0; $i < count($dataFinal); $i++) {
                             $dataFinal[$i]['big_image'] = $details[$i];
                         }
@@ -349,7 +349,7 @@ class AppController extends Controller
         $crawler = new Crawler($htmlResult, $config['parseUrl']);
         $client = new Client();
 
-        $data = $crawler->filter($config['bigImageNode']['value'])->attr('src');
+        $data = $crawler->filter($config['detailPage']['bigImageNode'])->attr('src');
 
         return $data;
     }

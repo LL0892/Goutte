@@ -97,9 +97,9 @@ app:
             imageNode:
                     value:          "div > div > div.prod-4-1 > a > span > img"
                     type:           "absolute"
-            bigImageNode:
-                    value:          "img.rsImg"
-                    type:           ""
+            detailPage:
+                    bigImageNode:   "img.rsImg"
+                    idNode:         ""
 
 
 
@@ -128,9 +128,9 @@ app:
             imageNode:
                     value:          "a.product-image > img"
                     type:           "absolute"
-            bigImageNode:
-                    value:          "a.cloud-zoom img"
-                    type:           ""
+            detailPage:
+                    bigImageNode:   "a.cloud-zoom img"
+                    idNode:         ""
 
 
 
@@ -159,9 +159,9 @@ app:
             imageNode:
                     value:          "span.product > img"
                     type:           "absolute"
-            bigImageNode:
-                    value:          ""
-                    type:           ""
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
@@ -190,9 +190,9 @@ app:
             imageNode:
                     value:          "div.leftPanel > a > img"
                     type:           "relative"
-            bigImageNode:
-                    value:          ""
-                    type:           ""
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
@@ -221,9 +221,9 @@ app:
 #            imageNode:
 #                    value:          "div.row > div.column > a"
 #                    type:           "relative"
-#            bigImageNode:
-#                    value:          ""
-#                    type:           ""
+#            detailPage:
+#                    bigImageNode:   ""
+#                    idNode:         ""
 
 
 
@@ -252,9 +252,9 @@ app:
             imageNode:
                     value:          "div.media-left > a > img"
                     type:           "relative"
-            bigImageNode:
-                    value:          ""
-                    type:           ""
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
@@ -283,9 +283,9 @@ app:
             imageNode:
                     value:          "noindex > div.image > a > img.prod-preview"
                     type:           "relative"
-            bigImageNode:
-                    value:          ""
-                    type:           ""
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 

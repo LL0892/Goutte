@@ -84,6 +84,7 @@
                                 <th class="th-article-de">Article DE</th>
                                 <th class="th-price">Prix</th>
                                 <th class="th-image">Image</th>
+                                <th class="th-ean">EAN/ID</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -92,15 +93,24 @@
                                     <td class="th-site">
                                         <img src="{{ asset('bundles/app/images/sites/') ~ result.logo }}" class="center-block">
                                     </td>
-                                    <th><a href="{{ item.url }}">{{ item.name }}</a></th>
-                                    <th>TODO</th>
-                                    <td>{{ item.price }}</td>
+                                    <th>
+                                        <a href="{{ item.url }}">{{ item.name }}</a>
+                                    </th>
+                                    <th>
+                                        TODO
+                                    </th>
+                                    <td>
+                                        {{ item.price }}
+                                    </td>
                                     <td>
                                         {% if item.big_image != null %}
                                             <img class="img-articles" src="{{ item.big_image }}">
                                         {% else  %}
                                             <img class="img-articles" src="{{ item.image }}">
                                         {% endif %}
+                                    </td>
+                                    <td>
+                                        TODO
                                     </td>
                                 </tr>
                             {% endfor %}

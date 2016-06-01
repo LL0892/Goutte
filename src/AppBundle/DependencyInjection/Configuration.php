@@ -98,7 +98,7 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                 ->end()
                             ->end()
-                            ->variableNode('bigImageNode')
+                            ->variableNode('detailPage')
                                 ->info('This is the CSS selector for object bigger image sources.')
                             ->end()
                         ->end()
