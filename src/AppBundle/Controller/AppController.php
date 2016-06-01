@@ -177,9 +177,15 @@ class AppController extends Controller
                     // Send the details data into the article data
                     if ($config['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
                         for ($i = 0; $i < count($dataFinal); $i++) {
-                            $dataFinal[$i]['big_image'] = $details[$i];
+                            if ($config['sites'][$keySite]['imageNode']['type'] === 'absolute') {
+                                $dataFinal[$i]['big_image'] = $details[$i];
+                            } else {
+                                $dataFinal[$i]['big_image'] = $config['sites'][$keySite]['baseUrl'].$details[$i];
+
+                            }
                         }
                     }
+                    dump($dataFinal);
 
                     // Result array
                     $result = array(

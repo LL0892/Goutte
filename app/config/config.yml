@@ -160,7 +160,7 @@ app:
                     value:          "span.product > img"
                     type:           "absolute"
             detailPage:
-                    bigImageNode:   ""
+                    bigImageNode:   "a#product-pics img"
                     idNode:         ""
 
 
@@ -191,7 +191,7 @@ app:
                     value:          "div.leftPanel > a > img"
                     type:           "relative"
             detailPage:
-                    bigImageNode:   ""
+                    bigImageNode:   "a#lnkMainImage > img"
                     idNode:         ""
 
 
