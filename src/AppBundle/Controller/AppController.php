@@ -461,7 +461,7 @@ class AppController extends Controller
      */
     public function adminAction()
     {
-        
+
         return $this->render('@App/Default/admin.html.twig', array(
 
         ));
