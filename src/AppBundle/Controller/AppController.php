@@ -102,16 +102,8 @@ class AppController extends Controller
         if (count($postData) > 0) {
             foreach ($config['sites'] as $site) {
 
-                if ($useEAN === false) {
-                    if ($site['searchType'] === 'urlQuery') {
-                        $queryEncoded = urlencode($searchQuery);
-                        $url = $site['parseUrl'] . $queryEncoded;
-                        $promises[] = $processRequest($url);
-                    } else {
-                        $promises[] = $processRequest($site['parseUrl']);
-                    }
-                } else {
-                    if ($site['EAN'] === true) {
+                if ($site['isFinished'] === true) {
+                    if ($useEAN === false) {
                         if ($site['searchType'] === 'urlQuery') {
                             $queryEncoded = urlencode($searchQuery);
                             $url = $site['parseUrl'] . $queryEncoded;
@@ -119,9 +111,18 @@ class AppController extends Controller
                         } else {
                             $promises[] = $processRequest($site['parseUrl']);
                         }
+                    } else {
+                        if ($site['EAN'] === true) {
+                            if ($site['searchType'] === 'urlQuery') {
+                                $queryEncoded = urlencode($searchQuery);
+                                $url = $site['parseUrl'] . $queryEncoded;
+                                $promises[] = $processRequest($url);
+                            } else {
+                                $promises[] = $processRequest($site['parseUrl']);
+                            }
+                        }
                     }
                 }
-
             }
         }
 
@@ -133,7 +134,6 @@ class AppController extends Controller
                 foreach ($values as $keySite => $value) {
                     // Get response body
                     $htmlResult = $value->getBody()->getContents();
-                    //echo $htmlResult; exit;
 
                     // Parse the page content
                     $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN);
@@ -226,6 +226,7 @@ class AppController extends Controller
         foreach ($config['sites'] as $oneSite) {
             $oneSiteInfo = array(
                 'siteName' => $oneSite['name'],
+                'isFinished' => $oneSite['isFinished'],
                 'logo' => $oneSite['logo'],
                 'language' => $oneSite['language'],
                 'ean' => $oneSite['EAN'],

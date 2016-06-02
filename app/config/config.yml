@@ -74,6 +74,7 @@ app:
     sites:
         -
             name:               "Mediamarkt"
+            isFinished:         true
             logo:               "mediamarkt.png"
             language:           ["fr", "de", "it"]
             EAN:                true
@@ -106,6 +107,7 @@ app:
 
         -
             name:               "hawk"
+            isFinished:         true
             logo:               "hawk.png"
             language:           ["de"]
             EAN:                true
@@ -137,6 +139,7 @@ app:
 
         -
             name:               "melectronics"
+            isFinished:         true
             logo:               "melectronics.png"
             language:           ["fr", "de", "it"]
             EAN:                true
@@ -168,6 +171,7 @@ app:
 
         -
             name:               "STEG"
+            isFinished:         true
             logo:               "steg.png"
             language:           ["fr", "de", "it"]
             EAN:                true
@@ -197,39 +201,9 @@ app:
 
 
 
-#        -
-#            name:               "TopD"
-#            logo:               "topd.png"
-#            language:           ["fr", "de", "it"]
-#            EAN:                false
-#            searchType:         "urlQuery"
-#            parseUrl:           "https://www.topd.ch/fr/search/?query="
-#
-#            baseUrl:            "https://www.topd.ch"
-#            formID:             null
-#            inputKey:           null
-#            formInputs:         null
-#            mainNode:           "article"
-#            titleNode:
-#                    value:          "div.row > div.column:nth-child(2) > a"
-#                    type:           "innerHTML"
-#            priceNode:
-#                    value:          "div.row > div.column:nth-child(5) > span.price"
-#                    type:           "innerHTML"
-#            urlNode:
-#                    value:          "div.row > div.column:nth-child(2) > a"
-#                    type:           "absolute"
-#            imageNode:
-#                    value:          "div.row > div.column > a"
-#                    type:           "relative"
-#            detailPage:
-#                    bigImageNode:   ""
-#                    idNode:         ""
-
-
-
         -
             name:               "heinigerag"
+            isFinished:         true
             logo:               "heinigerag.png"
             language:           ["de"]
             EAN:                false
@@ -261,6 +235,7 @@ app:
 
         -
             name:               "Techmania"
+            isFinished:         true
             logo:               "techmania.png"
             language:           ["de"]
             EAN:                false
@@ -290,84 +265,148 @@ app:
 
 
 
-#        -
-#            name:               "Fust"
-#            logo:               "fust.png"
-#            language:           ["fr", "de", "it"]
-#            EAN:                true
-#            searchType:         "urlQuery"
-#            parseUrl:           "https://www.fust.ch/fr/home.html?searchtext="
-#
-#            baseUrl:            "https://www.fust.ch"
-#            formID:             null
-#            inputKey:           null
-#            formInputs:         null
-#            mainNode:           "ul.results > li"
-#            titleNode:
-#                    value:          "section.product > div.content-wrapper > div.title-wrapper > h3 > a"
-#                    type:           "innerHTML"
-#            priceNode:
-#                    value:          "section.product > div.order-wrapper > div.endprice"
-#                    type:           "innerHTML"
-#            urlNode:
-#                    value:          "section.product > div.content-wrapper > div.title-wrapper > h3 > a"
-#                    type:           "relative"
-#            imageNode:
-#                    value:          "section.product > figure > a > img.lazy"
-#                    type:           "relative"
+        -
+            name:               "TopD"
+            isFinished:         false
+            logo:               "topd.png"
+            language:           ["fr", "de", "it"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "https://www.topd.ch/fr/search/?query="
+
+            baseUrl:            "https://www.topd.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "article"
+            titleNode:
+                    value:          "div.row > div.column:nth-child(2) > a"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "div.row > div.column:nth-child(5) > span.price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "div.row > div.column:nth-child(2) > a"
+                    type:           "absolute"
+            imageNode:
+                    value:          "div.row > div.column > a"
+                    type:           "relative"
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
-#        -
-#            name:               "Microspot"
-#            logo:               "microspot.png"
-#            language:           ["fr", "de"]
-#            EAN:                false
-#            searchType:         "urlQuery"
-#            parseUrl:           "http://www.microspot.ch/msp/pages/searchResult.jsf?searchTerm="
-#
-#            baseUrl:            "http://www.microspot.ch"
-#            formID:             null
-#            inputKey:           null
-#            formInputs:         null
-#            mainNode:           "table.biglist > tbody > tr"
-#            titleNode:
-#                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a > span"
-#                    type:           "innerHTML"
-#            priceNode:
-#                    value:          "td.productList_priceInfoColumn > div.priceContent > span.productList_price"
-#                    type:           "innerHTML"
-#            urlNode:
-#                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a"
-#                    type:           "relative"
-#            imageNode:
-#                    value:          "td.productList_pictureColumn > a > img"
-#                    type:           "relative"
+        -
+            name:               "Fust"
+            isFinished:         false
+            logo:               "fust.png"
+            language:           ["fr", "de", "it"]
+            EAN:                true
+            searchType:         "urlQuery"
+            parseUrl:           "https://www.fust.ch/fr/home.html?searchtext="
+
+            baseUrl:            "https://www.fust.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "ul.results > li"
+            titleNode:
+                    value:          "section.product > div.content-wrapper > div.title-wrapper > h3 > a"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "section.product > div.order-wrapper > div.endprice"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "section.product > div.content-wrapper > div.title-wrapper > h3 > a"
+                    type:           "relative"
+            imageNode:
+                    value:          "section.product > figure > a > img.lazy"
+                    type:           "relative"
 
 
 
-#        -
-#            name:               "Galaxus"
-#            logo:               "galaxus.svg"
-#            language:           ["fr", "de", "it"]
-#            EAN:                false
-#            searchType:         "urlQuery"
-#            parseUrl:           "https://www.galaxus.ch/fr/Search?searchSectors=0&q="
-#
-#            baseUrl:            "https://www.galaxus.ch"
-#            formID:             null
-#            inputKey:           null
-#            formInputs:         null
-#            mainNode:           "article.product"
-#            titleNode:
-#                    value:          "div.product-name"
-#                    type:           "innerHTML"
-#            priceNode:
-#                    value:          "div.product-price"
-#                    type:           "innerHTML"
-#            urlNode:
-#                    value:          "div.product-buttons > a.product-overlay"
-#                    type:           "relative"
-#            imageNode:
-#                    value:          "div.product-image > div > img"
-#                    type:           "absolute"
+        -
+            name:               "Microspot"
+            isFinished:         false
+            logo:               "microspot.png"
+            language:           ["fr", "de"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.microspot.ch/msp/pages/searchResult.jsf?searchTerm="
+
+            baseUrl:            "http://www.microspot.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "table.biglist > tbody > tr"
+            titleNode:
+                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a > span"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "td.productList_priceInfoColumn > div.priceContent > span.productList_price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "td.productList_specColumn > div.specColumn_content > h3 > a"
+                    type:           "relative"
+            imageNode:
+                    value:          "td.productList_pictureColumn > a > img"
+                    type:           "relative"
+
+
+
+        -
+            name:               "Galaxus"
+            isFinished:         false
+            logo:               "galaxus.svg"
+            language:           ["fr", "de", "it"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "https://www.galaxus.ch/fr/Search?searchSectors=0&q="
+
+            baseUrl:            "https://www.galaxus.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "article.product"
+            titleNode:
+                    value:          "div.product-name"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "div.product-price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "div.product-buttons > a.product-overlay"
+                    type:           "relative"
+            imageNode:
+                    value:          "div.product-image > div > img"
+                    type:           "absolute"
+
+
+
+        -
+            name:               "Digitec"
+            isFinished:         false
+            logo:               "digitec.svg"
+            language:           ["fr", "de", "it"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           ""
+
+            baseUrl:            "https://www.digitec.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "article.product"
+            titleNode:
+                    value:          "div.product-name"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "div.product-price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "div.product-buttons > a.product-overlay"
+                    type:           "relative"
+            imageNode:
+                    value:          "div.product-image > div > img"
+                    type:           "absolute"

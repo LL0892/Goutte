@@ -21,11 +21,11 @@
         <br>
 
         {% if searchQuery != null %}
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-4">
-                <h4>Votre recherche : {{ searchQuery }}</h4>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4">
+                    <h4>Votre recherche : {{ searchQuery }}</h4>
+                </div>
             </div>
-        </div>
         {% endif %}
 
         <br>
@@ -38,28 +38,40 @@
                         <th class="th-site">Site</th>
                         <th>Language</th>
                         <th>EAN support</th>
+                        <th>is working</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for id, site in sites %}
-                        <tr>
-                            <td class="th-site">
-                                <a href="{{ site.baseUrl }}">
-                                    <img src="{{ asset('bundles/app/images/sites/') ~ site.logo }}" class="center-block">
-                                </a>
-                            </td>
-                            <td>
-                                {% for language in site.language %}
-                                    <img src="{{ asset('bundles/app/images/flags/') ~ language }}.png">
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% if site.ean %}
-                                    <span class="glyphicon glyphicon-ok icon-green" aria-hidden="true"></span>
-                                {% else %}
-                                    <span class="glyphicon glyphicon-remove icon-red" aria-hidden="true"></span>
-                                {% endif %}
-                            </td>
+                        {% if site.isFinished %}
+                            <tr class="bg-success">
+                        {% else %}
+                            <tr class="bg-warning">
+                        {% endif %}
+                        <td class="th-site">
+                            <a href="{{ site.baseUrl }}">
+                                <img src="{{ asset('bundles/app/images/sites/') ~ site.logo }}" class="center-block">
+                            </a>
+                        </td>
+                        <td>
+                            {% for language in site.language %}
+                                <img src="{{ asset('bundles/app/images/flags/') ~ language }}.png">
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if site.ean %}
+                                <span class="glyphicon glyphicon-ok icon-green" aria-hidden="true"></span>
+                            {% else %}
+                                <span class="glyphicon glyphicon-remove icon-red" aria-hidden="true"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if site.isFinished %}
+                                <span class="glyphicon glyphicon-ok icon-green" aria-hidden="true"></span>
+                            {% else %}
+                                <span class="glyphicon glyphicon-remove icon-red" aria-hidden="true"></span>
+                            {% endif %}
+                        </td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -91,7 +103,8 @@
                             {% for key, item in result.data %}
                                 <tr>
                                     <td class="th-site">
-                                        <img src="{{ asset('bundles/app/images/sites/') ~ result.logo }}" class="center-block">
+                                        <img src="{{ asset('bundles/app/images/sites/') ~ result.logo }}"
+                                             class="center-block">
                                     </td>
                                     <th>
                                         <a href="{{ item.url }}">{{ item.name }}</a>
@@ -105,7 +118,7 @@
                                     <td>
                                         {% if item.big_image != null %}
                                             <img class="img-articles" src="{{ item.big_image }}">
-                                        {% else  %}
+                                        {% else %}
                                             <img class="img-articles" src="{{ item.image }}">
                                         {% endif %}
                                     </td>
