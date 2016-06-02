@@ -64,7 +64,13 @@ class TestController extends Controller
     public function crawlerAction()
     {
         $crawler = new Crawler();
-        $html = '<p class="message">message ici</p>';
+
+// heredoc chain
+$html =
+<<<EOT
+<p class="message">message ici</p>
+EOT;
+
         $result = $crawler->filter('p.message')->html();
 
         return $this->render('@App/Default/test.html.twig', array(
