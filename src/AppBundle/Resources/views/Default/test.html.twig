@@ -1,15 +1,14 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
 {% block content %}
+    <!-- test curl -->
+    {{ curl|raw }}
 
-    <p>ID</p>
-    <pre>{{ id }}</pre>
+    <!-- test guzzle -->
+    {{ guzzle }}
 
-    <br>
-
-    <p>Requête</p>
-    <pre>{{ request }}</pre>
-
+    <!-- test crawler -->
+    {{ crawler }}
 {% endblock %}
 
 {% block javascripts %}

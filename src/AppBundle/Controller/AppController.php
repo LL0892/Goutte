@@ -190,7 +190,7 @@ class AppController extends Controller
                             if ($config['sites'][$keySite]['imageNode']['type'] === 'absolute') {
                                 $dataFinal[$i]['big_image'] = $details[$i]['big_image'];
                             } else {
-                                $dataFinal[$i]['big_image'] = $config['sites'][$keySite]['baseUrl'].$details[$i]['big_image'];
+                                $dataFinal[$i]['big_image'] = $config['sites'][$keySite]['baseUrl'] . $details[$i]['big_image'];
                             }
                         }
                     }
@@ -457,9 +457,10 @@ class AppController extends Controller
     }
 
     /**
-     * @Route("/test/{id}", name="test")
+     * @Route("/curl", name="curl")
      */
-    public function testAction(Request $request, $id) {
+    public function curlAction()
+    {
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -471,19 +472,47 @@ class AppController extends Controller
 
         curl_close($curl);
 
-        echo $result; exit;
+        return $this->render('@App/Default/test.html.twig', array(
+            'curl' => $result,
+            'guzzle' => null,
+            'crawler' => null
+        ));
+    }
 
+    /**
+     * @Route("/guzzle", name="guzzle")
+     */
+    public function guzzleAction()
+    {
         $client = new GuzzleClient();
+        $response = null;
 
-        /*        try {
-                    $response = $client->get('https://www.digitec.ch/', ['config' => ['curl' => [CURLOPT_FOLLOWLOCATION => true], ['http_errors' => false]]]);
-                } catch (BadResponseException $e) {
-                    echo 'Uh oh! ' . $e->getMessage();
-                }*/
+        try {
+            $response = $client->get('https://www.digitec.ch/fr/s1/product/panasonic-lumix-dmc-lx100-noir-1280mpx-appareils-photo-2758631', ['config' => ['curl' => [CURLOPT_FOLLOWLOCATION => true], ['http_errors' => false]]]);
+        } catch (BadResponseException $e) {
+            echo 'An error occured : ' . $e->getMessage();
+        }
 
         return $this->render('@App/Default/test.html.twig', array(
-            'id' => $id,
-            'request' => $request
+            'curl' => null,
+            'guzzle' => $response,
+            'crawler' => null,
+        ));
+    }
+
+    /**
+     * @Route("/crawler", name="crawler")
+     */
+    public function crawlerAction()
+    {
+        $crawler = new Crawler();
+        $html = '<p class="message">message ici</p>';
+        $result = $crawler->filter('p.message')->html();
+
+        return $this->render('@App/Default/test.html.twig', array(
+            'curl' => null,
+            'guzzle' => null,
+            'crawler' => $result
         ));
     }
 }
