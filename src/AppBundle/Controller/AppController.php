@@ -7,7 +7,6 @@ use Goutte\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
-use GuzzleHttp\Exception\BadResponseException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DomCrawler\Crawler;
