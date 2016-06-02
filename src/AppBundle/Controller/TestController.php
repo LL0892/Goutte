@@ -63,15 +63,15 @@ class TestController extends Controller
      */
     public function crawlerAction()
     {
-        $crawler = new Crawler();
 
 // heredoc chain
 $html =
 <<<EOT
-<p class="message">message ici</p>
+<script data-to-parse="I can parse it if I want"></script>
 EOT;
 
-        $result = $crawler->filter('p.message')->html();
+        $crawler = new Crawler($html);
+        $result = $crawler->filter('script')->attr('data-to-parse');
 
         return $this->render('@App/Default/test.html.twig', array(
             'curl' => null,
