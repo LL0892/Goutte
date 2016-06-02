@@ -1,0 +1,62 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <nav>
+                <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation" class="active"><a href="#">Photo</a></li>
+                    <li role="presentation"><a href="#">TV</a></li>
+                    <li role="presentation"><a href="#">DVD</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="row">
+
+        </div>
+
+        <div class="row">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>Mediamarkt</td>
+                    <td>melectronics</td>
+                    <td>hawk</td>
+                </tr>
+                <tr>
+                    <td>
+
+                        <table>
+                            <tr>
+                                <td  class="bg-danger">
+                                    test
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    test
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                    <td>b</td>
+                    <td>c</td>
+                </tr>
+                <tr>
+                    <td>a</td>
+                    <td>b</td>
+                    <td>c</td>
+                </tr>
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

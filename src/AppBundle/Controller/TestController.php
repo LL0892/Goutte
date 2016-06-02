@@ -65,13 +65,56 @@ class TestController extends Controller
     {
 
 // heredoc chain
-$html =
-<<<EOT
-<script data-to-parse="I can parse it if I want"></script>
+        $html =
+            <<<EOT
+<body class="bodyTest">
+    <script id="script_dataLayer">
+    dataLayer = [{
+    'pageCategory': 'product detail',
+    'pageLanguage': 'fr',
+    'shopCategory': 'shop',
+    'shopDevicecategory': 'desktop',
+    'userDevicecategory': 'desktop',
+    'userId': '',
+    'userIp': '85.218.57.90',
+    'adBlocker': '[ADBLOCKER]',
+    'accountType': 'noreg',
+    'userAgent': 'mozilla/5.0 (windows nt 10.0; wow64) applewebkit/537.36 (khtml, like gecko) chrome/50.0.2661.102 safari/537.36',
+    'customerGender': '',
+    'customerZip': '',
+    'customerEmail': '',
+    'productEan': '5025232804924',
+    'productTitle': 'panasonic lumix dmc-lx100, 12.8mp, argent',
+    'manufacturerName': 'panasonic',
+    'sku': '1484715',
+    'categoryName': 'appareils photo compacts',
+    'categoryLevel1': 'photo & vidéo ',
+    'categoryLevel2': 'caméras',
+    'categoryLevel3': 'appareils photo compacts',
+    'categoryLevel4': '',
+    'categoryLevel5': '',
+    'merchantId': '5e6e27af-dce1-4fd0-a718-054fa4cc4f43',
+    'productAuthor': '',
+    'productWeight': 0.500,
+    'categoryId': 'idkq3gidn47e',
+    'productMpn': 'dmc-lx100egs',
+    'price': 639.00,
+    'guaranty': 24,
+    'noPickup': 0,
+    }];
+</script>
+</body>
 EOT;
 
         $crawler = new Crawler($html);
-        $result = $crawler->filter('script')->attr('data-to-parse');
+        $result = $crawler->filter('script#script_dataLayer')->text();
+        
+        $result = trim($result);
+        $result = str_replace('dataLayer = ', '', $result);
+        //$result = str_replace('\'', '"', $result);
+        $result = rtrim($result, ';');
+        $res = json_decode($result);
+        echo $result; exit;
 
         return $this->render('@App/Default/test.html.twig', array(
             'curl' => null,
