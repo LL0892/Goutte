@@ -410,3 +410,31 @@ app:
             imageNode:
                     value:          "div.product-image > div > img"
                     type:           "absolute"
+
+
+        -
+            name:               "Interdiscount"
+            isFinished:         false
+            logo:               "interdiscount.gif"
+            language:           ["fr", "de", "it"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.interdiscount.ch/idshop/pages/searchResult.jsf?searchTerm="
+
+            baseUrl:            "http://www.interdiscount.ch/"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "article.product"
+            titleNode:
+                    value:          "div.product-name"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "div.product-price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "div.product-buttons > a.product-overlay"
+                    type:           "relative"
+            imageNode:
+                    value:          "div.product-image > div > img"
+                    type:           "absolute"
