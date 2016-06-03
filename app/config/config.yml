@@ -414,7 +414,7 @@ app:
 
         -
             name:               "Interdiscount"
-            isFinished:         false
+            isFinished:         true
             logo:               "interdiscount.gif"
             language:           ["fr", "de", "it"]
             EAN:                false
@@ -425,16 +425,16 @@ app:
             formID:             null
             inputKey:           null
             formInputs:         null
-            mainNode:           "article.product"
+            mainNode:           "table.productlistTable > tbody > tr"
             titleNode:
-                    value:          "div.product-name"
+                    value:          "td.name > a"
                     type:           "innerHTML"
             priceNode:
-                    value:          "div.product-price"
+                    value:          "td.price > div.right > div.productPriceDiv.list > span.productPrice"
                     type:           "innerHTML"
             urlNode:
-                    value:          "div.product-buttons > a.product-overlay"
+                    value:          "td.name > a"
                     type:           "relative"
             imageNode:
-                    value:          "div.product-image > div > img"
-                    type:           "absolute"
+                    value:          "td.thumbs > a > img"
+                    type:           "relative"
