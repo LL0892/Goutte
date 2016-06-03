@@ -76,10 +76,10 @@ app:
             name:               "Mediamarkt"
             isFinished:         true
             logo:               "mediamarkt.png"
-            language:           ["fr", "de", "it"]
+            language:           ["fr", "de"]
             EAN:                true
             searchType:         "urlQuery"
-            parseUrl:           "https://shop.mediamarkt.ch/fr/search/?s="
+            parseUrl:           ["https://shop.mediamarkt.ch/fr/search/?s=", "https://shop.mediamarkt.ch/de/search/?s="]
 
             baseUrl:            "https://shop.mediamarkt.ch"
             formID:             null
@@ -112,7 +112,7 @@ app:
             language:           ["de"]
             EAN:                true
             searchType:         "urlQuery"
-            parseUrl:           "http://www.hawk.ch/catalogsearch/result/?q="
+            parseUrl:           ["http://www.hawk.ch/catalogsearch/result/?q="]
 
             baseUrl:            "http://www.hawk.ch"
             formID:             null
@@ -141,10 +141,10 @@ app:
             name:               "melectronics"
             isFinished:         true
             logo:               "melectronics.png"
-            language:           ["fr", "de", "it"]
+            language:           ["fr", "de"]
             EAN:                true
             searchType:         "urlQuery"
-            parseUrl:           "http://www.melectronics.ch/c/fr/?q="
+            parseUrl:           ["http://www.melectronics.ch/c/fr/?q=", "http://www.melectronics.ch/c/de/?q="]
 
             baseUrl:            "http://www.melectronics.ch"
             formID:             null
@@ -173,10 +173,10 @@ app:
             name:               "STEG"
             isFinished:         true
             logo:               "steg.png"
-            language:           ["fr", "de", "it"]
+            language:           ["fr", "de"]
             EAN:                true
             searchType:         "urlQuery"
-            parseUrl:           "http://www.steg-electronics.ch/fr/article/articleSearch.aspx?TXTSEARCH="
+            parseUrl:           ["http://www.steg-electronics.ch/fr/article/articleSearch.aspx?TXTSEARCH=", "http://www.steg-electronics.ch/de/article/articleSearch.aspx?TXTSEARCH="]
 
             baseUrl:            "http://www.steg-electronics.ch"
             formID:             null
@@ -208,7 +208,7 @@ app:
             language:           ["de"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           "http://www.shop.heinigerag.ch/de/search?q="
+            parseUrl:           ["http://www.shop.heinigerag.ch/de/search?q="]
 
             baseUrl:            "http://shop.heinigerag.ch"
             formID:             null
@@ -240,7 +240,7 @@ app:
             language:           ["de"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           "https://techmania.ch/jProductList.aspx?suche="
+            parseUrl:           ["https://techmania.ch/jProductList.aspx?suche="]
 
             baseUrl:            "https://techmania.ch"
             formID:             null
@@ -269,10 +269,10 @@ app:
             name:               "TopD"
             isFinished:         false
             logo:               "topd.png"
-            language:           ["fr", "de", "it"]
+            language:           ["fr", "de"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           "https://www.topd.ch/fr/search/?query="
+            parseUrl:           ["https://www.topd.ch/fr/search/?query=", "https://www.topd.ch/de/search/?query="]
 
             baseUrl:            "https://www.topd.ch"
             formID:             null
@@ -301,10 +301,10 @@ app:
             name:               "Fust"
             isFinished:         false
             logo:               "fust.png"
-            language:           ["fr", "de", "it"]
+            language:           ["fr", "de"]
             EAN:                true
             searchType:         "urlQuery"
-            parseUrl:           "https://www.fust.ch/fr/home.html?searchtext="
+            parseUrl:           ["https://www.fust.ch/fr/home.html?searchtext=", "https://www.fust.ch/de/home.html?searchtext="]
 
             baseUrl:            "https://www.fust.ch"
             formID:             null
@@ -333,10 +333,10 @@ app:
             name:               "Microspot"
             isFinished:         false
             logo:               "microspot.png"
-            language:           ["fr", "de"]
+            language:           ["fr"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           "http://www.microspot.ch/msp/pages/searchResult.jsf?searchTerm="
+            parseUrl:           ["http://www.microspot.ch/msp/pages/searchResult.jsf?searchTerm="]
 
             baseUrl:            "http://www.microspot.ch"
             formID:             null
@@ -365,10 +365,10 @@ app:
             name:               "Interdiscount"
             isFinished:         false
             logo:               "interdiscount.gif"
-            language:           ["fr", "de", "it"]
+            language:           ["fr"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           "http://www.interdiscount.ch/idshop/pages/searchResult.jsf?searchTerm="
+            parseUrl:           ["http://www.interdiscount.ch/idshop/pages/searchResult.jsf?searchTerm="]
 
             baseUrl:            "http://www.interdiscount.ch/"
             formID:             null
@@ -397,10 +397,10 @@ app:
             name:               "Galaxus"
             isFinished:         false
             logo:               "galaxus.svg"
-            language:           ["fr", "de", "it"]
+            language:           ["fr", "de"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           "https://www.galaxus.ch/fr/Search?searchSectors=0&q="
+            parseUrl:           ["https://www.galaxus.ch/fr/Search?searchSectors=0&q=", "https://www.galaxus.ch/de/Search?searchSectors=0&q="]
 
             baseUrl:            "https://www.galaxus.ch"
             formID:             null
@@ -429,10 +429,10 @@ app:
             name:               "Digitec"
             isFinished:         false
             logo:               "digitec.svg"
-            language:           ["fr", "de", "it"]
+            language:           ["fr", "de"]
             EAN:                false
             searchType:         "urlQuery"
-            parseUrl:           ""
+            parseUrl:           ["https://www.digitec.ch/fr/Search?q=", "https://www.digitec.ch/de/Search?q="]
 
             baseUrl:            "https://www.digitec.ch"
             formID:             null

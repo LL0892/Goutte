@@ -106,19 +106,19 @@ class AppController extends Controller
                     if ($useEAN === false) {
                         if ($site['searchType'] === 'urlQuery') {
                             $queryEncoded = urlencode($searchQuery);
-                            $url = $site['parseUrl'] . $queryEncoded;
+                            $url = $site['parseUrl'][0] . $queryEncoded;
                             $promises[] = $processRequest($url);
                         } else {
-                            $promises[] = $processRequest($site['parseUrl']);
+                            $promises[] = $processRequest($site['parseUrl'][0]);
                         }
                     } else {
                         if ($site['EAN'] === true) {
                             if ($site['searchType'] === 'urlQuery') {
                                 $queryEncoded = urlencode($searchQuery);
-                                $url = $site['parseUrl'] . $queryEncoded;
+                                $url = $site['parseUrl'][0] . $queryEncoded;
                                 $promises[] = $processRequest($url);
                             } else {
-                                $promises[] = $processRequest($site['parseUrl']);
+                                $promises[] = $processRequest($site['parseUrl'][0]);
                             }
                         }
                     }
@@ -214,6 +214,25 @@ class AppController extends Controller
             function ($reason) use ($totalResult) {
                 echo "An error occured (article query page) : " . $reason;
             }
+        )->then(
+            function ($values) {
+
+                /*
+                $aggregate2 = Promise\all($promises2)->then(
+                    function ($values) {
+
+                    },
+                    function ($reason) {
+
+                    }
+                );
+                */
+
+                return $values;
+            },
+            function ($reason) {
+                echo "An error occured (then) : " . $reason;
+            }
         );
 
         // Execute the promises
@@ -262,7 +281,7 @@ class AppController extends Controller
      */
     protected function parseArticles($htmlResult, $searchQuery, $siteConfig, $useEAN)
     {
-        $parseUrl = $siteConfig['parseUrl'];
+        $parseUrl = $siteConfig['parseUrl'][0];
         $crawler = new Crawler($htmlResult, $parseUrl);
         $client = new Client();
 
@@ -359,7 +378,7 @@ class AppController extends Controller
      */
     protected function parseDetails($htmlResult, $config)
     {
-        $crawler = new Crawler($htmlResult, $config['parseUrl']);
+        $crawler = new Crawler($htmlResult, $config['parseUrl'][0]);
         $client = new Client();
         $ean = null;
 
