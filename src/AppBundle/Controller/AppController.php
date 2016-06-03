@@ -106,6 +106,10 @@ class AppController extends Controller
                     if ($useEAN === false) {
                         if ($site['searchType'] === 'urlQuery') {
                             $queryEncoded = urlencode($searchQuery);
+
+                            $index = $this->getUrlFromLocale('de', $site['language'], $site['parseUrl']);
+                            dump($index);
+
                             $url = $site['parseUrl'][0] . $queryEncoded;
                             $promises[] = $processRequest($url);
                         } else {
@@ -470,6 +474,24 @@ class AppController extends Controller
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Get the current url to use with the current locale string
+     *
+     * @param string $locale
+     * @param array $localArray
+     * @param array $urlArray
+     *
+     * @return mixed
+     */
+    protected function getUrlFromLocale($locale, $localArray, $urlArray) {
+        $index = array_search($locale, $localArray);
+        if ($index !== false) {
+            return $urlArray[$index];
+        } else {
+            return null;
         }
     }
 
