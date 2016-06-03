@@ -108,7 +108,6 @@ class AppController extends Controller
                             $queryEncoded = urlencode($searchQuery);
 
                             $index = $this->getUrlFromLocale('de', $site['language'], $site['parseUrl']);
-                            dump($index);
 
                             $url = $site['parseUrl'][0] . $queryEncoded;
                             $promises[] = $processRequest($url);
