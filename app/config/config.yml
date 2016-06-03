@@ -323,6 +323,9 @@ app:
             imageNode:
                     value:          "section.product > figure > a > img.lazy"
                     type:           "relative"
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
@@ -352,12 +355,15 @@ app:
             imageNode:
                     value:          "td.productList_pictureColumn > a > img"
                     type:           "relative"
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
         -
             name:               "Interdiscount"
-            isFinished:         true
+            isFinished:         false
             logo:               "interdiscount.gif"
             language:           ["fr", "de", "it"]
             EAN:                false
@@ -381,6 +387,9 @@ app:
             imageNode:
                     value:          "td.thumbs > a > img"
                     type:           "relative"
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
@@ -410,6 +419,9 @@ app:
             imageNode:
                     value:          "div.product-image > div > img"
                     type:           "absolute"
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
 
 
 
@@ -439,3 +451,6 @@ app:
             imageNode:
                     value:          "div.product-image > div > img"
                     type:           "absolute"
+            detailPage:
+                    bigImageNode:   ""
+                    idNode:         ""
