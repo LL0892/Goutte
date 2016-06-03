@@ -356,6 +356,35 @@ app:
 
 
         -
+            name:               "Interdiscount"
+            isFinished:         true
+            logo:               "interdiscount.gif"
+            language:           ["fr", "de", "it"]
+            EAN:                false
+            searchType:         "urlQuery"
+            parseUrl:           "http://www.interdiscount.ch/idshop/pages/searchResult.jsf?searchTerm="
+
+            baseUrl:            "http://www.interdiscount.ch/"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "table.productlistTable > tbody > tr"
+            titleNode:
+                    value:          "td.name > a"
+                    type:           "innerHTML"
+            priceNode:
+                    value:          "td.price > div.right > div.productPriceDiv.list > span.productPrice"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "td.name > a"
+                    type:           "relative"
+            imageNode:
+                    value:          "td.thumbs > a > img"
+                    type:           "relative"
+
+
+
+        -
             name:               "Galaxus"
             isFinished:         false
             logo:               "galaxus.svg"
@@ -410,31 +439,3 @@ app:
             imageNode:
                     value:          "div.product-image > div > img"
                     type:           "absolute"
-
-
-        -
-            name:               "Interdiscount"
-            isFinished:         true
-            logo:               "interdiscount.gif"
-            language:           ["fr", "de", "it"]
-            EAN:                false
-            searchType:         "urlQuery"
-            parseUrl:           "http://www.interdiscount.ch/idshop/pages/searchResult.jsf?searchTerm="
-
-            baseUrl:            "http://www.interdiscount.ch/"
-            formID:             null
-            inputKey:           null
-            formInputs:         null
-            mainNode:           "table.productlistTable > tbody > tr"
-            titleNode:
-                    value:          "td.name > a"
-                    type:           "innerHTML"
-            priceNode:
-                    value:          "td.price > div.right > div.productPriceDiv.list > span.productPrice"
-                    type:           "innerHTML"
-            urlNode:
-                    value:          "td.name > a"
-                    type:           "relative"
-            imageNode:
-                    value:          "td.thumbs > a > img"
-                    type:           "relative"

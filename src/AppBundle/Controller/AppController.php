@@ -137,7 +137,6 @@ class AppController extends Controller
 
                     // Parse the page content
                     $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN);
-
                     // Remove filtered results
                     foreach ($data as $keyResult => $valueResult) {
                         if ($valueResult === null) {
@@ -193,7 +192,6 @@ class AppController extends Controller
                             }
                         }
                     }
-                    //dump($dataFinal);
 
                     // Result array
                     $result = array(
