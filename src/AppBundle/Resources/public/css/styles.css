@@ -59,3 +59,7 @@
 .table-article-content:first-child {
     margin-right: 10px;
 }
+
+.ean-code {
+    margin-left: 20px;
+}
