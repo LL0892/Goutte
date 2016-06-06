@@ -23,12 +23,22 @@ class AppController extends Controller
     {
         $query = new Query();
         $guzzleClient = new GuzzleClient();
+
         $promises = [];
         $promises2 = [];
+
+        $config_fr = array(
+            'sites' => null
+        );
+        $config_de = array(
+            'sites' => null
+        );
+
         $searchQuery = null;
         $useEAN = null;
-        $totalResult = null;
+
         $allSitesInfo = null;
+        $totalResult = null;
         $error = null;
 
 
@@ -114,19 +124,24 @@ class AppController extends Controller
                             if ($index_de !== null) {
                                 $url_de = $site['parseUrl'][$index_de] . $queryEncoded;
                                 $promises[] = $processRequest($url_de);
+                                $config_de['sites'][] = $site;
+
                             }
                             if ($index_fr !== null) {
                                 $url_fr = $site['parseUrl'][$index_fr] . $queryEncoded;
                                 $promises2[] = $processRequest($url_fr);
+                                $config_fr['sites'][] = $site;
                             }
                         } else {
                             $url_de = $this->getIndexFromLocale('de', $site['language']);
                             $url_fr = $this->getIndexFromLocale('fr', $site['language']);
                             if ($url_de !== null) {
                                 $promises[] = $processRequest($url_de);
+                                $config_de['sites'][] = $site;
                             }
                             if ($url_fr !== null) {
                                 $promises2[] = $processRequest($url_fr);
+                                $config_fr['sites'][] = $site;
                             }
                         }
                     } else {
@@ -140,19 +155,23 @@ class AppController extends Controller
                                 if ($index_de !== null) {
                                     $url_de = $site['parseUrl'][$index_de] . $queryEncoded;
                                     $promises[] = $processRequest($url_de);
+                                    $config_de[] = $site;
                                 }
                                 if ($index_fr) {
                                     $url_fr = $site['parseUrl'][$index_fr] . $queryEncoded;
                                     $promises2[] = $processRequest($url_fr);
+                                    $config_fr[] = $site;
                                 }
                             } else {
                                 $url_de = $this->getIndexFromLocale('de', $site['language']);
                                 $url_fr = $this->getIndexFromLocale('fr', $site['language']);
                                 if ($url_de !== null) {
                                     $promises[] = $processRequest($url_de);
+                                    $config_de[] = $site;
                                 }
                                 if ($url_fr !== null) {
                                     $promises2[] = $processRequest($url_fr);
+                                    $config_fr[] = $site;
                                 }
                             }
                         }
@@ -164,14 +183,14 @@ class AppController extends Controller
         // Promise 1 : parse and get all items
         $aggregate = Promise\all($promises)->then(
         // if Fullfilled promise (1)
-            function ($values) use ($totalResult, $searchQuery, $config, $useEAN, $processRequest) {
+            function ($values) use ($totalResult, $searchQuery, $config_de, $useEAN, $processRequest) {
 
                 foreach ($values as $keySite => $value) {
                     // Get response body
                     $htmlResult = $value->getBody()->getContents();
 
                     // Parse the page content
-                    $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN, 'de');
+                    $data = $this->parseArticles($htmlResult, $searchQuery, $config_de['sites'][$keySite], $useEAN, 'de');
                     // Remove filtered results
                     foreach ($data as $keyResult => $valueResult) {
                         if ($valueResult === null) {
@@ -188,20 +207,20 @@ class AppController extends Controller
                     $resultDetails = [];
                     foreach ($dataFinal as $item) {
                         // only executed if the config is correctly filled
-                        if ($config['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
-                            $detailsPromises[] = $processRequest($item['url']);
+                        if ($config_de['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
+                            $detailsPromises[] = $processRequest($item['url_de']);
                         }
                     }
                     $aggregateDetails = Promise\all($detailsPromises)->then(
                     // if Fullfilled promise (2)
-                        function ($values) use ($resultDetails, $config, $keySite) {
+                        function ($values) use ($resultDetails, $config_de, $keySite) {
 
                             foreach ($values as $value) {
                                 // Get response body
                                 $htmlResult = $value->getBody()->getContents();
 
                                 // Parse the page content
-                                $resultDetails[] = $this->parseDetails($htmlResult, $config['sites'][$keySite]);
+                                $resultDetails[] = $this->parseDetails($htmlResult, $config_de['sites'][$keySite]);
                             }
 
                             return $resultDetails;
@@ -214,23 +233,24 @@ class AppController extends Controller
                     $details = $aggregateDetails->wait();
 
                     // Send the details data into the article data
-                    if ($config['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
+                    if ($config_de['sites'][$keySite]['detailPage']['bigImageNode'] !== '') {
                         for ($i = 0; $i < count($dataFinal); $i++) {
-                            if (isset($config['sites'][$keySite]['detailPage']['eanNode'])) {
+                            if (isset($config_de['sites'][$keySite]['detailPage']['eanNode'])) {
                                 $dataFinal[$i]['ean'] = $details[$i]['ean'];
                             }
 
-                            if ($config['sites'][$keySite]['imageNode']['type'] === 'absolute') {
+                            if ($config_de['sites'][$keySite]['imageNode']['type'] === 'absolute') {
                                 $dataFinal[$i]['big_image'] = $details[$i]['big_image'];
                             } else {
-                                $dataFinal[$i]['big_image'] = $config['sites'][$keySite]['baseUrl'] . $details[$i]['big_image'];
+                                $dataFinal[$i]['big_image'] = $config_de['sites'][$keySite]['baseUrl'] . $details[$i]['big_image'];
                             }
                         }
                     }
 
                     // Result array
                     $result = array(
-                        'logo' => $config['sites'][$keySite]['logo'],
+                        'name' => $config_de['sites'][$keySite]['name'],
+                        'logo' => $config_de['sites'][$keySite]['logo'],
                         'data' => $dataFinal,
                         'big_image' => $details,
                         'dataCount' => count($data),
@@ -247,21 +267,62 @@ class AppController extends Controller
             },
             // if Rejected promise (1)
             function ($reason) use ($totalResult) {
-                echo "An error occured (article query page) : " . $reason;
+                echo "An error occured (article query page - DE) : " . $reason;
             }
         )->then(
-            function ($values) {
+            function ($values) use ($promises2, $searchQuery, $config_de, $config_fr, $useEAN) {
 
-                /*
                 $aggregate2 = Promise\all($promises2)->then(
-                    function ($values) {
+                    function ($values) use ($searchQuery, $config_fr, $useEAN) {
 
+                        $totalResultFr = [];
+                        foreach ($values as $keySite => $value) {
+                            // Get response body
+                            $htmlResult = $value->getBody()->getContents();
+
+                            // Parse the page content
+                            $dataFr = $this->parseArticles($htmlResult, $searchQuery, $config_fr['sites'][$keySite], $useEAN, 'fr');
+                            // Remove filtered results
+                            foreach ($dataFr as $keyResult => $valueResult) {
+                                if ($valueResult === null) {
+                                    unset($dataFr[$keyResult]);
+                                }
+                            }
+
+                            // Reindex the data array)
+                            $dataFr = array_values($dataFr);
+
+                            $dataArrayFr = array(
+                                'name' => $config_fr['sites'][$keySite]['name'],
+                                'data' => $dataFr,
+                            );
+
+                            // Send site results into the global results array
+                            if (count($dataFr) > 0) {
+                                $totalResultFr[] = $dataArrayFr;
+                            }
+                        }
+                        return $totalResultFr;
                     },
                     function ($reason) {
-
+                        echo "An error occured (article query page - FR) : " . $reason;
                     }
                 );
-                */
+
+                $resFr = $aggregate2->wait();
+
+
+                // Create an array with all site names
+                $siteNameArray = null;
+                foreach ($config_de['sites'] as $site) {
+                    $siteNameArray[] = $site['name'];
+                }
+
+                for ($i = 0; $i < count($config_fr); $i++) {
+                    dump($i);
+                    //$index = $this->getIndexFromSiteName($config_fr['sites'][$i]['name'], $siteNameArray);
+                }
+                dump($values);
 
                 return $values;
             },
@@ -271,7 +332,9 @@ class AppController extends Controller
         );
 
         // Execute the promises
-        $totalResult = $aggregate->wait();
+        if (count($postData) > 0) {
+            $totalResult = $aggregate->wait();
+        }
 
 
         // Create an array with all information from the available sites
@@ -317,7 +380,6 @@ class AppController extends Controller
     protected function parseArticles($htmlResult, $searchQuery, $siteConfig, $useEAN, $locale)
     {
         $parseUrl = $siteConfig['parseUrl'][0];
-        $locale = $locale;
         $crawler = new Crawler($htmlResult, $parseUrl);
         $client = new Client();
 
@@ -342,6 +404,11 @@ class AppController extends Controller
             $priceNode = $siteConfig['priceNode']['value'];
             $urlNode = $siteConfig['urlNode']['value'];
             $imageNode = $siteConfig['imageNode']['value'];
+
+            $url_fr = null;
+            $name_fr = null;
+            $url_de = null;
+            $name_de = null;
 
             // title handling
             if ($siteConfig['titleNode']['type'] === "innerHTML") {
@@ -370,6 +437,15 @@ class AppController extends Controller
                     $url = trim($urlFetched);
             }
 
+            // apply info to the right language variables
+            if ($locale === 'fr') {
+                $name_fr = trim($name);
+                $url_fr = $url;
+            } else {
+                $name_de = trim($name);
+                $url_de = $url;
+            }
+
             // image handling
             $imageFetched = $node->filter($imageNode)->attr('src');
             switch ($siteConfig['imageNode']['type']) {
@@ -384,15 +460,17 @@ class AppController extends Controller
             }
 
             $data = array(
-                'name' => trim($name),
+                'name_de' => $name_de,
+                'name_fr' => $name_fr,
                 'locale' => $locale,
+                'url_de' => $url_de,
+                'url_fr' => $url_fr,
                 'price' => trim($price),
-                'url' => $url,
                 'image' => $image,
                 'big_image' => null,
             );
 
-            $filterCondition = $this->isValidData($data, $searchQuery, $useEAN);
+            $filterCondition = $this->isValidData($data, $searchQuery, $useEAN, $locale);
 
             if ($filterCondition === true) {
                 return $data;
@@ -445,7 +523,7 @@ class AppController extends Controller
      *
      * @return bool
      */
-    protected function isValidData($data, $search, $useEAN)
+    protected function isValidData($data, $search, $useEAN, $locale)
     {
         // Create an array of the search words
         $trimmed = trim($search);
@@ -462,7 +540,12 @@ class AppController extends Controller
             // Filter data
             $isValid = preg_match($regEx, $search, $matches);
         } else {
-            $str = $data['name'];
+
+            if ($locale === 'fr') {
+                $str = $data['name_fr'];
+            } else {
+                $str = $data['name_de'];
+            }
             $hist = array();
 
             // count how many each words are present in the article name (for debug)
@@ -517,10 +600,28 @@ class AppController extends Controller
      * @param array $localArray
      * @param array $urlArray
      *
-     * @return mixed
+     * @return mixed|null
      */
-    protected function getIndexFromLocale($locale, $localArray) {
+    protected function getIndexFromLocale($locale, $localArray)
+    {
         $index = array_search($locale, $localArray);
+        if ($index !== false) {
+            return $index;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the current site from a list of sites
+     *
+     * @param $siteName
+     * @param $siteArray
+     * @return mixed|null
+     */
+    protected function getIndexFromSiteName($siteName, $siteArray)
+    {
+        $index = array_search($siteName, $siteArray);
         if ($index !== false) {
             return $index;
         } else {
@@ -533,8 +634,6 @@ class AppController extends Controller
      */
     public function adminAction()
     {
-        return $this->render('@App/Default/admin.html.twig', array(
-
-        ));
+        return $this->render('@App/Default/admin.html.twig', array());
     }
 }

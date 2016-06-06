@@ -106,38 +106,6 @@ app:
 
 
         -
-            name:               "hawk"
-            isFinished:         true
-            logo:               "hawk.png"
-            language:           ["de"]
-            EAN:                true
-            searchType:         "urlQuery"
-            parseUrl:           ["http://www.hawk.ch/catalogsearch/result/?q="]
-
-            baseUrl:            "http://www.hawk.ch"
-            formID:             null
-            inputKey:           null
-            formInputs:         null
-            mainNode:           "ul.products-grid > li.item"
-            titleNode:
-                    value:          "h2.product-name a"
-                    type:           "title"
-            priceNode:
-                    value:          "span.price"
-                    type:           "innerHTML"
-            urlNode:
-                    value:          "h2.product-name > a"
-                    type:           "absolute"
-            imageNode:
-                    value:          "a.product-image > img"
-                    type:           "absolute"
-            detailPage:
-                    bigImageNode:   "a.cloud-zoom img"
-                    idNode:         ""
-
-
-
-        -
             name:               "melectronics"
             isFinished:         true
             logo:               "melectronics.png"
@@ -199,6 +167,37 @@ app:
                     bigImageNode:   "a#lnkMainImage > img"
                     idNode:         ""
 
+
+
+        -
+            name:               "hawk"
+            isFinished:         true
+            logo:               "hawk.png"
+            language:           ["de"]
+            EAN:                true
+            searchType:         "urlQuery"
+            parseUrl:           ["http://www.hawk.ch/catalogsearch/result/?q="]
+
+            baseUrl:            "http://www.hawk.ch"
+            formID:             null
+            inputKey:           null
+            formInputs:         null
+            mainNode:           "ul.products-grid > li.item"
+            titleNode:
+                    value:          "h2.product-name a"
+                    type:           "title"
+            priceNode:
+                    value:          "span.price"
+                    type:           "innerHTML"
+            urlNode:
+                    value:          "h2.product-name > a"
+                    type:           "absolute"
+            imageNode:
+                    value:          "a.product-image > img"
+                    type:           "absolute"
+            detailPage:
+                    bigImageNode:   "a.cloud-zoom img"
+                    idNode:         ""
 
 
         -
