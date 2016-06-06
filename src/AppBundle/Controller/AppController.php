@@ -319,10 +319,10 @@ class AppController extends Controller
                 }
 
                 for ($i = 0; $i < count($config_fr); $i++) {
-                    dump($i);
+                    //dump($i);
                     //$index = $this->getIndexFromSiteName($config_fr['sites'][$i]['name'], $siteNameArray);
                 }
-                dump($values);
+                //dump($values);
 
                 return $values;
             },
