@@ -24,6 +24,7 @@ class AppController extends Controller
         $query = new Query();
         $guzzleClient = new GuzzleClient();
         $promises = [];
+        $promises2 = [];
         $searchQuery = null;
         $useEAN = null;
         $totalResult = null;
@@ -107,21 +108,52 @@ class AppController extends Controller
                         if ($site['searchType'] === 'urlQuery') {
                             $queryEncoded = urlencode($searchQuery);
 
-                            $index = $this->getUrlFromLocale('de', $site['language'], $site['parseUrl']);
+                            $index_de = $this->getIndexFromLocale('de', $site['language']);
+                            $index_fr = $this->getIndexFromLocale('fr', $site['language']);
 
-                            $url = $site['parseUrl'][0] . $queryEncoded;
-                            $promises[] = $processRequest($url);
+                            if ($index_de !== null) {
+                                $url_de = $site['parseUrl'][$index_de] . $queryEncoded;
+                                $promises[] = $processRequest($url_de);
+                            }
+                            if ($index_fr !== null) {
+                                $url_fr = $site['parseUrl'][$index_fr] . $queryEncoded;
+                                $promises2[] = $processRequest($url_fr);
+                            }
                         } else {
-                            $promises[] = $processRequest($site['parseUrl'][0]);
+                            $url_de = $this->getIndexFromLocale('de', $site['language']);
+                            $url_fr = $this->getIndexFromLocale('fr', $site['language']);
+                            if ($url_de !== null) {
+                                $promises[] = $processRequest($url_de);
+                            }
+                            if ($url_fr !== null) {
+                                $promises2[] = $processRequest($url_fr);
+                            }
                         }
                     } else {
                         if ($site['EAN'] === true) {
                             if ($site['searchType'] === 'urlQuery') {
                                 $queryEncoded = urlencode($searchQuery);
-                                $url = $site['parseUrl'][0] . $queryEncoded;
-                                $promises[] = $processRequest($url);
+
+                                $index_de = $this->getIndexFromLocale('de', $site['language']);
+                                $index_fr = $this->getIndexFromLocale('fr', $site['language']);
+
+                                if ($index_de !== null) {
+                                    $url_de = $site['parseUrl'][$index_de] . $queryEncoded;
+                                    $promises[] = $processRequest($url_de);
+                                }
+                                if ($index_fr) {
+                                    $url_fr = $site['parseUrl'][$index_fr] . $queryEncoded;
+                                    $promises2[] = $processRequest($url_fr);
+                                }
                             } else {
-                                $promises[] = $processRequest($site['parseUrl'][0]);
+                                $url_de = $this->getIndexFromLocale('de', $site['language']);
+                                $url_fr = $this->getIndexFromLocale('fr', $site['language']);
+                                if ($url_de !== null) {
+                                    $promises[] = $processRequest($url_de);
+                                }
+                                if ($url_fr !== null) {
+                                    $promises2[] = $processRequest($url_fr);
+                                }
                             }
                         }
                     }
@@ -139,7 +171,7 @@ class AppController extends Controller
                     $htmlResult = $value->getBody()->getContents();
 
                     // Parse the page content
-                    $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN);
+                    $data = $this->parseArticles($htmlResult, $searchQuery, $config['sites'][$keySite], $useEAN, 'de');
                     // Remove filtered results
                     foreach ($data as $keyResult => $valueResult) {
                         if ($valueResult === null) {
@@ -282,9 +314,10 @@ class AppController extends Controller
      *
      * @return array
      */
-    protected function parseArticles($htmlResult, $searchQuery, $siteConfig, $useEAN)
+    protected function parseArticles($htmlResult, $searchQuery, $siteConfig, $useEAN, $locale)
     {
         $parseUrl = $siteConfig['parseUrl'][0];
+        $locale = $locale;
         $crawler = new Crawler($htmlResult, $parseUrl);
         $client = new Client();
 
@@ -304,7 +337,7 @@ class AppController extends Controller
         }
 
 
-        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig, $useEAN) {
+        $data = $crawler->filter($siteConfig['mainNode'])->each(function ($node, $i) use ($searchQuery, $siteConfig, $useEAN, $locale) {
             $titleNode = $siteConfig['titleNode']['value'];
             $priceNode = $siteConfig['priceNode']['value'];
             $urlNode = $siteConfig['urlNode']['value'];
@@ -352,6 +385,7 @@ class AppController extends Controller
 
             $data = array(
                 'name' => trim($name),
+                'locale' => $locale,
                 'price' => trim($price),
                 'url' => $url,
                 'image' => $image,
@@ -485,10 +519,10 @@ class AppController extends Controller
      *
      * @return mixed
      */
-    protected function getUrlFromLocale($locale, $localArray, $urlArray) {
+    protected function getIndexFromLocale($locale, $localArray) {
         $index = array_search($locale, $localArray);
         if ($index !== false) {
-            return $urlArray[$index];
+            return $index;
         } else {
             return null;
         }
@@ -499,7 +533,6 @@ class AppController extends Controller
      */
     public function adminAction()
     {
-
         return $this->render('@App/Default/admin.html.twig', array(
 
         ));
