@@ -1,6 +1,13 @@
 #Test Goutte Symfony Bundle
 
 Un bundle Symfony2 pour le parsing de données de divers sites de ventes en ligne.
+Documentation en date du 17 mai 2016.
+
+##Bundles utilisés :
+- guzzlehttp
+- goutte
+
+Information sur l'utilisation des promises asynchrones avec Guzzle : http://mcamuzat.github.io/blog/2015/09/21/guzzle-asynchrone-avec-les-promises/
 
 ## Configuration
 
