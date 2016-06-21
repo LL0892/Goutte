@@ -157,7 +157,7 @@ class AppController extends Controller
                                     $promises[] = $processRequest($url_de);
                                     $config_de[] = $site;
                                 }
-                                if ($index_fr) {
+                                if ($index_fr !== null) {
                                     $url_fr = $site['parseUrl'][$index_fr] . $queryEncoded;
                                     $promises2[] = $processRequest($url_fr);
                                     $config_fr[] = $site;
@@ -322,7 +322,6 @@ class AppController extends Controller
                     //dump($i);
                     //$index = $this->getIndexFromSiteName($config_fr['sites'][$i]['name'], $siteNameArray);
                 }
-                //dump($values);
                 //dump($values);
 
                 return $values;
